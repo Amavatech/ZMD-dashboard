@@ -22,10 +22,11 @@ Each station's data arrives as a **TOA5 `.dat` file** — a CSV-like format prod
 
 ## Relationship to the MQTT Pipeline
 
-- `download.py` downloads `.dat` files → converts to GeoJSON → publishes to MQTT.
+- `download.py` is the only script in this folder that runs in the regular production workflow.
+- It is executed automatically by an hourly CRON job and handles: download `.dat` files → convert to GeoJSON → publish to MQTT.
 - The MQTT subscriber receives the GeoJSON messages on `data-incoming/zmb/campbell-v1/...` and processes them exactly like live station data.
-- `import.py` bypasses MQTT entirely and writes directly to TimescaleDB using `timescaleUtil.py`. Used for bulk backfill or when MQTT is unavailable.
-- `publish.py` reads already-downloaded `.dat` files and publishes them to MQTT. Used for replaying historical data.
+- `import.py` bypasses MQTT entirely and writes directly to TimescaleDB using `timescaleUtil.py`. It is a manual utility script (for bulk backfill or when MQTT is unavailable) and is not part of hourly automation.
+- `publish.py` reads already-downloaded `.dat` files and publishes them to MQTT. It is a manual utility script for replaying historical data and is not part of hourly automation.
 
 ---
 
@@ -48,7 +49,7 @@ wiz2box_forward/
 
 ## Running the Download Script
 
-`download.py` is typically run by a cron job or manually:
+`download.py` is the primary operational script and is run automatically by an hourly CRON job in production. It can also be run manually when needed:
 
 ```bash
 cd /home/ubuntu/mqtt_dashboard
