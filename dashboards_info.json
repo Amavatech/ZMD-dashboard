@@ -1,0 +1,2384 @@
+[
+  {
+    "tableID": 115,
+    "topic": "cs/v1/data/cr1000x/46556/SYNOP",
+    "dashboard_uid": "v_Gld_HDk",
+    "record_count": 282487
+  },
+  {
+    "tableID": 4,
+    "topic": "CSA/AFRICA/CAMPBELL/NIGERIA5605/data/cr6/20479",
+    "dashboard_uid": "M3X4p8NDz",
+    "record_count": 5136
+  },
+  {
+    "tableID": 2,
+    "topic": "Demo/southafrica/campbell/stellenboschCR6/data/cr6/527/TableHour",
+    "dashboard_uid": "5lXVpUNvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 3,
+    "topic": "Demo/southafrica/campbell/stellenboschCR6/data/cr6/527/TableDay",
+    "dashboard_uid": "kgrVtUNvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 98,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-RusanguUni/data/cr1000x/46579/SYNOP",
+    "dashboard_uid": "KbjVtUHvz",
+    "record_count": 1620
+  },
+  {
+    "tableID": 94,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KalulushiDaySS/data/cr1000x/48228/SYNOP",
+    "dashboard_uid": "elq4p8Hvk",
+    "record_count": 3150
+  },
+  {
+    "tableID": 100,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-WESS001/data/cr1000x/46573/SYNOP",
+    "dashboard_uid": "r-CVpUNDz",
+    "record_count": 3150
+  },
+  {
+    "tableID": 102,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MazabukaPS/data/cr1000x/46561/SYNOP",
+    "dashboard_uid": "UQ2VBUIvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 103,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-FeiraDaySS/data/cr1000x/45608/SYNOP",
+    "dashboard_uid": "PYj4pUHvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 104,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChikankataSS/data/cr1000x/46557/SYNOP",
+    "dashboard_uid": "H8jVpUHDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 106,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-RiverViewSC/data/cr1000x/46578/SYNOP",
+    "dashboard_uid": "8geVp8Nvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 107,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChomaWaterAffairs/data/cr1000x/46566/SYNOP",
+    "dashboard_uid": "KFoVf8IDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 109,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ESCP001/data/cr1000x/29298/SYNOP",
+    "dashboard_uid": "iboVfUIDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 110,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MpundeGS/data/cr1000x/46558/SYNOP",
+    "dashboard_uid": "746Vp8Nvk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 111,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChadizaFTC/data/cr1000x/48217/SYNOP",
+    "dashboard_uid": "u8T4f8SDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 113,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MambweMWS/data/cr1000x/48216/SYNOP",
+    "dashboard_uid": "X6TVB8SDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 116,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChisambaGA/data/cr1000x/46562/SYNOP",
+    "dashboard_uid": "sgRStUNDk",
+    "record_count": 3150
+  },
+  {
+    "tableID": 119,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LusakaAirport/data/cr1000x/34769/SYNOP",
+    "dashboard_uid": "BdAVfUSvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 122,
+    "topic": "data-incoming/nam/campbell-v1/0-516-0-68214/data/cr1000x/38431/SYNOP",
+    "dashboard_uid": "IfeVp8NDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 125,
+    "topic": "data-incoming/nam/campbell-v1/0-516-0-68216/data/cr1000x/38462/SYNOP",
+    "dashboard_uid": "yUe4t8HDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 126,
+    "topic": "data-incoming/nam/campbell-v1/0-516-0-68215/data/cr1000x/36933/SYNOP",
+    "dashboard_uid": "_le4pUNvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 127,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ST68/data/cr1000x/49312/SYNOP",
+    "dashboard_uid": "L0J4B8Ivz",
+    "record_count": 0
+  },
+  {
+    "tableID": 128,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-1-ChibomboBS/data/cr1000x/46554/SYNOP",
+    "dashboard_uid": "raJ4BUSvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 131,
+    "topic": "data-incoming/zmd/campbell-v1/0-894-2-MpongweSouthS/data/cr1000x/34774/SYNOP",
+    "dashboard_uid": "O3JVfUIDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 132,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChambuziPS/data/cr1000x/48222/SYNOP",
+    "dashboard_uid": "XzxVfUSvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 135,
+    "topic": "data-incoming/zmb/campbell-v1/CSAFTest/data/cr1000x/34769/SYNOP",
+    "dashboard_uid": "7ygIt8NDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 140,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-COND002/data/cr1000x/48227/SYNOP",
+    "dashboard_uid": "cKiIt8Nvk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 144,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LSLU002/data/cr1000x/46556/SYNOP",
+    "dashboard_uid": "X5PDy8Svk",
+    "record_count": 84600
+  },
+  {
+    "tableID": 196,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-St95/data/cr1000x/51202/SYNOP",
+    "dashboard_uid": "k0GpaUIDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 139,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LPCE002/data/cr1000x/51201/SYNOP",
+    "dashboard_uid": "xAIIp8Hvz",
+    "record_count": 3195
+  },
+  {
+    "tableID": 145,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-WEKY001/data/cr1000x/48235/SYNOP",
+    "dashboard_uid": "rrgItUHDk",
+    "record_count": 3150
+  },
+  {
+    "tableID": 117,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MwandiSC/data/cr1000x/46577/SYNOP",
+    "dashboard_uid": "Rpe4p8Hvk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 146,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-CEKM001/data/cr1000x/46571/SYNOP",
+    "dashboard_uid": "XigSpUHDz",
+    "record_count": 3195
+  },
+  {
+    "tableID": 105,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MalunduPS/data/cr1000x/46570/SYNOP",
+    "dashboard_uid": "6QjVpUNDk",
+    "record_count": 3150
+  },
+  {
+    "tableID": 143,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-WEMO001/data/cr1000x/49615/SYNOP",
+    "dashboard_uid": "FOJSpUNDk",
+    "record_count": 2655
+  },
+  {
+    "tableID": 124,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ZimbaSS/data/cr1000x/46567/SYNOP",
+    "dashboard_uid": "ZEeVt8HDz",
+    "record_count": 3195
+  },
+  {
+    "tableID": 129,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NkumbiIC/data/cr1000x/46565/SYNOP",
+    "dashboard_uid": "Bre4tUNvz",
+    "record_count": 3195
+  },
+  {
+    "tableID": 276,
+    "topic": "cs/v1/data/cr1000x/46556/SYNOP",
+    "dashboard_uid": "v_Gld_HDk",
+    "record_count": 282487
+  },
+  {
+    "tableID": 120,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MitaHillsDam/data/cr1000x/46583/SYNOP",
+    "dashboard_uid": "lT64pUNDk",
+    "record_count": 2385
+  },
+  {
+    "tableID": 142,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NSWO001/data/cr1000x/49621/SYNOP",
+    "dashboard_uid": "vtmItUHvk",
+    "record_count": 3150
+  },
+  {
+    "tableID": 134,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NampundweSS/data/cr1000x/46568/SYNOP",
+    "dashboard_uid": "GSSIp8Hvz",
+    "record_count": 3150
+  },
+  {
+    "tableID": 114,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-FikolongoPS/data/cr1000x/48226/SYNOP",
+    "dashboard_uid": "7F64tUNDz",
+    "record_count": 3195
+  },
+  {
+    "tableID": 112,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-SOLI001/data/cr1000x/29805/SYNOP",
+    "dashboard_uid": "WD6Vt8Nvk",
+    "record_count": 3150
+  },
+  {
+    "tableID": 118,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NWSO001/data/cr1000x/29857/SYNOP",
+    "dashboard_uid": "9hSIpUHvz",
+    "record_count": 3150
+  },
+  {
+    "tableID": 121,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LuanshyaCentralSS/data/cr1000x/48229/SYNOP",
+    "dashboard_uid": "3164tUNDk",
+    "record_count": 3150
+  },
+  {
+    "tableID": 141,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NWMW002/data/cr1000x/49619/SYNOP",
+    "dashboard_uid": "XhmIpUNvz",
+    "record_count": 3105
+  },
+  {
+    "tableID": 136,
+    "topic": "wis2box/notifications",
+    "dashboard_uid": "68RSt8HDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 137,
+    "topic": "origin/a/wis2/zm-zmd/data/core/weather/surface-based-observations/synop",
+    "dashboard_uid": "ulRIp8NDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 138,
+    "topic": "origin/a/wis2/na-meteona/data/core/weather/surface-based-observations/synop",
+    "dashboard_uid": "wUX4pUNDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 149,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LolomaDayS/data/cr1000x/49626/SYNOP",
+    "dashboard_uid": "57gIpUNvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 152,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KanajiGS/data/cr1000x/49628/SYNOP",
+    "dashboard_uid": "AdgStUHvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 154,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KasapaDS/data/cr1000x/49629/SYNOP",
+    "dashboard_uid": "V2RIpUHDz",
+    "record_count": 3150
+  },
+  {
+    "tableID": 156,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NchelengeSS/data/cr1000x/51205/SYNOP",
+    "dashboard_uid": "4ARIp8NDk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 159,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KalalantekwePS/data/cr1000x/49633/SYNOP",
+    "dashboard_uid": "1gzSpUHDz",
+    "record_count": 3150
+  },
+  {
+    "tableID": 160,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MengaSS/data/cr1000x/51214/SYNOP",
+    "dashboard_uid": "nmkItUNvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 161,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MwendaBS/data/cr1000x/51213/SYNOP",
+    "dashboard_uid": "tGzSt8NDz",
+    "record_count": 3195
+  },
+  {
+    "tableID": 162,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChembeDayS/data/cr1000x/51212/SYNOP",
+    "dashboard_uid": "zVzIt8Hvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 164,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KawambwaMET/data/cr1000x/51285/SYNOP",
+    "dashboard_uid": "BDzSp8Nvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 166,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-Mabel/data/cr1000x/51289/SYNOP",
+    "dashboard_uid": "6ckItUHvk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 167,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LubweSS/data/cr1000x/51211/SYNOP",
+    "dashboard_uid": "P2zSp8Nvz",
+    "record_count": 3105
+  },
+  {
+    "tableID": 168,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KaputaSS/data/cr1000x/51292/SYNOP",
+    "dashboard_uid": "cAkIpUNvk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 174,
+    "topic": "cs/v1/data/cr300/31522/SYNOP",
+    "dashboard_uid": "kukSp8NDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 177,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NalusangaSS/data/cr1000x/48236/SYNOP",
+    "dashboard_uid": "qezStUNvk",
+    "record_count": 3060
+  },
+  {
+    "tableID": 178,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KalomoSS/data/cr1000x/46563/SYNOP",
+    "dashboard_uid": "zimSpUNDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 179,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NRML002/data/cr1000x/51207/SYNOP",
+    "dashboard_uid": "__PVf8SDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 186,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ST78/data/cr1000x/49622/SYNOP",
+    "dashboard_uid": "_fr4fUSDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 187,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ST80/data/cr1000x/49624/SYNOP",
+    "dashboard_uid": "aX94B8SDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 189,
+    "topic": "data-incoming/zmd/campbell-v1/0-894-2-St103/data/cr1000x/51210/SYNOP",
+    "dashboard_uid": "RrsVB8SDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 184,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MpongweSouthS/data/cr1000x/34774/SYNOP",
+    "dashboard_uid": "wviSt8Hvk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 171,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NsamaSS/data/cr1000x/51290/SYNOP",
+    "dashboard_uid": "UYzSp8Nvz",
+    "record_count": 3195
+  },
+  {
+    "tableID": 163,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LupososhiSS/data/cr1000x/51206/SYNOP",
+    "dashboard_uid": "gNzStUHvz",
+    "record_count": 3195
+  },
+  {
+    "tableID": 175,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChilolwaSS/data/cr1000x/49634/SYNOP",
+    "dashboard_uid": "Y9zSt8Nvk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 153,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-Kalene/data/cr1000x/49618/SYNOP",
+    "dashboard_uid": "hcRIp8Nvk",
+    "record_count": 2205
+  },
+  {
+    "tableID": 157,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MikubaDaySS/data/cr1000x/49637/SYNOP",
+    "dashboard_uid": "y1RSpUHDk",
+    "record_count": 3105
+  },
+  {
+    "tableID": 180,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MUMK002/data/cr1000x/49636/SYNOP",
+    "dashboard_uid": "KGmStUNvk",
+    "record_count": 3240
+  },
+  {
+    "tableID": 151,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MufumbeBS/data/cr1000x/49623/SYNOP",
+    "dashboard_uid": "lHgItUHDk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 150,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-Lukulu/data/cr1000x/49308/SYNOP",
+    "dashboard_uid": "OIgStUHDk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 182,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NangomaSC/data/cr1000x/46575/SYNOP",
+    "dashboard_uid": "DHmIpUHDk",
+    "record_count": 3150
+  },
+  {
+    "tableID": 176,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-SONW001/data/cr1000x/46574/SYNOP",
+    "dashboard_uid": "I3zSp8NDk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 334,
+    "topic": "cs/v1/data/cr1000x/46553/HOUR",
+    "dashboard_uid": "yVMBjQNvk",
+    "record_count": 57
+  },
+  {
+    "tableID": 335,
+    "topic": "cs/v1/data/cr1000x/46553/SYNOP",
+    "dashboard_uid": "QkifjQHvk",
+    "record_count": 44
+  },
+  {
+    "tableID": 336,
+    "topic": "cs/v1/data/cr1000x/46556/HOUR",
+    "dashboard_uid": "ICWfCwNDk",
+    "record_count": 43560
+  },
+  {
+    "tableID": 337,
+    "topic": "cs/v1/data/cr1000x/46572/HOUR",
+    "dashboard_uid": "SzWfCQNvz",
+    "record_count": 57
+  },
+  {
+    "tableID": 338,
+    "topic": "cs/v1/data/cr1000x/46572/SYNOP",
+    "dashboard_uid": "XWZBCwNvz",
+    "record_count": 44
+  },
+  {
+    "tableID": 339,
+    "topic": "cs/v1/data/cr1000x/46581/HOUR",
+    "dashboard_uid": "9HWfCQNvz",
+    "record_count": 24123
+  },
+  {
+    "tableID": 340,
+    "topic": "cs/v1/data/cr1000x/46581/SYNOP",
+    "dashboard_uid": "t_ifjQHDz",
+    "record_count": 18534
+  },
+  {
+    "tableID": 341,
+    "topic": "cs/v1/data/cr1000x/46582/HOUR",
+    "dashboard_uid": "FcZfCQNvk",
+    "record_count": 42123
+  },
+  {
+    "tableID": 342,
+    "topic": "cs/v1/data/cr1000x/46582/SYNOP",
+    "dashboard_uid": "3jiBCwHDz",
+    "record_count": 32516
+  },
+  {
+    "tableID": 343,
+    "topic": "cs/v1/data/cr1000x/34610/HOUR",
+    "dashboard_uid": "VJZfjwHvz",
+    "record_count": 37107
+  },
+  {
+    "tableID": 344,
+    "topic": "cs/v1/data/cr1000x/34610/SYNOP",
+    "dashboard_uid": "AgMfjQHvz",
+    "record_count": 28641
+  },
+  {
+    "tableID": 345,
+    "topic": "cs/v1/data/cr1000x/45613/HOUR",
+    "dashboard_uid": "xfWfCQHvz",
+    "record_count": 30508
+  },
+  {
+    "tableID": 346,
+    "topic": "cs/v1/data/cr1000x/45613/SYNOP",
+    "dashboard_uid": "FWMfCwNDz",
+    "record_count": 23138
+  },
+  {
+    "tableID": 347,
+    "topic": "cs/v1/data/cr1000x/45618/20204/HOUR",
+    "dashboard_uid": "XwWfCwNvz",
+    "record_count": 35322
+  },
+  {
+    "tableID": 348,
+    "topic": "cs/v1/data/cr1000x/45618/20204/SYNOP",
+    "dashboard_uid": "ljkfjwHDk",
+    "record_count": 26793
+  },
+  {
+    "tableID": 349,
+    "topic": "cs/v1/data/cr1000x/48219/HOUR",
+    "dashboard_uid": "UHifjQNDk",
+    "record_count": 36249
+  },
+  {
+    "tableID": 350,
+    "topic": "cs/v1/data/cr1000x/48219/SYNOP",
+    "dashboard_uid": "wGiBCwHvk",
+    "record_count": 27497
+  },
+  {
+    "tableID": 351,
+    "topic": "cs/v1/data/cr1000x/48220/HOUR",
+    "dashboard_uid": "TsifjwHvk",
+    "record_count": 32510
+  },
+  {
+    "tableID": 352,
+    "topic": "cs/v1/data/cr1000x/48220/SYNOP",
+    "dashboard_uid": "12ifCwHDk",
+    "record_count": 24679
+  },
+  {
+    "tableID": 353,
+    "topic": "cs/v1/data/cr1000x/48221/HOUR",
+    "dashboard_uid": "0BiBCwHvz",
+    "record_count": 17547
+  },
+  {
+    "tableID": 354,
+    "topic": "cs/v1/data/cr1000x/48221/SYNOP",
+    "dashboard_uid": "KJiBCQNDz",
+    "record_count": 25693
+  },
+  {
+    "tableID": 355,
+    "topic": "cs/v1/data/cr1000x/48223/48307/HOUR",
+    "dashboard_uid": "IYVfCQNDz",
+    "record_count": 37280
+  },
+  {
+    "tableID": 356,
+    "topic": "cs/v1/data/cr1000x/48223/48307/SYNOP",
+    "dashboard_uid": "n47BjwNDz",
+    "record_count": 31900
+  },
+  {
+    "tableID": 357,
+    "topic": "cs/v1/data/cr1000x/48233/HOUR",
+    "dashboard_uid": "hyVfjwNDz",
+    "record_count": 41553
+  },
+  {
+    "tableID": 358,
+    "topic": "cs/v1/data/cr1000x/48233/SYNOP",
+    "dashboard_uid": "ivnfCwHDz",
+    "record_count": 32076
+  },
+  {
+    "tableID": 359,
+    "topic": "cs/v1/data/cr1000x/49307/HOUR",
+    "dashboard_uid": "XQVBjQHDz",
+    "record_count": 41496
+  },
+  {
+    "tableID": 360,
+    "topic": "cs/v1/data/cr1000x/49307/SYNOP",
+    "dashboard_uid": "AF7fCQNvk",
+    "record_count": 32032
+  },
+  {
+    "tableID": 361,
+    "topic": "cs/v1/data/cr1000x/49309/HOUR",
+    "dashboard_uid": "9rVBCQNDz",
+    "record_count": 41549
+  },
+  {
+    "tableID": 362,
+    "topic": "cs/v1/data/cr1000x/49309/SYNOP",
+    "dashboard_uid": "S27fjQHvk",
+    "record_count": 32076
+  },
+  {
+    "tableID": 363,
+    "topic": "cs/v1/data/cr1000x/49311/HOUR",
+    "dashboard_uid": "864BCwNDz",
+    "record_count": 6868
+  },
+  {
+    "tableID": 364,
+    "topic": "cs/v1/data/cr1000x/49311/SYNOP",
+    "dashboard_uid": "O1nBjQNvk",
+    "record_count": 5236
+  },
+  {
+    "tableID": 365,
+    "topic": "cs/v1/data/cr1000x/49313/HOUR",
+    "dashboard_uid": "amIBCwNvk",
+    "record_count": 42337
+  },
+  {
+    "tableID": 366,
+    "topic": "cs/v1/data/cr1000x/49313/SYNOP",
+    "dashboard_uid": "Ya7BCwNvk",
+    "record_count": 32472
+  },
+  {
+    "tableID": 367,
+    "topic": "cs/v1/data/cr1000x/49616/HOUR",
+    "dashboard_uid": "qMSfjQHDk",
+    "record_count": 9916
+  },
+  {
+    "tableID": 368,
+    "topic": "cs/v1/data/cr1000x/49616/SYNOP",
+    "dashboard_uid": "HP7fCwHvk",
+    "record_count": 7614
+  },
+  {
+    "tableID": 369,
+    "topic": "cs/v1/data/cr1000x/49625/HOUR",
+    "dashboard_uid": "JIIfjwHDk",
+    "record_count": 41610
+  },
+  {
+    "tableID": 370,
+    "topic": "cs/v1/data/cr1000x/49625/SYNOP",
+    "dashboard_uid": "G_7fjQHvz",
+    "record_count": 32120
+  },
+  {
+    "tableID": 371,
+    "topic": "cs/v1/data/cr1000x/49635/HOUR",
+    "dashboard_uid": "HvMfjQHvk",
+    "record_count": 32557
+  },
+  {
+    "tableID": 381,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LSLR003/data/cr1000x/46559/SYNOP",
+    "dashboard_uid": "eMebpGDDk",
+    "record_count": 3780
+  },
+  {
+    "tableID": 388,
+    "topic": "data-incoming/zmb/0-894-2-LSLU002/data/cr1000x/46556/SYNOP",
+    "dashboard_uid": "MgRYpGDvk",
+    "record_count": 3780
+  },
+  {
+    "tableID": 379,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-SOMA001/data/cr1000x/46561/SYNOP",
+    "dashboard_uid": "OtDItUHDz",
+    "record_count": 3780
+  },
+  {
+    "tableID": 380,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-SOGW003/data/cr1000x/46576/SYNOP",
+    "dashboard_uid": "wWOIt8Hvk",
+    "record_count": 3780
+  },
+  {
+    "tableID": 382,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LSLU003/data/cr1000x/46564/SYNOP",
+    "dashboard_uid": "C0DIt8NDk",
+    "record_count": 3780
+  },
+  {
+    "tableID": 383,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ESCG001/data/cr1000x/40209/SYNOP",
+    "dashboard_uid": "ExvIp8Hvk",
+    "record_count": 3780
+  },
+  {
+    "tableID": 384,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ESPE001/data/cr1000x/44724/SYNOP",
+    "dashboard_uid": "-BvSp8Nvk",
+    "record_count": 3735
+  },
+  {
+    "tableID": 385,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ESKS001/data/cr1000x/48219/SYNOP",
+    "dashboard_uid": "yFpp-8IDz",
+    "record_count": 3645
+  },
+  {
+    "tableID": 386,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ESCD001/data/cr1000x/48217/SYNOP",
+    "dashboard_uid": "IoDSp8HDk",
+    "record_count": 3780
+  },
+  {
+    "tableID": 387,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ESNY001/data/cr1000x/40254/SYNOP",
+    "dashboard_uid": "qkOIt8HDz",
+    "record_count": 3780
+  },
+  {
+    "tableID": 389,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ESSD001/data/cr1000x/45613/SYNOP",
+    "dashboard_uid": "Vbs4fUIDk",
+    "record_count": 3780
+  },
+  {
+    "tableID": 390,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ESCP002/data/BZZW-D8JH-JVVR/SYNOP",
+    "dashboard_uid": "T6DItUHDz",
+    "record_count": 3780
+  },
+  {
+    "tableID": 391,
+    "topic": "data-incoming/zmb/campbell-v10-894-2-ESKT003/data/cr1000x/48220/SYNOP",
+    "dashboard_uid": "s-y4B8Svz",
+    "record_count": 3780
+  },
+  {
+    "tableID": 148,
+    "topic": "origin/a/wis2/zm-zmd/metadata",
+    "dashboard_uid": "iQmIpUHvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 165,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChabaSS/data/cr1000x/51208/SYNOP",
+    "dashboard_uid": "OFkStUHvz",
+    "record_count": 3195
+  },
+  {
+    "tableID": 155,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MahebaSS/data/cr1000x/49620/SYNOP",
+    "dashboard_uid": "QbISt8Nvz",
+    "record_count": 2970
+  },
+  {
+    "tableID": 158,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KMUni/data/cr1000x/49632/SYNOP",
+    "dashboard_uid": "YqRIt8Hvz",
+    "record_count": 3150
+  },
+  {
+    "tableID": 181,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-PalabanaUni/data/cr1000x/46560/SYNOP",
+    "dashboard_uid": "oVmStUHvk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 193,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-Kalabo/data/cr1000x/49312/SYNOP",
+    "dashboard_uid": "hSOIp8Nvk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 170,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KapatuSS/data/cr1000x/51295/SYNOP",
+    "dashboard_uid": "VBzSp8Hvk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 169,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KanyantaGS/data/cr1000x/51293/SYNOP",
+    "dashboard_uid": "FbzIp8Nvk",
+    "record_count": 3150
+  },
+  {
+    "tableID": 199,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ST86/data/cr1000x/49630/SYNOP",
+    "dashboard_uid": "MPU4BUSvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 203,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ST87/data/cr1000x/49631/SYNOP",
+    "dashboard_uid": "fWQVBUIvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 204,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ST116/data/cr1000x/51291/SYNOP",
+    "dashboard_uid": "kIQ4BUIvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 205,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ST119/data/cr1000x/51294/SYNOP",
+    "dashboard_uid": "TOQ4f8Svk",
+    "record_count": 0
+  },
+  {
+    "tableID": 208,
+    "topic": "data-incoming/zmd/campbell-v1/0-894-2-St102/data/cr1000x/51209/SYNOP",
+    "dashboard_uid": "UrwVf8Ivk",
+    "record_count": 0
+  },
+  {
+    "tableID": 209,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-DimbwePSS/data/cr1000X/49553/SYNOP",
+    "dashboard_uid": "cRlVBUSDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 210,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MukulaikwaSS/data/cr1000x/46555/SYNOP",
+    "dashboard_uid": "BriStUHDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 211,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LuampaSS/data/cr1000x/48233/SYNOP",
+    "dashboard_uid": "wp7t-USvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 212,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ManyanePS/data/cr1000x/40204/SYNOP",
+    "dashboard_uid": "MqmSp8NDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 213,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KafumbweSS/data/cr1000x/48220/SYNOP",
+    "dashboard_uid": "sO_Vf8IDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 214,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ShangomboSS/data/cr1000x/49617/SYNOP",
+    "dashboard_uid": "8eiIt8Hvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 392,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LPKW002/data/cr1000x/51285/SYNOP",
+    "dashboard_uid": "Fsx_pGDDk",
+    "record_count": 3735
+  },
+  {
+    "tableID": 395,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LusakaAirport/data/satellite/46556/SYNOP",
+    "dashboard_uid": "StZY2GDvz",
+    "record_count": 3330
+  },
+  {
+    "tableID": 393,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ESVB001/data/cr1000x/48218/SYNOP",
+    "dashboard_uid": "DvdIpUNvz",
+    "record_count": 3780
+  },
+  {
+    "tableID": 394,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ESCB001/data/cr1000x/48222/SYNOP",
+    "dashboard_uid": "uYOIt8Nvk",
+    "record_count": 3735
+  },
+  {
+    "tableID": 221,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LumantoBS/data/cr1000x/48307/SYNOP",
+    "dashboard_uid": "NnZIp8Hvz",
+    "record_count": 106905
+  },
+  {
+    "tableID": 396,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ESMA001/data/cr1000x/48216/SYNOP",
+    "dashboard_uid": "FBdIpUNDk",
+    "record_count": 2880
+  },
+  {
+    "tableID": 397,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ESCP002/status/BZZW-D8JH-JVVR",
+    "dashboard_uid": "wKDSp8HDz",
+    "record_count": 270
+  },
+  {
+    "tableID": 215,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LilachiBS/data/cr1000x/49309/SYNOP",
+    "dashboard_uid": "0Jl4f8Ivk",
+    "record_count": 0
+  },
+  {
+    "tableID": 216,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChassaBoysSS/data/cr1000x/45613/SYNOP",
+    "dashboard_uid": "EBlVBUSDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 217,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NyunduPS/data/cr1000X/49625/SYNOP",
+    "dashboard_uid": "6s_4f8Svz",
+    "record_count": 0
+  },
+  {
+    "tableID": 218,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LungaPS/data/cr1000x/51291/SYNOP",
+    "dashboard_uid": "O51St8HDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 219,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MpulunguHarbour/data/cr1000x/51209/SYNOP",
+    "dashboard_uid": "xzZSp8Nvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 220,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-SamfyaMET/data/cr1000x/51294/SYNOP",
+    "dashboard_uid": "NWWSp8Nvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 224,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KafueBSS/data/cr1000x/46569/SYNOP",
+    "dashboard_uid": "AdWSpUHDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 225,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NyimbaFTC/data/cr1000x/40254/SYNOP",
+    "dashboard_uid": "ZQXVB8Ivz",
+    "record_count": 0
+  },
+  {
+    "tableID": 226,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MangangoZNS/data/cr1000x/48237/SYNOP",
+    "dashboard_uid": "ccWItUNDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 227,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KamfinsaDaySS/data/cr1000x/48224/SYNOP",
+    "dashboard_uid": "2hZSpUNvz",
+    "record_count": 3195
+  },
+  {
+    "tableID": 228,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MambilimaSS/data/cr1000x/51288/SYNOP",
+    "dashboard_uid": "aOVt-USvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 231,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NgabwePNC/data/cr1000X/46572/SYNOP",
+    "dashboard_uid": "-OrVf8SDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 232,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MunyatiPS/data/cr1000X/46581/SYNOP",
+    "dashboard_uid": "zipt-UIDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 233,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KamangaSC/data/cr1000X/46582/SYNOP",
+    "dashboard_uid": "6prVf8SDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 234,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LubalashiS/data/cr1000X/48221/SYNOP",
+    "dashboard_uid": "t1rVBUIvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 235,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KalonjePS/data/cr1000X/48234/SYNOP",
+    "dashboard_uid": "e2OItUHvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 236,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MabumbuPS/data/cr1000X/49307/SYNOP",
+    "dashboard_uid": "EZppaUIvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 237,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MiteteSS/data/cr1000X/49311/SYNOP",
+    "dashboard_uid": "RNvpa8Svk",
+    "record_count": 0
+  },
+  {
+    "tableID": 238,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-SinjembelaS/data/cr1000X/49313/SYNOP",
+    "dashboard_uid": "uEVpaUIDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 239,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LunyatiSS/data/cr1000X/49315/SYNOP",
+    "dashboard_uid": "SkVIp8Hvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 240,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-SikongoSS/data/cr1000X/49616/SYNOP",
+    "dashboard_uid": "Qqr4BUIDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 241,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LunduSS/data/cr1000X/49635/SYNOP",
+    "dashboard_uid": "xu4paUIvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 242,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KalabweSS/data/cr1000X/51203/SYNOP",
+    "dashboard_uid": "C1WSp8HDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 243,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LPMA001/data/cr1000X/51204/SYNOP",
+    "dashboard_uid": "q7C4fUSDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 244,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChipunduSS/data/cr1000X/51210/SYNOP",
+    "dashboard_uid": "bvj4B8Ivk",
+    "record_count": 0
+  },
+  {
+    "tableID": 245,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NsumbuSS/data/cr1000X/51202/SYNOP",
+    "dashboard_uid": "Xcj4fUIvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 246,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NyunduPS/data/satellite/49625/SYNOP",
+    "dashboard_uid": "RBZSp8NDk",
+    "record_count": 2610
+  },
+  {
+    "tableID": 202,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-TwingiSS/data/cr1000x/51287/SYNOP",
+    "dashboard_uid": "OsmStUNDk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 198,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LuchecheSS/data/cr1000x/51284/SYNOP",
+    "dashboard_uid": "GxmIp8HDz",
+    "record_count": 3195
+  },
+  {
+    "tableID": 201,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NWZA001/data/cr1000x/49622/SYNOP",
+    "dashboard_uid": "8LiIp8Hvz",
+    "record_count": 3195
+  },
+  {
+    "tableID": 223,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MulunduCombinedSS/data/cr1000x/48230/SYNOP",
+    "dashboard_uid": "3NZSpUNDz",
+    "record_count": 3195
+  },
+  {
+    "tableID": 222,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChingolaSS/data/cr1000x/48225/SYNOP",
+    "dashboard_uid": "nSWSt8Hvk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 206,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-Silverland/data/cr1000x/49631/SYNOP",
+    "dashboard_uid": "iXiIt8Nvz",
+    "record_count": 1440
+  },
+  {
+    "tableID": 200,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MUIO001/data/cr1000x/49630/SYNOP",
+    "dashboard_uid": "PaiSpUNDz",
+    "record_count": 3150
+  },
+  {
+    "tableID": 197,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-SengaMSS/data/cr1000x/51286/SYNOP",
+    "dashboard_uid": "KAmIt8HDk",
+    "record_count": 3150
+  },
+  {
+    "tableID": 172,
+    "topic": "CSAf/southafrica/Limpopo/SHA_Aviation/SHA_AWOS_6240/data/cr1000x/56192/Table2m",
+    "dashboard_uid": "zSlz8tsNk",
+    "record_count": 153577
+  },
+  {
+    "tableID": 65,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station5_J5878/data/cr350/2972/Table_P1_SM1",
+    "dashboard_uid": "Ousp1Pivz",
+    "record_count": 2659
+  },
+  {
+    "tableID": 67,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station5_J5878/data/cr350/2972/Table_P1_SM3",
+    "dashboard_uid": "ni6mEUivk",
+    "record_count": 2659
+  },
+  {
+    "tableID": 20,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station1_J5878/data/cr350/2424/TableHour",
+    "dashboard_uid": "YObxdPmDk",
+    "record_count": 13030
+  },
+  {
+    "tableID": 108,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ESLN001/data/cr1000x/40304/SYNOP",
+    "dashboard_uid": "7Ge4t8NDz",
+    "record_count": 3150
+  },
+  {
+    "tableID": 248,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NgabwePNC/data/satellite/46572/SYNOP",
+    "dashboard_uid": "JrZItUNDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 249,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MunyatiPS/data/satellite/46581/SYNOP",
+    "dashboard_uid": "n3WStUNvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 250,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KamangaSC/data/satellite/46582/SYNOP",
+    "dashboard_uid": "dRMItUHDk",
+    "record_count": 2700
+  },
+  {
+    "tableID": 251,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LubalashiS/data/satellite/48221/SYNOP",
+    "dashboard_uid": "xpGIp8NDk",
+    "record_count": 2700
+  },
+  {
+    "tableID": 252,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KalonjePS/data/satellite/48234/SYNOP",
+    "dashboard_uid": "bTGItUHvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 253,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MabumbuPS/data/satellite/49307/SYNOP",
+    "dashboard_uid": "C1GIp8NDz",
+    "record_count": 2655
+  },
+  {
+    "tableID": 254,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MiteteSS/data/satellite/49311/SYNOP",
+    "dashboard_uid": "uaMSp8HDz",
+    "record_count": 2565
+  },
+  {
+    "tableID": 255,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-SinjembelaS/data/satellite/49313/SYNOP",
+    "dashboard_uid": "hLGSpUNvz",
+    "record_count": 2655
+  },
+  {
+    "tableID": 256,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LunyatiSS/data/satellite/49315/SYNOP",
+    "dashboard_uid": "IKOSt8NDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 257,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-SikongoSS/data/satellite/49616/SYNOP",
+    "dashboard_uid": "XsMSpUHvz",
+    "record_count": 2610
+  },
+  {
+    "tableID": 258,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LunduSS/data/satellite/49635/SYNOP",
+    "dashboard_uid": "bQGIpUNvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 259,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NsumbuSS/satellite/cr1000X/51202/SYNOP",
+    "dashboard_uid": "FXGSt8NDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 260,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KalabweSS/data/satellite/51203/SYNOP",
+    "dashboard_uid": "jrGIp8Hvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 262,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChipunduSS/satellite/cr1000X/51210/SYNOP",
+    "dashboard_uid": "0ieVf8Ivk",
+    "record_count": 0
+  },
+  {
+    "tableID": 263,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChavumaBS/data/cr1000x/49624/SYNOP",
+    "dashboard_uid": "MR7IpUHvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 264,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LwambeNP/data/cr1000X/34610/SYNOP",
+    "dashboard_uid": "GDe4BUSvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 265,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ManyanePS/data/cr1000X/20204/SYNOP",
+    "dashboard_uid": "m1OIpUHDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 266,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LwambeNP/data/satellite/34610/SYNOP",
+    "dashboard_uid": "LknSp8HDz",
+    "record_count": 2655
+  },
+  {
+    "tableID": 267,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MukulaikwaSS/data/satellite/46555/SYNOP",
+    "dashboard_uid": "yZ7St8NDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 268,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChassaBoysSS/data/satellite/45613/SYNOP",
+    "dashboard_uid": "unnIt8NDk",
+    "record_count": 2745
+  },
+  {
+    "tableID": 269,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ManyanePS/data/satellite/20204/SYNOP",
+    "dashboard_uid": "cqMStUNDk",
+    "record_count": 2700
+  },
+  {
+    "tableID": 270,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LumantoBS/data/satellite/48307/SYNOP",
+    "dashboard_uid": "vN7Ip8Nvk",
+    "record_count": 2655
+  },
+  {
+    "tableID": 271,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LuampaSS/data/satellite/48233/SYNOP",
+    "dashboard_uid": "ZOnIp8Hvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 272,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KafumbweSS/data/satellite/48220/SYNOP",
+    "dashboard_uid": "XKnSt8NDz",
+    "record_count": 2700
+  },
+  {
+    "tableID": 273,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MangangoZNS/data/satellite/48237/SYNOP",
+    "dashboard_uid": "Y2nSt8HDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 274,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LilachiBS/data/satellite/49309/SYNOP",
+    "dashboard_uid": "P0nIp8Hvk",
+    "record_count": 2610
+  },
+  {
+    "tableID": 275,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ShangomboSS/data/satellite/49617/SYNOP",
+    "dashboard_uid": "Ex7Sp8Hvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 277,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MambilimaSS/data/satellite/51288/SYNOP",
+    "dashboard_uid": "_E7It8Hvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 278,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KasenengwaBSS/data/satellite/48219/SYNOP",
+    "dashboard_uid": "UUnItUHDk",
+    "record_count": 2700
+  },
+  {
+    "tableID": 279,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ItezhiTezhiBS/data/cr1000x/48232/SYNOP",
+    "dashboard_uid": "3l7St8Nvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 280,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NRKS002/data/cr1000x/51283/SYNOP",
+    "dashboard_uid": "RCnSpUHvz",
+    "record_count": 3060
+  },
+  {
+    "tableID": 284,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LULG002/data/cr1000x/22520/SYNOP",
+    "dashboard_uid": "fMSItUHvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 285,
+    "topic": "wis2box/dataset/publication",
+    "dashboard_uid": "2UvIt8Hvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 286,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-SOGW002/data/cr1000x/22530/SYNOP",
+    "dashboard_uid": "ipOIp8NDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 290,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-SOSV001/data/cr1000x/22518/SYNOP",
+    "dashboard_uid": "gN4St8Hvk",
+    "record_count": 3780
+  },
+  {
+    "tableID": 291,
+    "topic": "data-incoming/campbell-v1/0-894-2-ESMA003/data/cr1000x/22525/SYNOP",
+    "dashboard_uid": "e-vpaUSDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 292,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-Escp01/data/cr1000x/29298/SYNOP",
+    "dashboard_uid": "YpVItUHDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 293,
+    "topic": "data-incoming/zmb/campbell-v1/Station122/data/BDSP-9RSE-622B/SYNOP",
+    "dashboard_uid": "LjVStUNDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 294,
+    "topic": "data-incoming/zmb/campbell-v1/Station122/status/BDSP-9RSE-622B",
+    "dashboard_uid": "mLISp8NDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 288,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MukingeGS/data/cr1000x/49627/SYNOP",
+    "dashboard_uid": "HZVSp8Nvk",
+    "record_count": 3150
+  },
+  {
+    "tableID": 283,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ESNY002/data/cr1000x/22526/SYNOP",
+    "dashboard_uid": "mccp-UIDz",
+    "record_count": 3150
+  },
+  {
+    "tableID": 287,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-WESS002/data/cr1000x/22536/SYNOP",
+    "dashboard_uid": "ltJIp8Nvz",
+    "record_count": 3150
+  },
+  {
+    "tableID": 54,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station1_J5878/data/cr350/2424/TableDay",
+    "dashboard_uid": "YCC7wVsHz",
+    "record_count": 13030
+  },
+  {
+    "tableID": 5,
+    "topic": "CSA/AFRICA/CAMPBELL/NIGERIA5605/data/cr6/20479/TableHour",
+    "dashboard_uid": "MruVp8Hvz",
+    "record_count": 1247
+  },
+  {
+    "tableID": 1,
+    "topic": "Demo/southafrica/campbell/stellenboschCR6/data/cr6/527",
+    "dashboard_uid": "YgFStUNvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 6,
+    "topic": "CSA/AFRICA/CAMPBELL/NIGERIA5605/data/cr6/20479/TableDay",
+    "dashboard_uid": "U-u4p8Hvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 261,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-LPMA001/satellite/cr1000X/51204/SYNOP",
+    "dashboard_uid": "S6q4B8Svk",
+    "record_count": 2520
+  },
+  {
+    "tableID": 300,
+    "topic": "data-incoming/zmb/campbell-v1/Station128/data/ZPVG-PGBJ-5ADP/SYNOP",
+    "dashboard_uid": "vbVIpUNDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 301,
+    "topic": "data-incoming/zmb/campbell-v1/Station128/metadata/ZPVG-PGBJ-5ADP",
+    "dashboard_uid": "z3IIp8Nvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 302,
+    "topic": "data-incoming/zmb/campbell-v1/Station131/data/MEUE-AUAH-2D74/SYNOP",
+    "dashboard_uid": "UoJIt8HDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 303,
+    "topic": "data-incoming/zmb/campbell-v1/Station131/status/MEUE-AUAH-2D74",
+    "dashboard_uid": "CeIIp8Hvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 304,
+    "topic": "data-incoming/zmb/campbell-v1/Station131/metadata/MEUE-AUAH-2D74",
+    "dashboard_uid": "GiNIp8Nvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 305,
+    "topic": "data-incoming/zmb/campbell-v1/Station130/status/XFC3-3GNU-EDJV",
+    "dashboard_uid": "RGNSt8HDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 306,
+    "topic": "data-incoming/zmb/campbell-v1/Station130/metadata/XFC3-3GNU-EDJV",
+    "dashboard_uid": "E7NSp8HDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 307,
+    "topic": "data-incoming/zmb/campbell-v1/Station130/data/XFC3-3GNU-EDJV/SYNOP",
+    "dashboard_uid": "11JItUHvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 308,
+    "topic": "data-incoming/zmb/campbell-v1/Station133/status/NPEC-B3VE-MCJF",
+    "dashboard_uid": "3INIpUHDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 309,
+    "topic": "data-incoming/zmb/campbell-v1/Station125/data/PT7C-DE62-FZ8K/SYNOP",
+    "dashboard_uid": "Gf4It8NDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 310,
+    "topic": "data-incoming/zmb/campbell-v1/Station125/status/PT7C-DE62-FZ8K",
+    "dashboard_uid": "mONIpUNvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 311,
+    "topic": "data-incoming/zmb/campbell-v1/Station125/metadata/PT7C-DE62-FZ8K",
+    "dashboard_uid": "I5HIp8HDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 312,
+    "topic": "data-incoming/zmb/campbell-v1/Station126/data/9HG7-K5WZ-CYQ5/SYNOP",
+    "dashboard_uid": "rNIIp8Hvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 313,
+    "topic": "data-incoming/zmb/campbell-v1/Station126/status/9HG7-K5WZ-CYQ5",
+    "dashboard_uid": "52HIpUHDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 314,
+    "topic": "data-incoming/zmb/campbell-v1/Station126/metadata/9HG7-K5WZ-CYQ5",
+    "dashboard_uid": "R1NIp8NDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 315,
+    "topic": "data-incoming/zmb/campbell-v1/Station133/data/NPEC-B3VE-MCJF/SYNOP",
+    "dashboard_uid": "CEVIp8Nvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 316,
+    "topic": "data-incoming/zmb/campbell-v1/Station129/metadata/6BKJ-AVJR-Y74C",
+    "dashboard_uid": "caHIt8Hvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 317,
+    "topic": "data-incoming/zmb/campbell-v1/Station129/status/6BKJ-AVJR-Y74C",
+    "dashboard_uid": "FLHItUHDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 318,
+    "topic": "data-incoming/zmb/campbell-v1/Station129/data/6BKJ-AVJR-Y74C/SYNOP",
+    "dashboard_uid": "CdSStUHvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 319,
+    "topic": "data-incoming/zmb/campbell-v1/Station123/status/DQS7-ZPNT-GAXJ",
+    "dashboard_uid": "jPHItUHvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 320,
+    "topic": "data-incoming/zmb/campbell-v1/Station123/data/DQS7-ZPNT-GAXJ/SYNOP",
+    "dashboard_uid": "VQVItUNvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 321,
+    "topic": "data-incoming/zmb/campbell-v1/Station123/metadata/DQS7-ZPNT-GAXJ",
+    "dashboard_uid": "ozvSp8Nvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 322,
+    "topic": "data-incoming/zmb/campbell-v1/Station129/status/SDPZ-BP8J-FYR4",
+    "dashboard_uid": "iWvIpUNvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 323,
+    "topic": "data-incoming/zmb/campbell-v1/Station129/data/SDPZ-BP8J-FYR4/SYNOP",
+    "dashboard_uid": "35ISpUHvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 324,
+    "topic": "data-incoming/zmb/campbell-v1/Station129/metadata/SDPZ-BP8J-FYR4",
+    "dashboard_uid": "wMDSp8HDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 325,
+    "topic": "data-incoming/zmb/campbell-v1/Station133/metadata/NPEC-B3VE-MCJF",
+    "dashboard_uid": "dVDSpUNvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 330,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ST69/data/cr1000x/49313/SYNOP",
+    "dashboard_uid": "HrKt-8Ivz",
+    "record_count": 0
+  },
+  {
+    "tableID": 331,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-WEMO002/data/cr1000x/29859/SYNOP",
+    "dashboard_uid": "qe4St8Hvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 332,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-KachololaSS/data/cr1000x/22526/SYNOP",
+    "dashboard_uid": "NiIItUHvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 333,
+    "topic": "cs/v1/data/cr1000x/46556/SYNOP",
+    "dashboard_uid": "v_Gld_HDk",
+    "record_count": 282487
+  },
+  {
+    "tableID": 326,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ESMA003/data/cr1000x/22525/SYNOP",
+    "dashboard_uid": "rIDSpUNvz",
+    "record_count": 3150
+  },
+  {
+    "tableID": 328,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-SerenjeMET/data/cr1000x/51207/SYNOP",
+    "dashboard_uid": "eDDIpUNDz",
+    "record_count": 3150
+  },
+  {
+    "tableID": 327,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChomaWaterAffair/data/cr1000x/46566/SYNOP",
+    "dashboard_uid": "PbOIt8NDz",
+    "record_count": 3195
+  },
+  {
+    "tableID": 329,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChibomboBS/data/cr1000x/46554/SYNOP",
+    "dashboard_uid": "h3OItUHvz",
+    "record_count": 3150
+  },
+  {
+    "tableID": 7,
+    "topic": "CSAf/southafrica/Gqeberha/NMU_Bayworld_5313/Station_1/data/cr350/2278",
+    "dashboard_uid": "MgpVnMy4k",
+    "record_count": 0
+  },
+  {
+    "tableID": 8,
+    "topic": "CSAf/Mozambique/Bazaruto/NMU_BCRE_J5313/InOM_ReMoTURB/Station_1/data/cr350/2278",
+    "dashboard_uid": "5O4jmZeVz",
+    "record_count": 0
+  },
+  {
+    "tableID": 9,
+    "topic": "CSA/southafrica/campbell/stellenbosch/TestMQTTCR350/data/cr350/4493/TableP1_SM1",
+    "dashboard_uid": "LuR5-dC4z",
+    "record_count": 0
+  },
+  {
+    "tableID": 10,
+    "topic": "CSA/southafrica/campbell/stellenbosch/TestMQTTCR350/data/cr350/4493/TableP1_SM2",
+    "dashboard_uid": "cymcaOj4k",
+    "record_count": 0
+  },
+  {
+    "tableID": 11,
+    "topic": "CSA/southafrica/campbell/stellenbosch/TestMQTTCR350/data/cr350/4493/TableP1_SM3",
+    "dashboard_uid": "YTM5adCVk",
+    "record_count": 0
+  },
+  {
+    "tableID": 12,
+    "topic": "CSA/southafrica/campbell/stellenbosch/TestMQTTCR350/data/cr350/4493/TableP1_SM4",
+    "dashboard_uid": "1K4c-OjVz",
+    "record_count": 0
+  },
+  {
+    "tableID": 13,
+    "topic": "CSA/southafrica/campbell/stellenbosch/TestMQTTCR350/data/cr350/4493/Table_P1_SM4",
+    "dashboard_uid": "NBVRnFC4k",
+    "record_count": 0
+  },
+  {
+    "tableID": 14,
+    "topic": "CSAf/southafrica/campbell/stellenbosch/Geoss_Station4_J5878/data/cr350/2971/TableHour",
+    "dashboard_uid": "NhXMFicHk",
+    "record_count": 0
+  },
+  {
+    "tableID": 15,
+    "topic": "CSAf/southafrica/campbell/stellenbosch/Geoss_Station4_J5878/data/cr350/2971/Table_P1_SM1",
+    "dashboard_uid": "OKjGFicNk",
+    "record_count": 0
+  },
+  {
+    "tableID": 16,
+    "topic": "CSAf/southafrica/campbell/stellenbosch/Geoss_Station4_J5878/data/cr350/2971/Table_P1_SM2",
+    "dashboard_uid": "BMqKJNyNz",
+    "record_count": 0
+  },
+  {
+    "tableID": 17,
+    "topic": "CSAf/southafrica/campbell/stellenbosch/Geoss_Station4_J5878/data/cr350/2971/Table_P1_SM3",
+    "dashboard_uid": "J8NDJHsNk",
+    "record_count": 0
+  },
+  {
+    "tableID": 18,
+    "topic": "CSAf/southafrica/campbell/stellenbosch/Geoss_Station4_J5878/data/cr350/2971/Table_P1_SM4",
+    "dashboard_uid": "NReN1NsHz",
+    "record_count": 0
+  },
+  {
+    "tableID": 19,
+    "topic": "CSAf/southafrica/campbell/stellenbosch/Geoss_Station4_J5878/data/cr350/2971/TableDay",
+    "dashboard_uid": "M2c_UVyHk",
+    "record_count": 0
+  },
+  {
+    "tableID": 27,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station2_J5878/data/cr350/2431/TableHour",
+    "dashboard_uid": "c-5LoHyNk",
+    "record_count": 0
+  },
+  {
+    "tableID": 28,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station2_J5878/data/cr350/2431/Table_P1_SM1",
+    "dashboard_uid": "br2boNsHz",
+    "record_count": 0
+  },
+  {
+    "tableID": 29,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station2_J5878/data/cr350/2431/Table_P1_SM2",
+    "dashboard_uid": "nzQ1oHsHz",
+    "record_count": 0
+  },
+  {
+    "tableID": 30,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station2_J5878/data/cr350/2431/Table_P1_SM3",
+    "dashboard_uid": "Q6JrxHsNz",
+    "record_count": 0
+  },
+  {
+    "tableID": 31,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station2_J5878/data/cr350/2431/Table_P2_SM1",
+    "dashboard_uid": "GMD9bNyNk",
+    "record_count": 0
+  },
+  {
+    "tableID": 32,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station2_J5878/data/cr350/2431/Table_P2_SM2",
+    "dashboard_uid": "QbMwxNyNk",
+    "record_count": 0
+  },
+  {
+    "tableID": 33,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station2_J5878/data/cr350/2431/Table_P2_SM3",
+    "dashboard_uid": "-9pUxNsHk",
+    "record_count": 0
+  },
+  {
+    "tableID": 38,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_J5878/data/cr350/2979/Table_P1_SM1",
+    "dashboard_uid": "2m11X-gIz",
+    "record_count": 0
+  },
+  {
+    "tableID": 39,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_J5878/data/cr350/2979/Table_P2_SM1",
+    "dashboard_uid": "F-PwYagIk",
+    "record_count": 0
+  },
+  {
+    "tableID": 40,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_J5878/data/cr350/2979/Table_P2_SM2",
+    "dashboard_uid": "K98QL-gSz",
+    "record_count": 0
+  },
+  {
+    "tableID": 41,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_J5878/data/cr350/2979/TableHour",
+    "dashboard_uid": "W1TJuaRIk",
+    "record_count": 0
+  },
+  {
+    "tableID": 42,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station8_J5878/data/cr350/3810",
+    "dashboard_uid": "v7TprmeVk",
+    "record_count": 0
+  },
+  {
+    "tableID": 43,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station8_J5878/data/cr350/3810/Table_P1_SM1",
+    "dashboard_uid": "XxAt1HsHz",
+    "record_count": 0
+  },
+  {
+    "tableID": 44,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station8_J5878/data/cr350/3810/Table_P1_SM2",
+    "dashboard_uid": "IBRn0NyHk",
+    "record_count": 0
+  },
+  {
+    "tableID": 45,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station8_J5878/data/cr350/3810/Table_P1_SM3",
+    "dashboard_uid": "qJWGAHyNk",
+    "record_count": 0
+  },
+  {
+    "tableID": 46,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station8_J5878/data/cr350/3810/Table_P2_SM1",
+    "dashboard_uid": "HF5zAHsHk",
+    "record_count": 0
+  },
+  {
+    "tableID": 47,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station8_J5878/data/cr350/3810/Table_P2_SM2",
+    "dashboard_uid": "uO4lTNyNz",
+    "record_count": 0
+  },
+  {
+    "tableID": 48,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station8_J5878/data/cr350/3810/Table_P2_SM3",
+    "dashboard_uid": "gjdwTNyNk",
+    "record_count": 0
+  },
+  {
+    "tableID": 49,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station8_J5878/data/cr350/3810/TableHour",
+    "dashboard_uid": "93iMFicNz",
+    "record_count": 0
+  },
+  {
+    "tableID": 50,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station8_J5878/data/cr350/3810/TableDay",
+    "dashboard_uid": "Bq6K8VsHz",
+    "record_count": 0
+  },
+  {
+    "tableID": 51,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station2_J5878/data/cr350/2431/TableDay",
+    "dashboard_uid": "n40bU4yNz",
+    "record_count": 0
+  },
+  {
+    "tableID": 53,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_J5878/data/cr350/2979/TableDay",
+    "dashboard_uid": "xQwib-gSk",
+    "record_count": 0
+  },
+  {
+    "tableID": 55,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station9_J5878/data/cr350/3811/Table_P1_SM1",
+    "dashboard_uid": "uECo4IaNk",
+    "record_count": 63647
+  },
+  {
+    "tableID": 195,
+    "topic": "CSAf/southafrica/stellenbosch/ZMD_Sat_Test/data/cr1000X/1234",
+    "dashboard_uid": "",
+    "record_count": 0
+  },
+  {
+    "tableID": 22,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station1_J5878/data/cr350/2424/Table_T2_SM1",
+    "dashboard_uid": "0GSDoHsNz",
+    "record_count": 13030
+  },
+  {
+    "tableID": 23,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station1_J5878/data/cr350/2424/Table_T2_SM4",
+    "dashboard_uid": "E4Yu1HsNk",
+    "record_count": 13030
+  },
+  {
+    "tableID": 25,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station1_J5878/data/cr350/2424/Table_T3_SM4",
+    "dashboard_uid": "HlRsbHsHz",
+    "record_count": 13030
+  },
+  {
+    "tableID": 24,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station1_J5878/data/cr350/2424/Table_T3_SM2",
+    "dashboard_uid": "nHAAJNyNz",
+    "record_count": 13030
+  },
+  {
+    "tableID": 21,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station1_J5878/data/cr350/2424/Table_T1_SM2",
+    "dashboard_uid": "1KMe1HsNk",
+    "record_count": 13030
+  },
+  {
+    "tableID": 26,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station1_J5878/data/cr350/2424/Table_T3_SM7",
+    "dashboard_uid": "PwhjANyHz",
+    "record_count": 13030
+  },
+  {
+    "tableID": 34,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station3_J5878/data/cr350/2970/TableHour",
+    "dashboard_uid": "HCznFm5Nz",
+    "record_count": 2231
+  },
+  {
+    "tableID": 37,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station3_J5878/data/cr350/2970/Table_P1_SM3",
+    "dashboard_uid": "Fpxw0HyHz",
+    "record_count": 2231
+  },
+  {
+    "tableID": 36,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station3_J5878/data/cr350/2970/Table_P1_SM2",
+    "dashboard_uid": "Pd9Q0HyNz",
+    "record_count": 2231
+  },
+  {
+    "tableID": 35,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station3_J5878/data/cr350/2970/Table_P1_SM1",
+    "dashboard_uid": "-_DlAHyNz",
+    "record_count": 2231
+  },
+  {
+    "tableID": 52,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station3_J5878/data/cr350/2970/TableDay",
+    "dashboard_uid": "oJZYUVsHk",
+    "record_count": 2231
+  },
+  {
+    "tableID": 56,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station9_J5878/data/cr350/3811/Table_P1_SM2",
+    "dashboard_uid": "4GYpVI-Hk",
+    "record_count": 63647
+  },
+  {
+    "tableID": 57,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station9_J5878/data/cr350/3811/Table_P1_SM3",
+    "dashboard_uid": "5cTv4S-Hz",
+    "record_count": 63647
+  },
+  {
+    "tableID": 58,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station9_J5878/data/cr350/3811/Table_P1_SM4",
+    "dashboard_uid": "5rqO4IaNk",
+    "record_count": 63647
+  },
+  {
+    "tableID": 62,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station6_J5878/data/cr350/2977/Table_P1_SM1",
+    "dashboard_uid": "QLEtxHsHk",
+    "record_count": 529
+  },
+  {
+    "tableID": 63,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station6_J5878/data/cr350/2977/Table_P1_SM2",
+    "dashboard_uid": "_IC5bHsNz",
+    "record_count": 529
+  },
+  {
+    "tableID": 64,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station6_J5878/data/cr350/2977/Table_P1_SM3",
+    "dashboard_uid": "EprKBRivz",
+    "record_count": 529
+  },
+  {
+    "tableID": 73,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_J5878/data/cr350/2979/Table_P1_SM3",
+    "dashboard_uid": "BU11u-RSz",
+    "record_count": 0
+  },
+  {
+    "tableID": 74,
+    "topic": "CSAf/southafricafrica/stellenbosch/Geoss_Station11_J5878/data/cr350/3816/TableHour",
+    "dashboard_uid": "AcZmFmcHk",
+    "record_count": 0
+  },
+  {
+    "tableID": 75,
+    "topic": "CSAf/southafricafrica/stellenbosch/Geoss_Station11_J5878/data/cr350/3816/Table_P1_SM1",
+    "dashboard_uid": "NbhVoHyNz",
+    "record_count": 0
+  },
+  {
+    "tableID": 76,
+    "topic": "CSAf/southafricafrica/stellenbosch/Geoss_Station11_J5878/data/cr350/3816/Table_P1_SM2",
+    "dashboard_uid": "At67oHsNk",
+    "record_count": 0
+  },
+  {
+    "tableID": 77,
+    "topic": "CSAf/southafricafrica/stellenbosch/Geoss_Station11_J5878/data/cr350/3816/Table_P1_SM3",
+    "dashboard_uid": "MOGfxNyHz",
+    "record_count": 0
+  },
+  {
+    "tableID": 80,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station7_J5878/data/cr350/2979/Table_P1_SM3",
+    "dashboard_uid": "J484kfgIz",
+    "record_count": 251386
+  },
+  {
+    "tableID": 84,
+    "topic": "CSAf/southafricafrica/stellenbosch/Geoss_Station11_J5878/data/cr350/3816/TableDay",
+    "dashboard_uid": "ctrk_VsNk",
+    "record_count": 0
+  },
+  {
+    "tableID": 59,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station9_J5878/data/cr350/3811/TableHour",
+    "dashboard_uid": "TWy-spyHk",
+    "record_count": 63647
+  },
+  {
+    "tableID": 60,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station9_J5878/data/cr350/3811/TableDay",
+    "dashboard_uid": "_VqpU4sNz",
+    "record_count": 63647
+  },
+  {
+    "tableID": 91,
+    "topic": "origin/a/wis2/zmb/zambia_met_service/data/core/weather/surface-based-observations/synop",
+    "dashboard_uid": "WSPpbFUHk",
+    "record_count": 0
+  },
+  {
+    "tableID": 68,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station5_J5878/data/cr350/2972/TableHour",
+    "dashboard_uid": "jnnWEUivk",
+    "record_count": 2659
+  },
+  {
+    "tableID": 66,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station5_J5878/data/cr350/2972/Table_P1_SM2",
+    "dashboard_uid": "K4qfx8mDk",
+    "record_count": 2659
+  },
+  {
+    "tableID": 79,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station7_J5878/data/cr350/2979/Table_P1_SM1",
+    "dashboard_uid": "d0n0DHsHz",
+    "record_count": 251386
+  },
+  {
+    "tableID": 61,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station1_J5878/data/cr350/2424/Table_T1_SM4",
+    "dashboard_uid": "BeN3JHsNz",
+    "record_count": 13030
+  },
+  {
+    "tableID": 69,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station6_J5878/data/cr350/2977/TableHour",
+    "dashboard_uid": "OGOZPUmvz",
+    "record_count": 529
+  },
+  {
+    "tableID": 72,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station12_J5878/data/cr350/3817/TableHour",
+    "dashboard_uid": "ASimYNyHk",
+    "record_count": 2596
+  },
+  {
+    "tableID": 71,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station12_J5878/data/cr350/3817/Table_P1_SM3",
+    "dashboard_uid": "6AgDYHyNk",
+    "record_count": 2596
+  },
+  {
+    "tableID": 81,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station12_J5878/data/cr350/3817/Table_P1_SM2",
+    "dashboard_uid": "qOOoLNsNz",
+    "record_count": 2596
+  },
+  {
+    "tableID": 70,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station12_J5878/data/cr350/3817/Table_P1_SM1",
+    "dashboard_uid": "eZd8fHsNz",
+    "record_count": 2596
+  },
+  {
+    "tableID": 87,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station5_J5878/data/cr350/2972/TableDay",
+    "dashboard_uid": "CjQpKfmvz",
+    "record_count": 2659
+  },
+  {
+    "tableID": 85,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station6_J5878/data/cr350/2977/TableDay",
+    "dashboard_uid": "6fDMQVsHz",
+    "record_count": 529
+  },
+  {
+    "tableID": 86,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station12_J5878/data/cr350/3817/TableDay",
+    "dashboard_uid": "7hhCBHsNk",
+    "record_count": 2596
+  },
+  {
+    "tableID": 78,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station7_J5878/data/cr350/2979/TableHour",
+    "dashboard_uid": "yKpGFmcHz",
+    "record_count": 251386
+  },
+  {
+    "tableID": 82,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station7_J5878/data/cr350/2979/Table_P2_SM1",
+    "dashboard_uid": "xdp1xNsHz",
+    "record_count": 251386
+  },
+  {
+    "tableID": 83,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station7_J5878/data/cr350/2979/Table_P2_SM2",
+    "dashboard_uid": "Lbf0xNyNz",
+    "record_count": 251386
+  },
+  {
+    "tableID": 88,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MulimiKH/data/cr1000x/46559/SYNOP",
+    "dashboard_uid": "a7dStUHDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 133,
+    "topic": "CSAf/southafrica/stellenbosch/Geoss_Station7_J5878/data/cr350/2979/TableDay",
+    "dashboard_uid": "bfLdQVyHz",
+    "record_count": 251386
+  },
+  {
+    "tableID": 123,
+    "topic": "origin/a/wis2/nam/namibia_met_service/data/core/weather/surface-based-observations/synop",
+    "dashboard_uid": "JPSm_hvSz",
+    "record_count": 0
+  },
+  {
+    "tableID": 130,
+    "topic": "origin/a/wis2/swz/eswatini_met_service/data/core/weather/surface-based-observations/synop",
+    "dashboard_uid": "",
+    "record_count": 0
+  },
+  {
+    "tableID": 101,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-PetaukeMET/data/cr1000x/44724/SYNOP",
+    "dashboard_uid": "dPhVf8IDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 183,
+    "topic": "CSA/southafrica/campbell/stellenbosch/ZMET5580/STATION_63/data/cr1000x/48237/SYNOP",
+    "dashboard_uid": "VLUguIfIk",
+    "record_count": 0
+  },
+  {
+    "tableID": 185,
+    "topic": "CSA/southafrica/campbell/stellenbosch/ZMET5580/STATION_45/data/cr1000x/48219/SYNOP",
+    "dashboard_uid": "BfcBHLEIk",
+    "record_count": 0
+  },
+  {
+    "tableID": 190,
+    "topic": "CSA/southafrica/campbell/stellenbosch/ZMET5580/STATION_58/data/cr1000x/48232/SYNOP",
+    "dashboard_uid": "WS67m2BIz",
+    "record_count": 0
+  },
+  {
+    "tableID": 191,
+    "topic": "CSA/southafrica/campbell/stellenbosch/ZMET5580/STATION_20/data/cr1000x/46572/SYNOP",
+    "dashboard_uid": "7n5sNiyNz",
+    "record_count": 0
+  },
+  {
+    "tableID": 192,
+    "topic": "CSAf/southafrica/stellenbosch/ZMD_Sat_Test/data/cr1000X/1234/TableHour",
+    "dashboard_uid": "",
+    "record_count": 0
+  },
+  {
+    "tableID": 194,
+    "topic": "CSAf/southafrica/stellenbosch/ZMD_Sat_Test/TableHour",
+    "dashboard_uid": "",
+    "record_count": 0
+  },
+  {
+    "tableID": 173,
+    "topic": "CSAf/southafrica/Limpopo/SHA_Aviation/SHA_AWOS_6240/data/cr1000x/56192",
+    "dashboard_uid": "gb8i8pyHk",
+    "record_count": 153577
+  },
+  {
+    "tableID": 188,
+    "topic": "CSA/southafrica/campbell/stellenbosch/WCART_Phytotron_5741/data/cr350/3910",
+    "dashboard_uid": "YqDn8pyHz",
+    "record_count": 24118
+  },
+  {
+    "tableID": 147,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NWKE002/data/cr1000x/49627/SYNOP",
+    "dashboard_uid": "bZ-4f8Svz",
+    "record_count": 0
+  },
+  {
+    "tableID": 207,
+    "topic": "CSAf/southafrica/stellenbosch/ZMD_Sat_Test/data/cr1000X/1234/SYNOP",
+    "dashboard_uid": "",
+    "record_count": 0
+  },
+  {
+    "tableID": 229,
+    "topic": "data-incoming/zmb/campbell-v1/St1_DimbwePSS/sat_data/cr1000X/49553/SYNOP",
+    "dashboard_uid": "R6K7wdESk",
+    "record_count": 0
+  },
+  {
+    "tableID": 230,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-DimbwePSS/sat_data/cr1000X/49553/SYNOP",
+    "dashboard_uid": "9G9VQOPSk",
+    "record_count": 0
+  },
+  {
+    "tableID": 372,
+    "topic": "cs/v1/data/cr1000x/49635/SYNOP",
+    "dashboard_uid": "UrnfjwNvk",
+    "record_count": 24772
+  },
+  {
+    "tableID": 373,
+    "topic": "cs/v1/data/cr1000x/51204/HOUR",
+    "dashboard_uid": "7hGfjQHDk",
+    "record_count": 41646
+  },
+  {
+    "tableID": 281,
+    "topic": "data-incoming/zmb/campbell-v1/Station121_Nipa/data/cr1000x/48298/SYNOP",
+    "dashboard_uid": "9BoELwyIz",
+    "record_count": 0
+  },
+  {
+    "tableID": 282,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-Station121_Nipa/data/cr1000x/48298/SYNOP",
+    "dashboard_uid": "v4ZYCaPHz",
+    "record_count": 0
+  },
+  {
+    "tableID": 247,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-DimbwePSS/data/satellite/49553/SYNOP",
+    "dashboard_uid": "iEWStUNDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 289,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-WEMZ002/data/cr1000x/22537/SYNOP",
+    "dashboard_uid": "inVStUNDz",
+    "record_count": 3105
+  },
+  {
+    "tableID": 374,
+    "topic": "cs/v1/data/cr1000x/51204/SYNOP",
+    "dashboard_uid": "b67BCwHDk",
+    "record_count": 31636
+  },
+  {
+    "tableID": 375,
+    "topic": "cs/v1/data/cr1000x/51210/HOUR",
+    "dashboard_uid": "60MBCQNvk",
+    "record_count": 629
+  },
+  {
+    "tableID": 376,
+    "topic": "cs/v1/data/cr1000x/51210/SYNOP",
+    "dashboard_uid": "EmVfjwHvk",
+    "record_count": 484
+  },
+  {
+    "tableID": 377,
+    "topic": "cs/v1/data/cr1000x/51288/HOUR",
+    "dashboard_uid": "nWnfjQHDk",
+    "record_count": 7239
+  },
+  {
+    "tableID": 378,
+    "topic": "cs/v1/data/cr1000x/51288/SYNOP",
+    "dashboard_uid": "an4BjwNDz",
+    "record_count": 5585
+  },
+  {
+    "tableID": 90,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-CEKB002/data/cr1000x/27308/SYNOP",
+    "dashboard_uid": "UHq4p8NDz",
+    "record_count": 90
+  },
+  {
+    "tableID": 92,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-ChipepoMET/data/cr1000x/46576/SYNOP",
+    "dashboard_uid": "SPb4BUSDk",
+    "record_count": 0
+  },
+  {
+    "tableID": 93,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-NRDC/data/cr1000x/46564/SYNOP",
+    "dashboard_uid": "swbVB8IDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 95,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MUCS001/data/cr1000x/28288/SYNOP",
+    "dashboard_uid": "-hjVt8Nvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 96,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-StMagretSS/data/cr1000x/40209/SYNOP",
+    "dashboard_uid": "N7h4BUSvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 99,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-VubwiDaySS/data/cr1000x/48218/SYNOP",
+    "dashboard_uid": "oT2VfUSDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 89,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-SiavongaSS/data/cr1000x/48215/SYNOP",
+    "dashboard_uid": "OSj4p8Nvk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 97,
+    "topic": "data-incoming/zmb/campbell-v1/0-894-2-MasaitiBS/data/cr1000x/34773/SYNOP",
+    "dashboard_uid": "dAj4tUHvk",
+    "record_count": 3195
+  },
+  {
+    "tableID": 295,
+    "topic": "data-incoming/zmb/campbell-v1/Station122/metadata/BDSP-9RSE-622B",
+    "dashboard_uid": "2sISpUHDz",
+    "record_count": 0
+  },
+  {
+    "tableID": 296,
+    "topic": "data-incoming/zmb/campbell-v1/Station34/data/BK9P-Z7UV-2M88/SYNOP",
+    "dashboard_uid": "g0VIp8Hvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 297,
+    "topic": "data-incoming/zmb/campbell-v1/Station34/status/BK9P-Z7UV-2M88",
+    "dashboard_uid": "frOSt8Hvz",
+    "record_count": 0
+  },
+  {
+    "tableID": 298,
+    "topic": "data-incoming/zmb/campbell-v1/Station34/metadata/BK9P-Z7UV-2M88",
+    "dashboard_uid": "1wSItUHvk",
+    "record_count": 0
+  },
+  {
+    "tableID": 299,
+    "topic": "data-incoming/zmb/campbell-v1/Station128/status/ZPVG-PGBJ-5ADP",
+    "dashboard_uid": "-uSSpUHvk",
+    "record_count": 0
+  }
+]

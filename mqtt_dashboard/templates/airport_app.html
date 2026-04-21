@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Airport Sensor Data with Compass</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+  <style>
+    #compass {
+      border: 4px solid #ccc;
+      border-radius: 50%;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      width: 200px;
+      height: 200px;
+    }
+
+    #needle {
+      transform-origin: 0 80;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .needle-base {
+      fill: #333;
+    }
+
+    .needle-arrow {
+      fill: red;
+      stroke: #333;
+      stroke-width: 1;
+    }
+
+    .cardinal-point {
+      font-size: 18px;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+    }
+
+    .ring {
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .ring1 { stroke: #FF0000; }
+    .ring2 { stroke: #00FF00; }
+    .ring3 { stroke: #0000FF; }
+    .ring4 { stroke: #FFFF00; }
+
+    /* New style for sensor display */
+    .sensor-display {
+
+      margin-bottom: 20px;
+    }
+
+    .sensor-item {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div id="latestTimeDisplay">Latest Time: </div>
+  <div id="sensor-data"></div>
+  <div id="compass-container">
+    
+    <svg id="compass" viewBox="-100 -100 200 200">
+      <circle cx="0" cy="0" r="90" fill="#f0f0f0" stroke="black" stroke-width="2" />
+      
+      <!-- Colored rings -->
+      <circle cx="0" cy="0" r="85" class="ring ring1" />
+      <circle cx="0" cy="0" r="70" class="ring ring2" />
+      <circle cx="0" cy="0" r="55" class="ring ring3" />
+      <circle cx="0" cy="0" r="40" class="ring ring4" />
+
+      <text x="-8" y="-75" class="cardinal-point">N</text>
+      <text x="75" y="5" class="cardinal-point">E</text>
+      <text x="-8" y="85" class="cardinal-point">S</text>
+      <text x="-85" y="5" class="cardinal-point">W</text>
+
+      <g id="needle">
+        <circle cx="0" cy="0" r="5" class="needle-base" />
+        <polygon id="needle" points="0,-80 10,0 -10,0" fill="red" />
+      </g>
+    </svg>
+  </div>
+  <div id="selected-sensors" class="sensor-display"></div>
+  <div id="additional-sensors" class="sensor-display">
+    <!-- Additional sensor values will be inserted here -->
+  </div>
+  <div id="cloud-info" class="cloud-display">
+    <!-- Cloud information will be inserted here -->
+  </div>
+
+
+
+
+  <script>
+
+
+
+
+
+
+function fetchAndDisplayLatestTime() {
+      fetch('/airport_data_fetch')
+        .then(response => response.json())
+        .then(data => {
+          const latestTime = data
+            .map(row => row[3]) // Extract timestamps
+            .reduce((latest, current) => new Date(current) > new Date(latest) ? current : latest, '1970-01-01T00:00:00Z');
+
+          const formattedTime = moment(latestTime).format('YYYY/MM/DD HH:mm') + ' LT';
+          document.getElementById('latestTimeDisplay').innerText = `Latest Time: ${formattedTime}`;
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    }
+
+    fetchAndDisplayLatestTime();
+
+
+
+    const endpoint = '/airport_data_fetch';
+    const targetSensors = [
+      "QFE_Avg", "QNH_Avg", "WSpd_Max", "WDir_Avg", "BPress_Avg",
+      "AirTemp_Avg", "RH", "DewPointTemp_Avg", "Rain_1d_RunTot",
+      "SkyVUE_FirstLayerCloudAmount", "SkyVUE_FirstLayerCloudHeight",
+      "SkyVUE_SecondLayerCloudAmount", "SkyVUE_SecondLayerCloudHeight",
+      "SkyVUE_ThirdLayerCloudAmount", "SkyVUE_ThirdLayerCloudHeight"
+    ];
+
+    function fetchData() {
+  // Fetch data from the original endpoint
+  fetch('/airport_data_fetch')
+    .then(response => response.json())
+    .then(data => updateSensorData(data))
+    .catch(error => console.error('Error fetching data:', error));
+
+  // Fetch data from the new endpoint for WSpd_Max (10 minutes)
+  fetch('/airport_data_fetch_10m')
+    .then(response => response.json())
+    .then(data => {
+      // Find the latest WSpd_Max value
+      const latestWSpdMax = data
+        .filter(row => row[2] === 'WSpd_Max')
+        .reduce((latest, current) => new Date(current[3]) > new Date(latest[3]) ? current : latest, ['', '', '', '1970-01-01', ''])[4];
+
+      // Update the display
+      const wSpdMax10mItem = document.querySelector('.sensor-item[data-sensor="WSpd_Max_10m"]');
+      if (wSpdMax10mItem) {
+        wSpdMax10mItem.innerHTML = `<strong>WSpd_Max (10 minutes):</strong> ${latestWSpdMax} m/s`;
+      }
+    })
+    .catch(error => console.error('Error fetching WSpd_Max data:', error));
+}
+
+
+
+    function interpretCloudLayers(layers) {
+  // Map sensor values to descriptions
+  const cloudDescriptions = {
+    0: 'Clear sky',
+    1: 'Few clouds',
+    2: 'Few clouds',
+    3: 'Scattered clouds',
+    4: 'Scattered clouds',
+    5: 'Broken clouds',
+    6: 'Broken clouds',
+    7: 'Broken clouds',
+    8: 'Overcast'
+  };
+
+  // Filter out layers with no significant cloud cover
+  const significantLayers = layers.filter(layer => layer.amount > 0);
+
+  // Sort the layers by cloud amount in descending order
+  significantLayers.sort((a, b) => b.amount - a.amount);
+
+  // Create the final description
+  if (significantLayers.length === 0) {
+    return 'Clear sky at 0 ft';
+  } else {
+    return significantLayers.map(layer => `${cloudDescriptions[layer.amount]} at ${layer.height} ft`).join(', ');
+  }
+}
+
+
+    function updateSensorData(data) {
+      const sensorData = {};
+
+      targetSensors.forEach(sensor => sensorData[sensor] = { value: null, timestamp: null });
+
+      data.forEach(row => {
+        const sensorName = row[2];
+        const timestamp = row[3];
+        const value = row[4];
+
+        if (sensorData.hasOwnProperty(sensorName)) {
+          sensorData[sensorName] = { value, timestamp };
+        }
+      });
+
+      displaySensorData(sensorData);
+
+      // Rotate the compass needle
+      const windDirection = sensorData['WDir_Avg'].value;
+      if (windDirection !== null) {
+        rotateNeedle(windDirection);
+      }
+    }
+
+    function displaySensorData(sensorData) {
+      const sensorDataContainer = document.getElementById('sensor-data');
+      sensorDataContainer.innerHTML = `
+        <table>
+          <thead>
+            <tr><th>Sensor</th><th>Value</th><th>Timestamp</th></tr>
+          </thead>
+          <tbody>
+            ${Object.keys(sensorData).map(sensor => `
+              <tr>
+                <td>${sensor}</td>
+                <td>${sensorData[sensor].value || 'N/A'}</td>
+                <td>${sensorData[sensor].timestamp || 'N/A'}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+      // Display selected sensors
+      const selectedSensorsContainer = document.getElementById('selected-sensors');
+      selectedSensorsContainer.innerHTML = `
+        <div class="sensor-item"><strong>WSpd_Max:</strong> ${sensorData['WSpd_Max'].value || 'N/A'} m/s</div>
+        <div class="sensor-item"><strong>WDirMag_Avg:</strong> ${sensorData['WDirMag_Avg'].value || 'N/A'} °</div>
+        <div class="sensor-item"><strong>AirTemp_Avg:</strong> ${sensorData['AirTemp_Avg'].value || 'N/A'} °C</div>
+        <div class="sensor-item"><strong>RH:</strong> ${sensorData['RH'].value || 'N/A'} %</div>
+        <div class="sensor-item"><strong>BPress_Avg:</strong> ${sensorData['BPress_Avg'].value || 'N/A'} hPa</div>
+        <div class="sensor-item"><strong>QNH_Avg:</strong> ${sensorData['QNH_Avg'].value || 'N/A'} hPa</div>
+      `;
+
+      // Display additional sensors
+      const additionalSensorsContainer = document.getElementById('additional-sensors');
+      additionalSensorsContainer.innerHTML = `
+        <div class="sensor-item"><strong>DewPointTemp_Avg:</strong> ${sensorData['DewPointTemp_Avg'].value || 'N/A'}</div>
+        <div class="sensor-item"><strong>Rain_1d_RunTot:</strong> ${sensorData['Rain_1d_RunTot'].value || 'N/A'}</div>
+        <div class="sensor-item" data-sensor="WSpd_Max_10m"><strong>WSpd_Max (10 minutes):</strong> N/A</div>
+        <div class="sensor-item"><strong>QFE_Avg:</strong> ${sensorData['QFE_Avg'].value || 'N/A'} hPa</div>
+      `;
+
+      const cloudLayers = [
+        {
+          amount: sensorData['SkyVUE_FirstLayerCloudAmount'].value,
+          height: sensorData['SkyVUE_FirstLayerCloudHeight'].value,
+          description: 'First layer'
+        },
+        {
+          amount: sensorData['SkyVUE_SecondLayerCloudAmount'].value,
+          height: sensorData['SkyVUE_SecondLayerCloudHeight'].value,
+          description: 'Second layer'
+        },
+        {
+          amount: sensorData['SkyVUE_ThirdLayerCloudAmount'].value,
+          height: sensorData['SkyVUE_ThirdLayerCloudHeight'].value,
+          description: 'Third layer'
+        }
+      ];
+
+      // Interpret cloud layers and update the display
+const cloudDescription = interpretCloudLayers(cloudLayers);
+const cloudInfoContainer = document.getElementById('cloud-info');
+cloudInfoContainer.innerHTML = `<strong>Cloud Information:</strong> ${cloudDescription}`;
+
+
+
+    
+    }
+
+    
+    function rotateNeedle(degrees) {
+      const needle = document.getElementById('needle');
+      needle.style.transform = `rotate(${degrees}deg)`;
+    }
+
+   
+
+    fetchData();
+    setInterval(fetchData, 60000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station Map</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+         #map {
+            height: 100vh;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #sidebar {
+            width: 300px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+            padding: 20px;
+            display: block; /* Ensure the sidebar is always displayed on larger screens */
+            z-index: 1000; /* Ensure the sidebar is on top */
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .logo {
+            width: 200px;
+        }
+
+        .station-info {
+            margin-bottom: 10px;
+        }
+        .station-circle {
+            cursor: pointer;
+        }
+
+        /* Mobile styles */
+        @media (max-width: 767px) {
+            #map {
+                height: calc(100vh - 50px); /* Adjust to leave space for the drawer handle */
+                width: 100%; /* Full width on mobile */
+                margin-left: 0; /* Reset margin on mobile */
+            }
+
+            #sidebar {
+                width: 100%;
+                height: 50%; /* Initially, show only half the screen */
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                overflow-y: auto;
+                padding: 20px;
+                padding-top: 100px; /* Adjusted to add space for the logo */
+                transform: translateY(100%); /* Slide up to cover half screen */
+                transition: transform 0.3s ease-in-out, height 0.3s ease-in-out;
+                z-index: 1000;
+            }
+
+            #sidebar.open {
+                height: 100%; /* When open, fill the entire screen */
+                transform: translateY(0);
+            }
+
+            .drawer-handle {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                background-color: #343a40;
+                color: white;
+                padding: 10px;
+                cursor: pointer;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 1001;
+            }
+
+            .drawer-handle svg {
+                cursor: pointer;
+            }
+
+            .menu-button {
+                display: none;
+            }
+
+            .scroll-down-sign {
+                position: fixed;
+                top: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 1001;
+                background-color: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 10px;
+                border-radius: 5px;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                animation: fadeInOut 1s infinite;
+            }
+
+            .scroll-down-sign svg {
+                margin-left: 10px;
+                animation: bounce 1s infinite;
+            }
+
+            @keyframes fadeInOut {
+                0%, 100% { opacity: 0; }
+                50% { opacity: 1; }
+            }
+
+            @keyframes bounce {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(5px); }
+            }
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRTWImA1TaxPRR6HVRjF1PCcKl3vG2Imo"></script>
+    <script>
+        const stations = [
+            { name: "CSAf_southafrica_campbell_stellenbosch_Geoss_Station4_J5878_data_cr350_2971_TableHour", lat: -34.1548, lng: 18.961, url: "{{ api_base_url }}/topic/4279" },
+            { name: "CSAf_southafrica_stellenbosch_Geoss_Station1_J5878_data_cr350_2424_TableHour", lat: -34.1817, lng: 18.9064, url: "{{ api_base_url }}/topic/6315" },
+            { name: "CSAf_southafrica_stellenbosch_Geoss_Station2_J5878_data_cr350_2431_TableHour", lat: -34.1817, lng: 18.9089, url: "{{ api_base_url }}/topic/6326" },
+            { name: "CSAf_southafrica_stellenbosch_Geoss_Station3_J5878_data_cr350_2970_TableHour", lat: -34.1725, lng: 18.93, url: "{{ api_base_url }}/topic/6333" },
+            { name: "CSAf_southafrica_stellenbosch_Geoss_J5878_data_cr350_2979_TableHour", lat: -34.1725, lng: 18.93, url: "{{ api_base_url }}/topic/6349" },
+            { name: "CSAf_southafrica_stellenbosch_Geoss_Station8_J5878_data_cr350_3810_TableHour", lat: -34.1944, lng: 18.8731, url: "{{ api_base_url }}/topic/6371" },
+            { name: "CSAf_southafrica_stellenbosch_Geoss_Station9_J5878_data_cr350_3811_TableHour", lat: -34.1861, lng: 18.898, url: "{{ api_base_url }}/topic/7268" },
+            { name: "CSAf_southafrica_stellenbosch_Geoss_Station5_J5878_data_cr350_2972_TableHour", lat: -34.1861, lng: 18.898, url: "{{ api_base_url }}/topic/7827" },
+            { name: "CSAf_southafrica_stellenbosch_Geoss_Station6_J5878_data_cr350_2977_TableHour", lat: -34.1661, lng: 18.9333, url: "{{ api_base_url }}/topic/7828" },
+            { name: "CSAf_southafrica_stellenbosch_Geoss_Station12_J5878_data_cr350_3817_TableHour", lat: -34.192, lng: 18.8878, url: "{{ api_base_url }}/topic/7834" },
+            { name: "CSAf_southafricafrica_stellenbosch_Geoss_Station11_J5878_data_cr350_3816_TableHour", lat: -34.1881, lng: 18.895, url: "{{ api_base_url }}/topic/7836" },
+            { name: "CSAf_southafrica_stellenbosch_Geoss_Station7_J5878_data_cr350_2979_TableHour", lat: -34.1651, lng: 18.9443, url: "{{ api_base_url }}/topic/7840" },
+        ];
+
+        function getColor(diffHours) {
+            if (diffHours < 6) return 'green';
+            if (diffHours < 12) return 'yellow';
+            if (diffHours < 24) return 'orange';
+            return 'black';
+        }
+
+        function createSVGIcon(color) {
+            return {
+                path: google.maps.SymbolPath.CIRCLE,
+                fillColor: color,
+                fillOpacity: 0.8,
+                strokeColor: '#FFFFFF',
+                strokeWeight: 2,
+                scale: 10,
+            };
+        }
+
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${year}/${month}/${day} ${hours}:${minutes}`;
+        }
+
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: { lat: -34.1817, lng: 18.9064 },
+            });
+
+            stations.forEach(station => {
+                fetch(`{{ api_base_url }}/station_time/${station.name}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const time = new Date(data[0][3]);
+                        const now = new Date();
+                        const diffHours = Math.abs(now - time) / 36e5;
+                        const color = getColor(diffHours);
+
+                        const marker = new google.maps.Marker({
+                            position: { lat: station.lat, lng: station.lng },
+                            icon: createSVGIcon(color),
+                            map,
+                        });
+
+                        const infoWindow = new google.maps.InfoWindow({
+                            content: `<div>Table: ${station.name}<br>Time: ${formatDate(time)}<br><a href="${station.url}" target="_blank">View Graph</a></div>`,
+                        });
+
+                        marker.addListener('click', function() {
+                            infoWindow.open(map, marker);
+                        });
+
+
+                    });
+            });
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const menuIcon = document.getElementById('menuIcon');
+            const closeIcon = document.getElementById('closeIcon');
+
+            if (sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+            } else {
+                sidebar.classList.add('open');
+                menuIcon.style.display = 'none';
+                closeIcon.style.display = 'block';
+            }
+        }
+
+        function toggleFullscreen() {
+            const fullscreenIcon = document.getElementById('fullscreenIcon');
+            const exitFullscreenIcon = document.getElementById('exitFullscreenIcon');
+
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+                fullscreenIcon.style.display = 'none';
+                exitFullscreenIcon.style.display = 'block';
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                    fullscreenIcon.style.display = 'block';
+                    exitFullscreenIcon.style.display = 'none';
+                }
+            }
+        }
+
+        const showScrollDownSign = () => {
+                const scrollDownSign = document.getElementById('scrollDownSign');
+                scrollDownSign.style.display = 'flex';
+    
+                setTimeout(() => {
+                    closeScrollSign();
+                }, 10000);
+            };
+    
+            const closeScrollSign = () => {
+                const scrollDownSign = document.getElementById('scrollDownSign');
+                scrollDownSign.style.display = 'none';
+            };
+
+            let preventPullToRefresh = false;
+    let lastY = 0;
+
+    document.addEventListener('touchstart', function (e) {
+        if (e.touches.length !== 1) {
+            return;
+        }
+
+        lastY = e.touches[0].clientY;
+        preventPullToRefresh = window.pageYOffset === 0;
+    });
+
+    document.addEventListener('touchmove', function (e) {
+        let y = e.touches[0].clientY;
+        let yDiff = y - lastY;
+        
+        lastY = y;
+
+        if (preventPullToRefresh) {
+            preventPullToRefresh = false;
+
+            if (yDiff > 0) {
+                e.preventDefault();
+                return;
+            }
+        }
+    });
+
+    </script>
+</head>
+<body onload="initMap()">
+    <div id="sidebar">
+        <div class="drawer-handle" onclick="toggleSidebar()">
+            <svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path d="M3 6h18M3 12h18M3 18h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <svg id="closeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="display:none;">
+                <path d="M6 18L18 6M6 6l12 12" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <svg id="fullscreenIcon" onclick="toggleFullscreen()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path d="M3 3h6v2H5v4H3V3zm12 0h6v6h-2V5h-4V3zm6 12v6h-6v-2h4v-4h2zm-18 0v6h6v-2H5v-4H3z" fill="#fff"/>
+            </svg>
+            <svg id="exitFullscreenIcon" onclick="toggleFullscreen()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="display:none;">
+                <rect width="100%" height="100%" fill="#4C97FF"/>
+                <g transform="translate(12,12)">
+                    <rect x="-8" y="-1" width="4" height="2" fill="white"/>
+                    <rect x="4" y="-1" width="4" height="2" fill="white"/>
+                    <rect x="-1" y="-8" width="2" height="4" fill="white"/>
+                    <rect x="-1" y="4" width="2" height="4" fill="white"/>
+                </g>
+            </svg>
+        </div>
+        <img src="../static/logo.png" class="logo" alt="Logo Description"><hr>
+        {% if user_name %}
+            <p>You are logged in as, {{ user_name }}!</p>
+        {% else %}
+            <p>Please log in to view this content.</p>
+        {% endif %}<hr>
+        <form action="{{ url_for('auth.logout') }}" method="get">
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form><hr>
+        
+        <hr>
+        <h5>Data Received</h5>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: green;"></div> Within the last 6 hours
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: yellow;"></div> Between 6 and 12 hours ago
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: orangered;"></div> Between 12 and 24 hours ago
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: black;"></div> More than 24 hours ago
+        </div><hr>
+        <div id="sidebarContent">
+            <!-- Dynamic content will be loaded here based on the menu selection -->
+        </div>
+    </div>
+
+    <!-- Scroll Down Sign -->
+    <div id="scrollDownSign" class="scroll-down-sign" onclick="closeScrollSign()">
+        Scroll down for more
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M12 16l-6-6h12z" fill="#fff"/>
+        </svg>
+    </div>
+
+    <div class="content">
+        <div id="map"></div>
+    </div>
+</body>
+</html>

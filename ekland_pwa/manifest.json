@@ -1,0 +1,24 @@
+{
+  "name": "Elkland - Airstrip Weather",
+  "short_name": "Elkland Weather",
+  "description": "A weather application for Elkland airstrip showing wind speed, direction, temperature, and more.",
+  "icons": [
+    {
+      "src": "icons/128.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#152433",
+  "theme_color": "#0d1824",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en"
+}

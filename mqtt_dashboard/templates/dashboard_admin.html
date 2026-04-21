@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="title" content="MQTT Dashboard">
+    <meta name="description" content=" Track your  data from Campbell Scientific devices">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<style>
+    tbody.hoverable>tr:hover {
+        background-color: grey;
+    }
+
+    .selected {
+        background-color: black;
+    }
+
+    .rose-settings{
+        visibility: hidden;
+    }
+</style>
+
+<body class="bg-light overflow-hidden">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='index.js')}}"></script>
+    <div class="vh-100 d-flex flex-column">
+        <nav class="site-header sticky-top py-1 bg-white">
+
+            <div style="display: flex; align-items:center;"
+                class="container d-flex flex-column flex-md-row justify-content-between">
+                <img style="max-width: 20%" class="img-fluid py-2 d-none d-md-inline-block"
+                    src="{{url_for('static',filename='ZMD logo.jpg')}}" alt="">
+                <a class="py-2 d-none d-md-inline-block" href="/admin">
+                    User Admin
+                </a>
+                <a class="py-2 d-none d-md-inline-block" href="/broker_admin">
+                    Broker Admin
+                </a>
+                <a class="py-2 d-none d-md-inline-block" href="/">
+                    Exit
+                </a>
+            </div>
+        </nav>
+
+        <div style="display: flex" class="bg-light flex-grow-1 overflow-auto vw-100">
+            <div style="border-radius: 10px; text-align: center;width: 33%;" class="bg-dark m-1 text-white">
+                <h1>Dashboards</h1>
+                <div style="height: 70%;" class="overflow-auto mt-2 ml-2 mr-2">
+                    <table style="width:100%; text-align: center;" id="table-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Topic</th>
+                            </tr>
+                        </thead>
+                        <tbody class="hoverable">
+                            {%for table in tables%}
+                            <tr>
+                                <td>
+                                    {{table.id}}
+                                </td>
+                                <td>
+                                    {{table.topic}}
+                                </td>
+                            </tr>
+                            {%endfor%}
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn btn-primary w-50 mt-2" id="deleteTopic" disabled>Delete Topic</button>
+            </div>
+            <div style="border-radius: 10px;text-align: center; width: 67%;" class="bg-dark m-1 text-white">
+                <h1>Measurements</h1>
+                <div style="height: 35%;" class="overflow-auto mt-2 ml-2 mr-2">
+                    <table style="width:100%; text-align: center;" id="meas-table" >
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Measurement</th>
+                                <th>Nickname</th>
+                                <th>Visible</th>
+                                <th>Status</th>
+                                <th>Graph</th>
+                            </tr>
+                        </thead>
+                        <tbody class="hoverable">
+
+                        </tbody>
+                    </table>
+                </div>
+                <table style="width: 100%; text-align: center; margin-top: 1em;">
+                <tr>
+                    <td style="width: 33%;">
+                        Nickname:
+                    </td style="width: 20%;">
+                    <td>
+                        Visible:
+                    </td>
+                    <td style="width: 20%;">
+                        Status:
+                    </td>
+                    <td style="width: 25%;">
+                        Graph:
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                <input style="display:block;margin-left: auto; margin-right: auto; width: 75%;" type="text" id="fname" name="fname">
+            </td>
+            <td>
+                <input class="form-check-input" type="checkbox" value="" id="visibleCheck">
+                </td>
+                <td>
+                  <input class="form-check-input" type="checkbox" value="" id="statusCheck">
+                </td>
+                <td>
+                    <a style="width: 60%;" class="btn btn-secondary dropdown-toggle disabled" href="#" role="button"
+                        id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Choose Type
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" onclick="setSelectedGraphType('LINE')">LINE</a></li>
+                        <li><a class="dropdown-item" onclick="setSelectedGraphType('ROSE')">ROSE</a></li>
+                    </ul>
+                </td>
+                </tr>
+                </table>
+                <table style="width: 100%; text-align: center; margin-top: 1em;" class="rose-settings">
+                    <tr>
+                        <td>Direction:</td>
+                    </tr>
+                    <td id="direction"></td>
+                    </table>
+                <div>
+
+                </div>
+                <button class="btn btn-primary w-50 rose-settings mt-2" id="editRoseBtn" >Edit Rose Direction</button>
+                <button class="btn btn-primary w-50 mt-2" id="editMeasBtn" >Edit Measurement</button>
+            </div>
+            
+        </div>
+</body>
+<script>
+
+    selectedTableID=-1;
+    selectedMeasID=-1;
+    selectedMeasNickname="";
+    selectedDir="No Direction"
+    selectedMeasVisible=false;
+    selectedMeasStatus=false;
+    selectingRoseDir=false;
+    selectedGraphType="LINE"
+
+    function clickTableRowsTable()
+    {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        var value = $(this).find('td:first').html();
+        selectedTableID = parseInt(value);
+
+        $("#dropdownMenuLink").addClass("disabled");
+        $("#deleteTopic").prop('disabled', false)
+
+        updateMeasTable();
+    }
+
+    function clickTableRowsMeas()
+    {
+        if(selectingRoseDir)
+        {
+            selectedDir=$(this).find('td:nth-child(2)').html();
+            $("#direction").html(selectedDir);
+            selectingRoseDir=false;
+            return;
+        }
+
+        $("#dropdownMenuLink").removeClass("disabled");
+        $(this).addClass('selected').siblings().removeClass('selected');
+        var value = $(this).find('td:first').html();
+        selectedMeasID = parseInt(value);
+        selectedMeasNickname=$(this).find('td:nth-child(3)').html();
+        if($(this).find('td:nth-child(4)').html()=="Yes")
+        {
+            selectedMeasVisible=true;
+        }
+        else{
+            selectedMeasVisible=false;
+        }
+
+        if($(this).find('td:nth-child(5)').html()=="Yes")
+        {
+            selectedMeasStatus=true;
+        }
+        else{
+            selectedMeasStatus=false;
+        }
+
+        graphType=$(this).find('td:nth-child(6)').html()
+
+        selectedDir=$(this).attr('dir');
+
+        $("#fname").val(selectedMeasNickname);
+        
+        $("#visibleCheck").prop("checked",selectedMeasVisible);
+
+        $("#statusCheck").prop("checked",selectedMeasStatus);
+
+        $("#direction").html(selectedDir);
+
+        setSelectedGraphType(graphType);
+
+    }
+
+    function setSelectedGraphType(type)
+    {
+        selectedGraphType=type;
+        $("#dropdownMenuLink").html(type)
+
+        if(type=="ROSE")
+        {
+            $(".rose-settings").css("visibility","visible");
+        }
+        else
+        {
+            $(".rose-settings").css("visibility","hidden");
+        }
+    }
+
+    function addTableRowMeas(id, meas, nickname,visible,status,graph,direction) {
+        var visibility="Yes";
+        var isstatus="Yes"
+        if(!visible)
+        {
+            visibility="No";
+        }
+        if(!status)
+        {
+            isstatus="No";
+        }
+        if(!direction)
+        {
+            direction="No Direction"
+        }
+        $("#meas-table").append("<tr dir='"+direction+"'><td>" + id.toString() + "</td><td>" + meas + "</td><td>" + nickname 
+            + "</td><td>"+visibility+"</td><td>"+isstatus+"</td><td>"+graph+"</td></tr>");
+    }
+
+    function clearTableRowsMeas() {
+        $("#meas-table > tbody").empty();
+    }
+
+    function clearTableRowsTable()
+    {
+        $("#table-table > tbody").empty();
+    }
+
+    function addTableRowTable(id,topic)
+    {
+        $("#table-table").append("<tr><td>"+id.toString()+"</td><td>"+topic+"</td></tr>")
+    }
+
+    function updateMeasTable()
+    {
+        if(selectedTableID==-1)
+        {
+            return;
+        }
+
+        clearTableRowsMeas();
+
+        var params = JSON.stringify({ "searchval": selectedTableID });
+
+        fetch("/measurements", {
+            method: 'post',
+            body: params,
+            mode: 'cors',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+            .then(response => response.json())
+            .then(function (json) {
+                if (json["meas"] == "none") {
+                    clearTableRowsMeas();
+                }
+                else {
+                    clearTableRowsMeas();
+                    json["meas"].forEach(function (m) {
+                        addTableRowMeas(m.id, m.meas, m.nickname,m.visible,m.status,m.graph,m.direction);
+                    });
+                    $("#meas-table>tbody>tr").click(clickTableRowsMeas);
+                }
+            });
+    }
+
+    function updateTableTable()
+    {
+        clearTableRowsTable();
+
+        var params = JSON.stringify({});
+
+        fetch("/topics", {
+            method: 'post',
+            body: params,
+            mode: 'cors',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+            .then(response => response.json())
+            .then(function (json) {
+                console.log(json)
+                if (json["tables"] == "none") {
+                    clearTableRowsTable();
+                }
+                else {
+                    json["tables"].forEach(function (t) {
+                        addTableRowTable(t.id,t.topic);
+                    });
+                    $("#table-table>tbody>tr").click(clickTableRowsTable);
+                }
+            });
+    }
+    
+    $(document).on('click', '#editMeasBtn', function () {
+        var nickname=$("#fname").val();
+        var isVisible=$("#visibleCheck").prop("checked");
+        var isStatus=$("#statusCheck").prop("checked");
+
+        if(selectedDir=="No Direction" && selectedGraphType=="ROSE")
+        {
+            alert("Please select a direction measurement for a Wind Rose Diagram");
+            return;
+        }
+
+        var params = JSON.stringify({ "id": selectedMeasID,"nickname":nickname,"visible":isVisible,"status":isStatus,"graph":selectedGraphType,"direction":selectedDir});
+
+
+	console.log(params)
+
+        fetch("/edit_measurement", {
+            method: 'post',
+            body: params,
+            mode: 'cors',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+            .then(response => response.json())
+            .then(function (json) {
+                updateMeasTable()
+            })
+    })
+
+    $(document).on('click', '#editRoseBtn', function () {
+        selectingRoseDir=true;
+        $("#direction").html("Select the direction measurement")
+    })
+
+    $(document).on('click', '#deleteTopic', function () {
+        if (!confirm("Delete Topic?")) {
+            return;
+        }
+
+        var params = JSON.stringify({ "id": selectedTableID});
+        fetch("/remove_topic", {
+            method: 'post',
+            body: params,
+            mode: 'cors',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+            .then(response => response.json())
+            .then(function (json) {
+                selectedTableID=-1;
+                clearTableRowsMeas();
+                updateTableTable();
+                $("#deleteTopic").addClass("disabled");
+            })
+    })
+
+    $("#table-table>tbody>tr").click(clickTableRowsTable);
+</script>
+
+</html>

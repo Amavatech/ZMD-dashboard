@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technician | Station Data</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRTWImA1TaxPRR6HVRjF1PCcKl3vG2Imo"></script>
+    <style>
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, .1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #d30909;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #map {
+            height: 100vh;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #sidebar {
+            width: 300px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+            padding: 20px;
+            padding-top: 60px; /* Adjusted to add space for the logo */
+            transition: transform 0.3s ease-in-out, height 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        #content {
+            margin-left: 300px;
+            padding: 0;
+        }
+
+        .accordion .card-header {
+            font-size: 9px;
+        }
+
+        .modal-full {
+            min-width: 100%;
+            margin: 0;
+        }
+
+        .modal-content {
+            min-height: 100vh;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .logo {
+            width: 200px;
+            margin-top: 20px; /* Add space above the logo */
+        }
+
+        .list-group-item {
+            word-wrap: break-word;
+            white-space: normal;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .nav-tabs .nav-item {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .nav-tabs .nav-link.active {
+            background-color: #343a40;
+            color: #fff;
+            border-color: #343a40;
+        }
+
+        /* Mobile styles */
+        @media (max-width: 767px) {
+            #sidebar {
+                width: 100%;
+                height: 50%; /* Initially, show only half the screen */
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                overflow-y: auto;
+                padding: 20px;
+                padding-top: 100px; /* Adjusted to add space for the logo */
+                transform: translateY(100%); /* Slide up to cover half screen */
+                transition: transform 0.3s ease-in-out, height 0.3s ease-in-out;
+                z-index: 1000;
+            }
+
+            #sidebar.open {
+                height: 100%; /* When open, fill the entire screen */
+                transform: translateY(0);
+            }
+
+            #content {
+                margin-left: 0;
+            }
+
+            #map {
+                height: calc(100vh - 50px); /* Adjust to leave space for the drawer handle */
+            }
+
+            .drawer-handle {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                background-color: #343a40;
+                color: white;
+                padding: 10px;
+                cursor: pointer;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 1001;
+            }
+
+            .drawer-handle svg {
+                cursor: pointer;
+            }
+
+            .menu-button {
+                display: none;
+            }
+
+            .scroll-down-sign {
+                position: fixed;
+                top: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 1001;
+                background-color: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 10px;
+                border-radius: 5px;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                animation: fadeInOut 1s infinite;
+            }
+
+            .scroll-down-sign svg {
+                margin-left: 10px;
+                animation: bounce 1s infinite;
+            }
+
+            @keyframes fadeInOut {
+                0%, 100% { opacity: 0; }
+                50% { opacity: 1; }
+            }
+
+            @keyframes bounce {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(5px); }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <div class="drawer-handle" onclick="toggleSidebar()">
+            <svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path d="M3 6h18M3 12h18M3 18h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <svg id="closeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="display:none;">
+                <path d="M6 18L18 6M6 6l12 12" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <svg id="fullscreenIcon" onclick="toggleFullscreen()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path d="M3 3h6v2H5v4H3V3zm12 0h6v6h-2V5h-4V3zm6 12v6h-6v-2h4v-4h2zm-18 0v6h6v-2H5v-4H3z" fill="#fff"/>
+            </svg>
+            <svg id="exitFullscreenIcon" onclick="toggleFullscreen()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="display:none;">
+                <rect width="100%" height="100%" fill="#4C97FF"/>
+                <g transform="translate(12,12)">
+                    <rect x="-8" y="-1" width="4" height="2" fill="white"/>
+                    <rect x="4" y="-1" width="4" height="2" fill="white"/>
+                    <rect x="-1" y="-8" width="2" height="4" fill="white"/>
+                    <rect x="-1" y="4" width="2" height="4" fill="white"/>
+                </g>
+            </svg>
+        </div>
+        <img src="../static/logo.png" class="logo" alt="Logo Description">
+        <hr>
+        {% if user_name %}
+        <p>You are logged in as, {{ user_name }}!</p>
+        {% else %}
+        <p>Please log in to view this content.</p>
+        {% endif %}
+        <hr>
+        <form action="{{ url_for('auth.logout') }}" method="get">
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+        <hr>
+        <div id="loadingSpinner" class="spinner"></div>
+        <div id="progress">Progress: 0/0 (0%)</div>
+        <div id="validTablesCount">Valid tables: 0</div>
+        <div id="invalidTablesCount">Invalid tables: 0</div>
+        <div id="timer">Time elapsed: 0 seconds</div>
+        <hr>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#infoModal">
+            Problem Stations
+        </button>
+        <hr>
+       
+
+        <!-- Tabs for Map Legend and Manage Stations - initially hidden -->
+        <ul class="nav nav-tabs d-none" id="sidebarTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="map-legend-tab" data-toggle="tab" href="#mapLegend" role="tab" aria-controls="mapLegend" aria-selected="true">Map Legend</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="manage-stations-tab" data-toggle="tab" href="#manageStations" role="tab" aria-controls="manageStations" aria-selected="false">Manage Stations</a>
+            </li>
+        </ul>
+        <div class="tab-content d-none" id="sidebarContent">
+            <div class="tab-pane fade show active" id="mapLegend" role="tabpanel" aria-labelledby="map-legend-tab">
+                <div id="legendContent"></div>
+            </div>
+            <div class="tab-pane fade" id="manageStations" role="tabpanel" aria-labelledby="manage-stations-tab">
+                <div id="accordionContent"></div>
+            </div>
+        </div>
+    </div>
+    <div id="content">
+        <div id="map"></div>
+    </div>
+
+    <!-- Scroll Down Sign -->
+    <div id="scrollDownSign" class="scroll-down-sign" onclick="closeScrollSign()">
+        Scroll down for more
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M12 16l-6-6h12z" fill="#fff"/>
+        </svg>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-full" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="infoModalLabel">Problem Stations Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Stations with invalid Data</h6>
+                                <button type="button" id="downloadInvalidTables" class="btn btn-primary">Download CSV Data</button>
+                                <ul id="invalidTablesList" class="list-group"></ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Stations without Coordinates</h6>
+                                <button type="button" id="downloadTablesWithCoordinates" class="btn btn-primary">Download CSV Data</button>
+                                <ul id="tablesCoordinatesList" class="list-group"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let map, startTime, timer;
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const progressDiv = document.getElementById('progress');
+            const validTablesCountDiv = document.getElementById('validTablesCount');
+            const invalidTablesCountDiv = document.getElementById('invalidTablesCount');
+            const timerDiv = document.getElementById('timer');
+            let validTablesCount = 0;
+            let invalidTablesCount = 0;
+            let groups = {};
+            let markers = {};
+            let invalidTables = [];
+            let tablesWithCoordinates = [];
+            let thresholdSettings = {};
+            let completedTablesCount = 0;
+            let stationDataArr = [];
+
+            const initialize = () => {
+                console.log("Initialize called - clearing previous state");
+                completedTablesCount = 0;
+                validTablesCount = 0;
+                invalidTablesCount = 0;
+                stationDataArr = [];
+                invalidTables = [];
+                tablesWithCoordinates = [];
+                groups = {};
+                markers = {};
+                if (timer) clearInterval(timer);
+
+                startTime = Date.now();
+                timer = setInterval(updateTimer, 1000);
+                fetchTableNames();
+                initMap();
+                fetchThresholdSettings();
+                showScrollDownSign();
+            };
+
+            const initMap = () => {
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: { lat: 9.1021, lng: 18.2812 },
+                    zoom: 4,
+                    minZoom: 3,
+                    maxZoom: 17
+                });
+            };
+
+            const updateTimer = () => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                timerDiv.innerText = `Time elapsed: ${elapsed} seconds`;
+            };
+
+            const fetchTableNames = async () => {
+                try {
+                    const response = await fetch('{{ api_base_url }}/get_all_tables');
+                    const data = await response.json();
+                    const tables = data.tables;
+                    progressDiv.innerText = `Progress: 0/${tables.length} (0%)`;
+                    fetchTableData(tables);
+                } catch (error) {
+                    console.error('Error fetching tables:', error);
+                }
+            };
+
+            const fetchThresholdSettings = async () => {
+                try {
+                    const response = await fetch('{{ api_base_url }}/get_threshold_settings');
+                    thresholdSettings = await response.json();
+                } catch (error) {
+                    console.error('Error fetching threshold settings:', error);
+                }
+            };
+
+            const fetchTableData = async (tables) => {
+                const totalTables = tables.length;
+                const fetchPromises = tables.map((table, index) => fetch(`{{ api_base_url }}/combined_data/${table}`)
+                    .then(response => response.json())
+                    .then(data => processTableData(data, table, totalTables))
+                    .catch(error => {
+                        console.error('Error fetching table data:', error);
+                        invalidTables.push(table);
+                        invalidTablesCount++;
+                        updateUI(totalTables);
+                        return null;
+                    })
+                );
+                await Promise.all(fetchPromises);
+            };
+
+            const processTableData = (data, table, totalTables) => {
+                if (!data.error && data.data) {
+                    const { relational_data, timescale_data } = data.data;
+                    const timestamp = timescale_data.length > 0 ? timescale_data[0][3] : null;
+                    const timescaleMap = timescale_data.reduce((acc, curr) => {
+                        acc[curr[2]] = curr[4];
+                        return acc;
+                    }, {});
+
+                    const station = {
+                        stationName: relational_data.name,
+                        timestamp: timestamp,
+                        topicID: relational_data.topic_id,
+                        groupName: relational_data.group_name,
+                        userName: relational_data.user_info.map(user => user.user_name).join(', '),
+                        longitude: parseFloat(relational_data.longitude),
+                        latitude: parseFloat(relational_data.latitude),
+                        sensorData: {
+                            BP: timescaleMap['BP'] || null,
+                            RH: timescaleMap['RH'] || null,
+                            Rain_hr: timescaleMap['Rain_hr'] || null,
+                            Solar_hr: timescaleMap['Solar_hr'] || null,
+                            WSpeed: timescaleMap['WSpeed'] || null,
+                        },
+                        settings: thresholdSettings[relational_data.name] || {}
+                    };
+
+                    if (station.latitude && station.longitude) {
+                        tablesWithCoordinates.push(table);
+                    }
+                    stationDataArr.push(station);
+                    validTablesCount++;
+                } else {
+                    invalidTables.push(table);
+                    invalidTablesCount++;
+                }
+                updateUI(totalTables);
+            };
+
+            const addMarker = (stations) => {
+                if (!Array.isArray(stations)) stations = [stations];
+                const firstStation = stations[0];
+                
+                if (firstStation.latitude && firstStation.longitude) {
+                    const colorPriority = { 'green': 5, 'orange': 4, 'red': 3, 'black': 2, 'blue': 1 };
+                    let bestColor = 'blue';
+                    let maxPriority = -1;
+
+                    stations.forEach(s => {
+                        let sColor = getColorForMarker(s);
+                        
+                        // Check if thresholds are broken for this specific station
+                        const { sensorSettings, highThreshold, lowThreshold } = s.settings;
+                        if (sensorSettings && s.sensorData[sensorSettings] !== null) {
+                            const sensorValue = s.sensorData[sensorSettings];
+                            if ((lowThreshold !== undefined && sensorValue < lowThreshold) || 
+                                (highThreshold !== undefined && sensorValue > highThreshold)) {
+                                sColor = 'red'; // Set to red if threshold is broken
+                            }
+                        }
+
+                        if (colorPriority[sColor] > maxPriority) {
+                            maxPriority = colorPriority[sColor];
+                            bestColor = sColor;
+                        }
+                    });
+
+                    const circleSymbol = {
+                        path: google.maps.SymbolPath.CIRCLE,
+                        scale: 8,
+                        fillColor: bestColor,
+                        fillOpacity: 1,
+                        strokeColor: 'white',
+                        strokeWeight: 2
+                    };
+
+                    const marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(firstStation.latitude, firstStation.longitude),
+                        map: map,
+                        title: stations.length > 1 ? `${stations.length} stations here` : firstStation.stationName,
+                        icon: circleSymbol,
+                        visible: true
+                    });
+
+                    let infoWindowContent = '<div style="max-height: 250px; overflow-y: auto; min-width: 200px;">';
+                    stations.forEach((s, idx) => {
+                        const formattedTime = s.timestamp ? formatTimestamp(s.timestamp) : 'No valid timestamp';
+                        const sensorContent = Object.entries(s.sensorData)
+                            .map(([key, value]) => `${key}: ${value}`)
+                            .join('<br>');
+                        
+                        let thresholdWarnings = '';
+                        const { sensorSettings, highThreshold, lowThreshold } = s.settings;
+                        if (sensorSettings && s.sensorData[sensorSettings] !== null) {
+                            const sensorValue = s.sensorData[sensorSettings];
+                            if (lowThreshold !== undefined && sensorValue < lowThreshold) {
+                                thresholdWarnings += `<br><span style="color:red">Low Threshold Broken @${lowThreshold} (${sensorSettings})</span>`;
+                            }
+                            if (highThreshold !== undefined && sensorValue > highThreshold) {
+                                thresholdWarnings += `<br><span style="color:red">High Threshold Broken @${highThreshold} (${sensorSettings})</span>`;
+                            }
+                        }
+
+                        if (idx > 0) infoWindowContent += '<hr style="margin: 10px 0; border-top: 1px solid #ccc;">';
+                        infoWindowContent += `
+                            <div>
+                                <strong>${s.stationName}</strong><br>
+                                <small>${formattedTime}</small><br>
+                                <div style="margin-top: 5px; font-size: 0.85em;">
+                                    ${sensorContent}
+                                    ${thresholdWarnings}
+                                </div>
+                                <a href="{{ api_base_url }}/topic/${s.topicID}" target="_blank" style="display: inline-block; margin-top: 8px; font-weight: bold; color: #007bff;">Open Dashboard</a>
+                            </div>
+                        `;
+                    });
+                    infoWindowContent += '</div>';
+
+                    const infoWindow = new google.maps.InfoWindow({
+                        content: infoWindowContent
+                    });
+
+                    marker.isPinned = false;
+
+                    marker.addListener('mouseover', () => {
+                        infoWindow.open({ anchor: marker, map, shouldFocus: false });
+                    });
+
+                    marker.addListener('mouseout', () => {
+                        if (!marker.isPinned) infoWindow.close();
+                    });
+
+                    marker.addListener('rightclick', () => {
+                        marker.isPinned = !marker.isPinned;
+                        if (marker.isPinned) infoWindow.open({ anchor: marker, map, shouldFocus: false });
+                        else infoWindow.close();
+                    });
+
+                    infoWindow.addListener('closeclick', () => {
+                        marker.isPinned = false;
+                    });
+
+                    marker.addListener('click', () => {
+                        marker.isPinned = !marker.isPinned;
+                        if (marker.isPinned) infoWindow.open({ anchor: marker, map, shouldFocus: false });
+                        else infoWindow.close();
+                    });
+
+                    stations.forEach(s => {
+                        console.log(`Created map icon for station: ${s.stationName}, ID: ${s.topicID}, marker color: ${bestColor}`);
+                        markers[s.topicID] = marker;
+                        addToAccordion(s, marker);
+                    });
+                    
+                    return marker;
+                }
+                return null;
+            };
+
+            const getColorForMarker = (station) => {
+                if (Object.values(station.sensorData).some(data => data === null)) {
+                    return 'blue';
+                }
+                if (station.timestamp) {
+                    const timestampAgeHours = (Date.now() - new Date(station.timestamp).getTime()) / (1000 * 60 * 60);
+                    if (timestampAgeHours < 6) {
+                        return 'green';
+                    } else if (timestampAgeHours < 12) {
+                        return 'orange';
+                    } else if (timestampAgeHours <= 24) {
+                        return 'red';
+                    } else {
+                        return 'black';
+                    }
+                }
+                return 'blue';
+            };
+
+            const addToAccordion = (station, marker) => {
+                const groupName = station.groupName || 'Unassigned';
+                if (!groups[groupName]) {
+                    groups[groupName] = { stations: [], markers: [] };
+                }
+                groups[groupName].stations.push(station);
+                if (marker) {
+                    groups[groupName].markers.push(marker);
+                }
+            };
+
+            const updateUI = (totalTables) => {
+                completedTablesCount++;
+                const progress = completedTablesCount / totalTables;
+                const percent = (progress * 100).toFixed(2);
+                progressDiv.innerText = `Progress: ${completedTablesCount}/${totalTables} (${percent}%)`;
+                validTablesCountDiv.innerText = `Valid tables: ${validTablesCount}`;
+                invalidTablesCountDiv.innerText = `Invalid tables: ${invalidTablesCount}`;
+                if (completedTablesCount === totalTables) {
+                    updateModalLists();
+                    finalize();  // Move finalize here to ensure it's called after the last table is processed
+                }
+            };
+
+            const updateModalLists = () => {
+                const invalidTablesList = document.getElementById('invalidTablesList');
+                const tablesCoordinatesList = document.getElementById('tablesCoordinatesList');
+                invalidTablesList.innerHTML = '';
+                tablesCoordinatesList.innerHTML = '';
+                invalidTables.forEach(table => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item';
+                    li.textContent = table;
+                    invalidTablesList.appendChild(li);
+                });
+                tablesWithCoordinates.forEach(table => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item';
+                    li.textContent = table;
+                    tablesCoordinatesList.appendChild(li);
+                });
+            };
+
+            const formatTimestamp = (timestamp) => {
+                const date = new Date(timestamp);
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1;
+                const day = date.getDate();
+                const hour = date.getHours();
+                const minutes = date.getMinutes();
+                return `${year}/${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')} ${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+            };
+
+            const fitMapToBounds = () => {
+                const bounds = new google.maps.LatLngBounds();
+                Object.values(markers).forEach(marker => {
+                    if (marker && marker.getPosition) {
+                        bounds.extend(marker.getPosition());
+                    }
+                });
+                if (!bounds.isEmpty()) {
+                    map.fitBounds(bounds);
+                }
+            };
+
+            const createAccordion = () => {
+                const accordionContent = document.getElementById('accordionContent');
+                accordionContent.innerHTML = '<div class="accordion" id="stationAccordion"></div>';
+                const accordion = document.getElementById('stationAccordion');
+
+                Object.keys(groups).forEach((groupName, index) => {
+                    const groupHtml = `
+                        <div class="card">
+                            <div class="card-header" id="heading${index}">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse${index}" aria-expanded="false" aria-controls="collapse${index}">
+                                        ${groupName}
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapse${index}" class="collapse" aria-labelledby="heading${index}" data-parent="#stationAccordion">
+                                <div class="card-body">
+                                    <input type="checkbox" class="group-checkbox" data-group="${groupName}" checked> Toggle All<br>
+                                    ${groups[groupName].stations.map(station => `
+                                        <div>
+                                            <input type="checkbox" class="station-checkbox" data-station="${station.stationName}" data-group="${groupName}" checked> 
+                                            ${station.stationName} - users: ${station.userName}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    accordion.innerHTML += groupHtml;
+                });
+
+                document.querySelectorAll('.group-checkbox').forEach(groupCheckbox => {
+                    groupCheckbox.addEventListener('change', function() {
+                        const groupName = this.getAttribute('data-group');
+                        const isChecked = this.checked;
+                        document.querySelectorAll(`.station-checkbox[data-group="${groupName}"]`).forEach(stationCheckbox => {
+                            stationCheckbox.checked = isChecked;
+                            const stationName = stationCheckbox.getAttribute('data-station');
+                            if (markers[stationName]) {
+                                markers[stationName].setVisible(isChecked);
+                            }
+                        });
+                    });
+                });
+
+                document.querySelectorAll('.station-checkbox').forEach(stationCheckbox => {
+                    stationCheckbox.addEventListener('change', function() {
+                        const stationName = this.getAttribute('data-station');
+                        const isChecked = this.checked;
+                        if (markers[stationName]) {
+                            markers[stationName].setVisible(isChecked);
+                        }
+                    });
+                });
+            };
+
+            const calculateLegendCounts = () => {
+                const legendCounts = {
+                    green: 0,
+                    orange: 0,
+                    red: 0,
+                    black: 0,
+                    blue: 0
+                };
+
+                Object.values(markers).forEach(marker => {
+                    const color = marker.getIcon().fillColor;
+                    if (legendCounts[color] !== undefined) {
+                        legendCounts[color]++;
+                    }
+                });
+
+                return legendCounts;
+            };
+
+            const updateLegendCounts = (legendCounts) => {
+                const legendContent = document.getElementById('legendContent');
+                legendContent.innerHTML = `
+                    <hr><h5>Data Received</h5>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: green;"></div> Within the last 6 hours (${legendCounts.green})
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: orange;"></div>Between 6 and 12 hours ago (${legendCounts.orange})
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: red;"></div>Between 12 and 24 hours ago (${legendCounts.red})
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: black;"></div> More than 24 hours ago (${legendCounts.black})
+                    </div>
+                    <hr>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: blue;"></div> Sensor Error (${legendCounts.blue})
+                    </div>
+                    
+                    <hr>
+                `;
+            };
+
+            const downloadArrayAsCSV = (array, filename) => {
+                const csvContent = array.map(e => `"${e}"`).join('\n');
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement("a");
+                const url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", filename);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+
+            document.getElementById("downloadInvalidTables").addEventListener("click", function() {
+                downloadArrayAsCSV(invalidTables, "invalidTables.csv");
+            });
+
+            document.getElementById("downloadTablesWithCoordinates").addEventListener("click", function() {
+                downloadArrayAsCSV(tablesWithCoordinates, "tablesWithCoordinates.csv");
+            });
+
+            const showScrollDownSign = () => {
+                const scrollDownSign = document.getElementById('scrollDownSign');
+                scrollDownSign.style.display = 'flex';
+
+                setTimeout(() => {
+                    closeScrollSign();
+                }, 10000);
+            };
+
+            const closeScrollSign = () => {
+                const scrollDownSign = document.getElementById('scrollDownSign');
+                scrollDownSign.style.display = 'none';
+            };
+
+            const finalize = () => {
+                clearInterval(timer);
+                loadingSpinner.style.display = 'none';
+
+                // Group stations by coordinates
+                const coordsMap = {};
+                stationDataArr.forEach(s => {
+                    if (s.latitude && s.longitude) {
+                        const key = `${s.latitude.toFixed(6)},${s.longitude.toFixed(6)}`;
+                        if (!coordsMap[key]) coordsMap[key] = [];
+                        coordsMap[key].push(s);
+                    }
+                });
+
+                // Add markers for grouped stations
+                Object.values(coordsMap).forEach(stations => {
+                    addMarker(stations);
+                });
+
+                updateModalLists();
+                fitMapToBounds();
+                createAccordion();
+                const legendCounts = calculateLegendCounts();
+                updateLegendCounts(legendCounts);
+
+                // Show the tabs and sidebar content
+                document.getElementById('sidebarTabs').classList.remove('d-none');
+                document.getElementById('sidebarContent').classList.remove('d-none');
+            };
+
+            initialize();
+        });
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const menuIcon = document.getElementById('menuIcon');
+            const closeIcon = document.getElementById('closeIcon');
+            if (sidebar.classList.toggle('open')) {
+                menuIcon.style.display = 'none';
+                closeIcon.style.display = 'block';
+            } else {
+                menuIcon.style.display = 'block';
+                closeIcon.style.display = 'none';
+            }
+        }
+
+        function toggleFullscreen() {
+            const fullscreenIcon = document.getElementById('fullscreenIcon');
+            const exitFullscreenIcon = document.getElementById('exitFullscreenIcon');
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+                fullscreenIcon.style.display = 'none';
+                exitFullscreenIcon.style.display = 'block';
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                    fullscreenIcon.style.display = 'block';
+                    exitFullscreenIcon.style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

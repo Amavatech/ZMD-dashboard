@@ -1,0 +1,17 @@
+                                     Table "public.timestream_tables"
+   Column   |       Type       | Collation | Nullable |                      Default                       
+------------+------------------+-----------+----------+----------------------------------------------------
+ tableid    | integer          |           | not null | nextval('timestream_tables_tableid_seq'::regclass)
+ brokerid   | integer          |           |          | 
+ topic      | text             |           |          | 
+ db_uid     | text             |           |          | 
+ ss_key     | text             |           |          | 
+ longitude  | double precision |           |          | 
+ latitude   | double precision |           |          | 
+ groupid    | integer          |           |          | 
+ station_id | text             |           |          | 
+ topics     | text[]           |           |          | 
+Indexes:
+    "timestream_tables_pkey" UNIQUE, btree (tableid)
+    "idx_timestream_tables_station_id" btree (station_id)
+

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <title>Responsive Bootstrap Layout</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #182430;
+      color: #bbbfc4;
+    }
+    .header {
+      text-align: center;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .station-id {
+      font-weight: bold;
+      font-size: 24px;
+    }
+    .body-content {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .graph {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 768px) {
+      .body-content {
+        flex-direction: column;
+      }
+    }
+
+        /* Your existing styles */
+        #compass {
+      border: 4px solid #ccc;
+      border-radius: 50%;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+    }
+
+    #needle {
+      transform-origin: 0 80;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .needle-base {
+      fill: #333;
+    }
+
+    .needle-arrow {
+      fill: red;
+      stroke: #333;
+      stroke-width: 1;
+    }
+
+    .cardinal-point {
+      font-size: 18px;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+    }
+
+    .ring {
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .ring1 { stroke: #FF0000; }
+    .ring2 { stroke: #00FF00; }
+    .ring3 { stroke: #0000FF; }
+    .ring4 { stroke: #FFFF00; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="station-id">Station ID</div>
+      <div>Elevation: 735 m</div>
+      <div>Date: 2024-04-08</div>
+    </div>
+    <div class="body-content">
+      <div class="first-half">
+        <div><div id="compass-container" class="text-center">
+            <!-- Compass SVG -->
+            <svg id="compass" viewBox="-100 -100 200 200">
+              <circle cx="0" cy="0" r="90" fill="#f0f0f0" stroke="black" stroke-width="2" />
+              
+              <!-- Colored rings -->
+              <circle cx="0" cy="0" r="85" class="ring ring1" />
+              <circle cx="0" cy="0" r="70" class="ring ring2" />
+              <circle cx="0" cy="0" r="55" class="ring ring3" />
+              <circle cx="0" cy="0" r="40" class="ring ring4" />
+  
+              <text x="-8" y="-75" class="cardinal-point">N</text>
+              <text x="75" y="5" class="cardinal-point">E</text>
+              <text x="-8" y="85" class="cardinal-point">S</text>
+              <text x="-85" y="5" class="cardinal-point">W</text>
+  
+              <g id="needle">
+                <circle cx="0" cy="0" r="5" class="needle-base" />
+                <polygon id="needle" points="0,-80 10,0 -10,0" fill="red" />
+              </g>
+            </svg>
+          </div>
+    </div></div>
+      </div>
+      <div class="second-half">
+        <div>Wind Speed (Max): WSpd_Max m/s</div>
+        <div>Wind Direction (Average): WDirMag_Avg degrees (°)</div>
+        <div>Air Temperature (Average): AirTemp_Avg °C</div>
+        <div>Relative Humidity: RH %</div>
+        <div>Barometric Pressure (Average): BPress_Avg hPa</div>
+        <div>QNH (Average): QNH_Avg hPa</div>
+      </div>
+    </div>
+    <div class="graph">Graph 1</div>
+    <div class="graph">Graph 2</div>
+  </div>
+
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+
+
+
+
+
+
+    function fetchAndDisplayLatestTime() {
+          fetch('/airport_data_fetch')
+            .then(response => response.json())
+            .then(data => {
+              const latestTime = data
+                .map(row => row[3]) // Extract timestamps
+                .reduce((latest, current) => new Date(current) > new Date(latest) ? current : latest, '1970-01-01T00:00:00Z');
+    
+              const formattedTime = moment(latestTime).format('YYYY/MM/DD HH:mm') + ' LT';
+              document.getElementById('latestTimeDisplay').innerText = `Data Time: ${formattedTime}`;
+            })
+            .catch(error => console.error('Error fetching data:', error));
+        }
+    
+        fetchAndDisplayLatestTime();
+    
+    function fetchAndPlotPressureData() {
+          fetch('/airport_data_fetch_10m')
+            .then(response => response.json())
+            .then(data => {
+              const pressureData = data
+                .filter(row => row[2] === 'BPress_Avg')
+                .map(row => ({
+                  time: moment(row[3]).format('YYYY-MM-DD HH:mm:ss'),
+                  value: row[4]
+                }));
+    
+              const ctx = document.getElementById('pressureChart').getContext('2d');
+              new Chart(ctx, {
+                type: 'line',
+                data: {
+                  labels: pressureData.map(item => item.time),
+                  datasets: [{
+                    label: 'Barometric Pressure (hPa)',
+                    data: pressureData.map(item => item.value),
+                    borderColor: 'blue',
+                    borderWidth: 2,
+                    fill: false
+                  }]
+                },
+                options: {
+                  scales: {
+                    x: {
+                      type: 'time',
+                      time: {
+                        unit: 'minute',
+                        parser: 'YYYY-MM-DD HH:mm:ss'
+                      },
+                      displayFormats: {
+                        minute: 'HH:mm'
+                      }
+                    }
+                  }
+                }
+              });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+        }
+    
+        fetchAndPlotPressureData();
+    
+        const endpoint = '/airport_data_fetch';
+        const targetSensors = [
+          "QFE_Avg", "QNH_Avg", "WSpd_Avg", "WDir_Avg", "BPress_Avg",
+          "AirTemp_Avg", "RH", "DewPointTemp_Avg", "Rain_1h_RunTot", "Rain_3h_RunTot",
+          "SkyVUE_FirstLayerCloudAmount", "SkyVUE_FirstLayerCloudHeight",
+          "SkyVUE_SecondLayerCloudAmount", "SkyVUE_SecondLayerCloudHeight",
+          "SkyVUE_ThirdLayerCloudAmount", "SkyVUE_ThirdLayerCloudHeight"
+        ];
+    
+        function fetchData() {
+      // Fetch data from the original endpoint
+      fetch('/airport_data_fetch')
+        .then(response => response.json())
+        .then(data => updateSensorData(data))
+        .catch(error => console.error('Error fetching data:', error));
+    
+      // Fetch data from the new endpoint for WSpd_Max (10 minutes)
+      fetch('/airport_data_fetch_10m')
+        .then(response => response.json())
+        .then(data => {
+          // Find the latest WSpd_Max value
+          const latestWSpdMax = data
+            .filter(row => row[2] === 'WSpd_Max')
+            .reduce((latest, current) => new Date(current[3]) > new Date(latest[3]) ? current : latest, ['', '', '', '1970-01-01', ''])[4];
+    
+          // Update the display
+          const wSpdMax10mItem = document.querySelector('.sensor-item[data-sensor="WSpd_Max_10m"]');
+          if (wSpdMax10mItem) {
+            wSpdMax10mItem.innerHTML = `<strong>Wind Speed Max (10 minutes):</strong> ${latestWSpdMax} knots`;
+          }
+        })
+        .catch(error => console.error('Error fetching WSpd_Max data:', error));
+    }
+    
+    
+    
+        function interpretCloudLayers(layers) {
+      // Map sensor values to descriptions
+      const cloudDescriptions = {
+        0: 'Clear sky',
+        1: 'Few clouds',
+        2: 'Few clouds',
+        3: 'Scattered clouds',
+        4: 'Scattered clouds',
+        5: 'Broken clouds',
+        6: 'Broken clouds',
+        7: 'Broken clouds',
+        8: 'Overcast'
+      };
+    
+      // Filter out layers with no significant cloud cover
+      const significantLayers = layers.filter(layer => layer.amount > 0);
+    
+      // Sort the layers by cloud amount in descending order
+      significantLayers.sort((a, b) => b.amount - a.amount);
+    
+      // Create the final description
+      if (significantLayers.length === 0) {
+        return 'Clear sky';
+      } else {
+        return significantLayers.map(layer => `${cloudDescriptions[layer.amount]} at ${layer.height} ft`).join(', ');
+      }
+    }
+    
+    
+        function updateSensorData(data) {
+          const sensorData = {};
+    
+          targetSensors.forEach(sensor => sensorData[sensor] = { value: null, timestamp: null });
+    
+          data.forEach(row => {
+            const sensorName = row[2];
+            const timestamp = row[3];
+            const value = row[4];
+    
+            if (sensorData.hasOwnProperty(sensorName)) {
+              sensorData[sensorName] = { value, timestamp };
+            }
+          });
+    
+          displaySensorData(sensorData);
+    
+          // Rotate the compass needle
+          const windDirection = sensorData['WDir_Avg'].value;
+          if (windDirection !== null) {
+            rotateNeedle(windDirection);
+          }
+        }
+    
+        function displaySensorData(sensorData) {
+          const sensorDataContainer = document.getElementById('sensor-data');
+          sensorDataContainer.innerHTML = `
+            <table>
+              <thead>
+                <tr><th>Sensor</th><th>Value</th><th>Timestamp</th></tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+            </table>
+          `;
+          // Display selected sensors
+          const selectedSensorsContainer = document.getElementById('selected-sensors', 'additional-sensors');
+    selectedSensorsContainer.innerHTML = `
+    <table class="table table-dark table-striped">
+        <tbody>
+            <tr>
+      <th scope="row">1</th>
+      <td><strong>Wind Speed:</strong> ${sensorData['WSpd_Avg'].value || 'N/A'} knots</td>
+      <td><strong>Wind Direction:</strong> ${sensorData['WDir_Avg'].value || 'N/A'} °
+      
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td><strong>Air Temp:</strong> ${sensorData['AirTemp_Avg'].value || 'N/A'} °C</td></td>
+      
+    
+    </tr>
+    
+    <tr>
+      <th scope="row">3</th>
+      <td><strong>DewPointTemp_Avg:</strong> ${sensorData['DewPointTemp_Avg'].value || 'N/A'} °C</td>
+      <td><strong>@RH:</strong> ${sensorData['RH'].value || 'N/A'} %</td>
+      
+    </tr>
+    
+    <tr>
+      <th scope="row">5</th>
+      <td><div class="sensor-item"><strong>QNH_Avg:</strong> ${sensorData['QNH_Avg'].value || 'N/A'} hPa</div></td>
+     
+     
+    </tr>
+    
+    
+    
+    <tr>
+      <th scope="row">5</th>
+      <td><div class="sensor-item" data-sensor="WSpd_Max_10m"><strong>WSpd_Max (10 minutes):</strong> N/A</div>knots</td>
+     
+     
+    </tr>
+    
+    
+    
+    <tr>
+      <th scope="row">5</th>
+      <td><strong>Rain(1hr):</strong> ${sensorData['Rain_1h_RunTot'].value || 'N/A'}</td>
+      <td><strong>Rain(6hr):</strong> ${sensorData['Rain_1h_RunTot'].value || 'N/A'}</td>
+     
+     
+    </tr>
+    
+    <tr>
+      <th scope="row">5</th>
+      <td><strong>BPress</strong> ${sensorData['BPress_Avg'].value || 'N/A'} hPa</td>
+      <td><strong>QFE_Avg:</strong> ${sensorData['QFE_Avg'].value || 'N/A'} hPa</td>
+     
+     
+    </tr>
+    
+        
+      </tbody>
+        
+        
+        
+      
+        
+        
+      </table>
+    `;
+    
+    
+          // Display additional sensors
+          const additionalSensorsContainer = document.getElementById('additional-sensors');
+          additionalSensorsContainer.innerHTML = `
+          <div class="sensor-grid">
+            
+            
+            
+            
+        </div>
+          `;
+    
+          const cloudLayers = [
+            {
+              amount: sensorData['SkyVUE_FirstLayerCloudAmount'].value,
+              height: sensorData['SkyVUE_FirstLayerCloudHeight'].value,
+              description: 'First layer'
+            },
+            {
+              amount: sensorData['SkyVUE_SecondLayerCloudAmount'].value,
+              height: sensorData['SkyVUE_SecondLayerCloudHeight'].value,
+              description: 'Second layer'
+            },
+            {
+              amount: sensorData['SkyVUE_ThirdLayerCloudAmount'].value,
+              height: sensorData['SkyVUE_ThirdLayerCloudHeight'].value,
+              description: 'Third layer'
+            }
+          ];
+    
+          // Interpret cloud layers and update the display
+    const cloudDescription = interpretCloudLayers(cloudLayers);
+    const cloudInfoContainer = document.getElementById('cloud-info');
+    cloudInfoContainer.innerHTML = `<div class="sensor-grid"><strong>Cloud Info:</strong> ${cloudDescription}</div>`;
+    
+    
+    
+        
+        }
+    
+        function convertToMETAR(cloudDescription) {
+      // Mapping from interpreted cloud descriptions to METAR codes
+      const metarCodes = {
+        'Clear sky': 'CLR',
+        'Few clouds': 'FEW',
+        'Scattered clouds': 'SCT',
+        'Broken clouds': 'BKN',
+        'Overcast': 'OVC'
+      };
+    
+      // Split the cloud description into individual layers
+      const layers = cloudDescription.split(', ');
+    
+      // Convert each layer to METAR format
+      return layers.map(layer => {
+        const [description, height] = layer.split(' at ');
+        const code = metarCodes[description];
+        const formattedHeight = Math.round(parseInt(height) / 100).toString().padStart(3, '0');
+        return `${code}${formattedHeight}`;
+      }).join(' ');
+    }
+    
+    
+    
+        function rotateNeedle(degrees) {
+          const needle = document.getElementById('needle');
+          needle.style.transform = `rotate(${degrees}deg)`;
+        }
+    
+        function fetchAndPlotData() {
+          fetch('/airport_data_fetch_10m')
+            .then(response => response.json())
+            .then(data => {
+              const tempData = data
+                .filter(row => row[2] === 'AirTemp_Avg')
+                .map(row => ({
+                  time: moment(row[3]).format('YYYY-MM-DD HH:mm:ss'),
+                  value: row[4]
+                }));
+    
+              const humidityData = data
+                .filter(row => row[2] === 'RH')
+                .map(row => ({
+                  time: moment(row[3]).format('YYYY-MM-DD HH:mm:ss'),
+                  value: row[4]
+                }));
+    
+              const ctx = document.getElementById('tempHumidityChart').getContext('2d');
+              const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                  labels: tempData.map(item => item.time),
+                  datasets: [{
+                    label: 'Temperature (°C)',
+                    data: tempData.map(item => item.value),
+                    borderColor: 'red',
+                    borderWidth: 2,
+                    fill: false,
+                    yAxisID: 'yTemp'
+                  },
+                  {
+                    label: 'Humidity (%)',
+                    data: humidityData.map(item => item.value),
+                    borderColor: 'blue',
+                    borderWidth: 2,
+                    fill: false,
+                    yAxisID: 'yHumidity'
+                  }]
+                },
+                options: {
+                  scales: {
+                    x: {
+                      type: 'time',
+                      time: {
+                        unit: 'minute',
+                        parser: 'YYYY-MM-DD HH:mm:ss'
+                      },
+                      displayFormats: {
+                        minute: 'HH:mm'
+                      }
+                    },
+                    yTemp: {
+                      type: 'linear',
+                      position: 'left',
+                      title: {
+                        display: true,
+                        text: 'Temperature (°C)'
+                      }
+                    },
+                    yHumidity: {
+                      type: 'linear',
+                      position: 'right',
+                      title: {
+                        display: true,
+                        text: 'Humidity (%)'
+                      }
+                    }
+                  }
+                }
+              });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+        }
+    
+        fetchAndPlotData();
+    
+        fetchData();
+        setInterval(fetchData, 60000);
+      </script>
+</body>
+</html>

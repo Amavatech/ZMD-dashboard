@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSON Data</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="application/json; charset=UTF-8">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 300px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 15px;
+            overflow-y: auto;
+            border-left: 1px solid #d6d8db;
+        }
+
+        .logo {
+            width: 200px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .col-md-9 {
+            margin: none;
+            padding: none;
+        }
+
+        .col-md-3 {
+            margin: none;
+            padding: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="sidebar">
+                    <img src="../static/logo.png" class="logo" alt="Logo Description"><hr>
+                    {% if user_name %}
+        <p>Hello, {{ user_name }}!</p>
+    {% else %}
+        <p>Please log in to view this content.</p>
+    {% endif %}<hr>
+                    <h4>Data Received</h4>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: green;"></div> Within the last 6 hours
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: rgb(255, 148, 18);"></div>Between 6 and 12 hours ago.
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: red;"></div>Between 12 and 24 hours ago.
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: black;"></div> More than 24 hours ago.
+                    </div><hr>
+                    <form action="{{ url_for('auth.logout') }}" method="get">
+                        <button type="submit" class="btn btn-danger">Logout</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const apiUrl = '/get_timestream_data'; 
+
+        function getColorForTimeDifference(timeDifference) {
+            if (timeDifference >= 24) {
+                return 'black'; // Older than 24 hours
+            } else if (timeDifference >= 12) {
+                return 'red'; // 12 - 24 hours
+            } else if (timeDifference >= 6) {
+                return 'orange'; // 6 - 12 hours
+            } else {
+                return 'green'; // Less than 6 hours
+            }
+        }
+
+        function generateTopicUrl(tableID, stationDate) {
+            const formattedDate = stationDate.toLocaleString(); // Format the date as per your preference
+            return `{{ api_base_url }}/topic/${tableID}?date=${formattedDate}`;
+        }
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(json_data => {
+                const data_dict = json_data.data;
+
+                const mapDiv = document.getElementById('map');
+
+                const map = new google.maps.Map(mapDiv, {
+                    center: { lat: 0, lng: 0 },
+                    zoom: 3
+                });
+
+                const currentDate = new Date();
+
+                for (const key in data_dict) {
+                    const values = data_dict[key].data;
+
+                    const tableID = data_dict[key].tableID; // Get the tableID
+
+                    const stationNameValue = values.find(v => v[2] === 'Station_Name')[3].replace(/\.\d+/,'');
+                    const stationDate = new Date(stationNameValue);
+
+                    const timeDifference = Math.abs(currentDate - stationDate) / (60 * 60 * 1000); // Difference in hours
+
+                    const longitude = values.find(v => v[2] === 'Longitude')[4];
+                    const latitude = values.find(v => v[2] === 'Latitude')[4];
+
+                    if (longitude && latitude) {
+                        const markerColor = getColorForTimeDifference(timeDifference);
+
+                        const marker = new google.maps.Marker({
+                            position: { lat: parseFloat(latitude), lng: parseFloat(longitude) },
+                            map: map,
+                            title: `Coordinates for ${key}: Longitude=${longitude}, Latitude=${latitude}`,
+                            icon: {
+                                path: google.maps.SymbolPath.CIRCLE,
+                                fillColor: markerColor,
+                                fillOpacity: 1,
+                                strokeWeight: 0,
+                                scale: 6
+                            }
+                        });
+
+                        const infowindow = new google.maps.InfoWindow({
+                            content: ''
+                        });
+
+                        marker.isPinned = false;
+
+                        marker.addListener('mouseover', function() {
+                            const stationDateFormatted = stationDate.toLocaleString(); // Format the date as per your preference
+                            let content = `<p>Station Date: ${stationDateFormatted}</p>`; // Add stationDate info
+                            values.forEach(value => {
+                                const measure_name = value[2];
+                                const measure_value = value[4];
+
+                                // Check if the value is an array with Longitude or Latitude and skip it
+                                if (Array.isArray(measure_value) && (measure_value.includes('Longitude') || measure_value.includes('Latitude'))) {
+                                    return;
+                                }
+
+                                content += `<p>${measure_name}: ${measure_value}</p>`;
+                            });
+                            infowindow.setContent(content);
+                            infowindow.open(map, marker);
+                        });
+
+                        marker.addListener('mouseout', function() {
+                            if (!marker.isPinned) {
+                                infowindow.close();
+                            }
+                        });
+
+                        marker.addListener('rightclick', function() {
+                            marker.isPinned = !marker.isPinned;
+                            if (marker.isPinned) {
+                                infowindow.open(map, marker);
+                            } else {
+                                infowindow.close();
+                            }
+                        });
+
+                        infowindow.addListener('closeclick', function() {
+                            marker.isPinned = false;
+                        });
+
+                        const topicUrl = generateTopicUrl(tableID, stationDate); // Generate the topic URL
+
+                        const linkElement = document.createElement('a');
+                        linkElement.href = topicUrl;
+                        linkElement.target = '_blank';
+                        linkElement.innerText = `Link to Topic ${tableID}`;
+
+                        const content = document.createElement('div');
+                        content.appendChild(linkElement);
+
+                        marker.addListener('click', function() {
+                            infowindow.setContent(content);
+                            infowindow.open(map, marker);
+                        });
+                    }
+                }
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRTWImA1TaxPRR6HVRjF1PCcKl3vG2Imo&callback=initMap" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

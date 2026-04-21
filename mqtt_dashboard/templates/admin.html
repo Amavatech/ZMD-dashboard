@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main User</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <style>
+        .action-btns button {
+            margin-right: 10px;
+        }
+        .modal-dialog {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+        .modal-content {
+            width: 80%;
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Create User Button -->
+        <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#createUserModal">
+            Create User
+        </button><hr><div class="pb-3"></div>
+        <a href="{{ api_base_url }}/group_admin" class="btn btn-dark">Manage Groups</a>
+        <a href="{{ api_base_url }}/broker_admin" class="btn btn-dark">Manage Brokers</a>
+        <a href="{{ api_base_url }}/dashboard_admin" class="btn btn-dark">Manage Dashboards</a>
+    <a href="{{ api_base_url }}/login" class="btn btn-warning">Logout</a>
+<hr><div class="pb-3"></div>
+
+        <!-- Search Input -->
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Search users by email or name" id="searchInput" oninput="debounceSearch()">
+        </div>
+
+        <!-- User Table -->
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Create User Modal -->
+    <div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createUserModalLabel">Create User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Permissions Modal -->
+    <div class="modal fade" id="permissionsModal" tabindex="-1" aria-labelledby="permissionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="permissionsModalLabel">Permissions for User <span id="modalUserId"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="permissionsModalBody"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Permissions Modal -->
+    <div class="modal fade" id="addPermissionsModal" tabindex="-1" aria-labelledby="addPermissionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addPermissionsModalLabel">Add Permissions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPermissionsForm">
+                        <!-- Permission Type Selector -->
+                        <div class="form-group">
+                            <label for="permissionType">Permission Type</label>
+                            <select class="form-control" id="permissionType" onchange="handlePermissionTypeChange()">
+                                <option value="" disabled selected>Select Permission Type</option>
+                                <option value="TOPIC">Standard User</option>
+                                <option value="ALL_TOPIC">Technician</option>
+                                <option value="ADMIN">Admin User</option>
+                                <option value="GROUP">Group User</option>
+                                <option value="ADMIN">Group Admin</option>
+                                <option value="GDMIN">Airport User</option>
+                            </select>
+                        </div>
+
+                        <!-- Group Selector Section -->
+                        <div class="form-group" id="groupSection" style="display:none">
+                            <label for="groupSelect">Select Group</label>
+                            <select class="form-control" id="groupSelect">
+                                {% for group in groups %} <!-- Assuming 'groups' is provided by your server-side code -->
+                                <option value="{{group.id}}">{{group.group}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Tables Section -->
+                        <div id="tablesSection" style="display:none">
+                            <div class="pb-3"></div>
+                            <!-- Tables will be loaded here -->
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary" onclick="selectAllTables(true)">Select All</button>
+                                <button type="button" class="btn btn-secondary" onclick="selectAllTables(false)">Deselect All</button>
+                            </div>
+                            <div class="pb-3"></div>
+                            <div id="tablesList">
+                                {% for table in tables %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="{{ table.id }}" id="table-{{ table.id }}">
+                                    <label class="form-check-label" for="table-{{ table.id }}">
+                                        {{ table.topic }}
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="addPermissions()">Add Permissions</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        
+        // Function to show the Add Permissions modal
+        $('#addPermissionsModal').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var userId = button.data('user-id'); // Extract user ID from data-* attributes
+    $(this).data('user-id', userId); // Set the user ID as a data attribute on the modal
+});
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.add-permissions').forEach(button => {
+        button.addEventListener('click', function() {
+            const userId = this.getAttribute('data-user-id');
+            $('#addPermissionsModal').data('user-id', userId);
+            $('#addPermissionsModal').modal('show');
+        });
+    });
+});
+
+
+
+        // Function to select or deselect all tables
+        function selectAllTables(selectAll) {
+            var checkboxes = document.querySelectorAll('#tablesList input[type="checkbox"]');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = selectAll;
+            });
+        }
+
+        // Function to delete a user
+        function deleteUser(id) {
+            fetch('/delete_user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('User successfully deleted!');
+                    // Remove the deleted user from the UI
+                    const deletedRow = document.querySelector(`#userTableBody tr[data-id="${id}"]`);
+                    if (deletedRow) {
+                        deletedRow.remove();
+                    }
+                } else {
+                    alert('Failed to delete user');
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting user:', error);
+                alert('Failed to delete user');
+            });
+        }
+
+        // Function to handle permission type change
+        function handlePermissionTypeChange() {
+            var permissionType = document.getElementById('permissionType').value;
+            var tablesSection = document.getElementById('tablesSection');
+            var groupSection = document.getElementById('groupSection');
+
+            tablesSection.style.display = 'none';
+            groupSection.style.display = 'none';
+
+            if (permissionType === 'TOPIC') {
+                tablesSection.style.display = 'block';
+            } else if (permissionType === 'GROUP' || permissionType === 'ADMIN' || permissionType === 'GDMIN') {
+                groupSection.style.display = 'block';
+            }
+        }
+
+        // Function to add permissions
+        function addPermissions() {
+    // Retrieve the user ID from the modal's data attribute
+    var userId = $('#addPermissionsModal').data('user-id');
+    if (!userId) {
+        alert('User ID is not defined.');
+        return;
+    }
+
+            var permissionType = document.getElementById('permissionType').value;
+
+            var params = {
+                id: userId, // Use the retrieved user ID
+                type: permissionType,
+                table: -1,
+                group: 0
+            };
+
+            if (permissionType === 'TOPIC') {
+                let selectedTables = document.querySelectorAll('#tablesList input[type="checkbox"]:checked');
+                if (selectedTables.length === 0) {
+                    alert('Please select at least one table for TOPIC permissions.');
+                    return;
+                }
+                Array.from(selectedTables).forEach((tableCheckbox, index) => {
+                    let tableParams = {...params, table: tableCheckbox.value};
+                    console.log('Submitting parameters:', tableParams); // Print the parameters to the console
+                    sendPermissionRequest(tableParams, index === selectedTables.length - 1);
+                });
+            } else {
+                if (permissionType === 'GROUP' || permissionType === 'ADMIN') {
+                    params.group = document.getElementById('groupSelect').value;
+                }
+                console.log('Submitting parameters:', params); // Print the parameters to the console
+                sendPermissionRequest(params, true);
+            }
+        }
+
+        // Function to send permission request
+        function sendPermissionRequest(params, showAlert) {
+            fetch("/add_perm", {
+                method: 'POST',
+                body: JSON.stringify(params),
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to add permission.');
+                }
+                return response.json();
+            }).then(data => {
+                if (showAlert) {
+                    alert('Permissions updated successfully.');
+                }
+            }).catch(error => {
+                console.error('Error adding permissions:', error);
+                alert('Error adding permissions: ' + error.message);
+            });
+        }
+
+        // Function to create a user table row
+        function createUserRow(id, name, email, includeLabel = true) {
+            const row = document.createElement('tr');
+            row.setAttribute('data-id', id); // Set data attribute for easy identification
+            row.innerHTML = `
+                <td>${id}</td>
+                <td>${name}</td>
+                <td>${email}</td>
+                <td class="action-btns">
+                    <button id="permissions-${id}" class="btn btn-info btn-sm view-permissions">Permissions</button>
+                    <button class="btn btn-danger btn-sm delete-user">Delete User</button>
+                    <button type="button" class="btn btn-primary btn-sm add-permissions" data-user-id="${id}" data-bs-toggle="modal" data-bs-target="#addPermissionsModal">Add Permissions</button>
+
+                   
+                </td>
+            `;
+
+            // Add event listener for the "Permissions" button
+            row.querySelector(`#permissions-${id}`).addEventListener('click', function() {
+                const params = JSON.stringify({ "searchval": id });
+                fetch("/perms", {
+                    method: 'POST',
+                    body: params,
+                    mode: 'cors', // Ensure CORS policies are handled
+                    headers: new Headers({
+                        'Content-Type': 'application/json'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const permissionsModalBody = document.getElementById('permissionsModalBody');
+                    permissionsModalBody.innerHTML = ''; // Clear existing content
+                    const table = document.createElement('table');
+                    table.classList.add('table'); // Add Bootstrap table styling
+                    const thead = document.createElement('thead');
+                    const tbody = document.createElement('tbody');
+                    
+                    // Create table header
+                    thead.innerHTML = `
+                        <tr>
+                            <th><input type="checkbox" id="selectAllCheckbox"></th>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Table</th>
+                            <th>Group</th>
+                        </tr>
+                    `;
+                    table.appendChild(thead);
+
+                    // Create table rows with checkboxes
+                    for (const permission of data.perms) {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><input type="checkbox" value="${permission.id}" class="permission-checkbox"></td>
+                            <td>${permission.id}</td>
+                            <td>${permission.type}</td>
+                            <td>${permission.table}</td>
+                            <td>${permission.group}</td>
+                        `;
+                        tbody.appendChild(row);
+                    }
+
+                    table.appendChild(tbody);
+                    permissionsModalBody.appendChild(table);
+
+                    // Create buttons
+                    const buttonDiv = document.createElement('div');
+                    buttonDiv.classList.add('mt-3');
+                    buttonDiv.innerHTML = `
+                        <button type="button" class="btn btn-primary me-2" id="selectAllButton">Select All</button>
+                        <button type="button" class="btn btn-primary me-2" id="deselectAllButton">Deselect All</button>
+                        <button type="button" class="btn btn-danger" id="deleteButton">Delete</button>
+                    `;
+                    permissionsModalBody.appendChild(buttonDiv);
+
+                    // Select All button functionality
+                    document.getElementById('selectAllButton').addEventListener('click', function() {
+                        const checkboxes = document.querySelectorAll('.permission-checkbox');
+                        checkboxes.forEach(checkbox => {
+                            checkbox.checked = true;
+                        });
+                    });
+
+                    // Deselect All button functionality
+                    document.getElementById('deselectAllButton').addEventListener('click', function() {
+                        const checkboxes = document.querySelectorAll('.permission-checkbox');
+                        checkboxes.forEach(checkbox => {
+                            checkbox.checked = false;
+                        });
+                    });
+
+                    // Delete button functionality
+document.getElementById('deleteButton').addEventListener('click', function() {
+    // Get selected permission IDs
+    const selectedIds = Array.from(document.querySelectorAll('.permission-checkbox:checked'))
+        .map(checkbox => checkbox.value);
+
+    // Confirm deletion
+    if (selectedIds.length === 0) {
+        alert('Please select permissions to delete.');
+        return;
+    }
+
+    if (confirm(`Are you sure you want to delete ${selectedIds.length} permissions?`)) {
+        // Perform deletion for each selected permission ID
+        selectedIds.forEach(id => {
+            fetch("/remove_perm", {
+                method: 'POST',
+                body: JSON.stringify({ id }),
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Remove deleted permission from the UI
+                    const deletedRow = document.querySelector(`.permission-checkbox[value="${id}"]`).closest('tr');
+                    deletedRow.remove();
+                } else {
+                    alert('Failed to delete permission with ID ' + id);
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting permission with ID ' + id + ':', error);
+                alert('Failed to delete permission with ID ' + id);
+            });
+        });
+    }
+});
+
+                    // Show the permissions modal
+                    document.getElementById('modalUserId').innerText = id; // Set modal title with user id
+                    $('#permissionsModal').modal('show'); 
+                })
+                .catch(error => {
+                    console.error('Error fetching permissions:', error);
+                    alert('Failed to fetch permissions');
+                });
+            });
+
+            // Add event listener for the "Delete User" button
+            row.querySelector('.delete-user').addEventListener('click', function() {
+                deleteUser(id);
+            });
+
+            return row;
+        }
+
+        // Function to append rows to the user table
+        function appendUserRows(userData, includeLabel = true) {
+            const tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = ''; // Clear existing rows
+            for (const user of userData) {
+                tbody.appendChild(createUserRow(user.id, user.name, user.email, includeLabel));
+            }
+        }
+
+        // Debounce search function
+        let debounceTimeout;
+        function debounceSearch() {
+            clearTimeout(debounceTimeout);
+            debounceTimeout = setTimeout(() => {
+                const searchValue = document.getElementById('searchInput').value;
+                fetch('/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ searchval: searchValue })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    appendUserRows(data.users, false); // Exclude label from search results
+                })
+                .catch(error => {
+                    console.error('Error searching users:', error);
+                });
+            }, 300); // Debounce time in milliseconds
+        }
+
+        // Function to handle create user form submission
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            fetch('/create_user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('User successfully created!');
+                    $('#createUserModal').modal('hide'); // Hide the modal
+                } else {
+                    alert('Failed to create user');
+                }
+            })
+            .catch(error => {
+                console.error('Error creating user:', error);
+                alert('Failed to create user');
+            });
+        });
+
+        // Initial table population
+        debounceSearch();
+    </script>
+</body>
+</html>

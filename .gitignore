@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+.env/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Logs
+*.log
+logs/
+
+# Database backups & dumps
+backups/*.dump
+backups/*.sql
+backups/*.sql.gz
+backups/*.gz
+
+# Exports / generated CSVs
+exports/
+
+# Scratch files (malformed filenames from terminal history)
+":*"
+")*"
+"=*"
+"t*"
+"r*"
+"w*"
+"y*"
+"h*"
+
+# Large data files
+*.json.gz
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elkland - Airstrip Weather</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Sen:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone-with-data-10-year-range.min.js"></script>
+
+<style>
+  body {
+    font-family: 'Sen', sans-serif;
+    background-color: #152433;
+    color: #ecf0f1;
+    margin: 0;
+    padding: 20px;
+  }
+  .card {
+    background: #0d1824;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  /* Additional styling */
+  #compass {
+    width: 100%; /* Increase the size of the compass */
+
+    border-radius: 50%;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+  }
+
+  #windSpeedValue {
+    
+    margin-top: 5px;
+  }
+
+   
+    @media (max-width: 600px) {
+        .d-inline-block {
+            display: block;
+        }
+
+        #bPress, #qfe {
+        margin-bottom: 20px; /* Adjust spacing as needed */
+    }
+    }
+
+
+   
+
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+        <div class="card">
+          <h1>EKLAND</h1>
+          <div>
+            <h6 class="d-inline-block">Coordinates:</h6>
+            <h4 class="d-inline-block">22.857 °S / 29.869<span> °E</span></h4>
+          </div>
+          <div>
+            <h6 class="d-inline-block">Declination:</h6>
+            <h4 class="d-inline-block">15.36 °W<span> (WMM-2020)</span></h4>
+          </div>
+          <div>
+            <h6 class="d-inline-block">Annual Change:</h6>
+            <h4 class="d-inline-block">-0.13 °<span></span></h4>
+          </div>
+          <div>
+            <h6 class="d-inline-block">Elevation:</h6>
+            <h4 class="d-inline-block"> 2401 ft / 732 m<span></span></h4>
+          </div>
+          <div>
+            <h6 class="d-inline-block">Data Time:</h6>
+            <h4 class="d-inline-block" id="latestTimeDisplay">Loading...</h4>
+            
+          </div>
+          
+        
+        </div>
+      </div>
+      </div><div class="row">
+    <div class="col-lg-6 col-md-12">
+        
+      <div class="card">
+
+       
+      
+        
+        <svg id="compass" viewBox="0 0 300 300">
+          <circle cx="150" cy="150" r="140" fill="#f0f0f0" />
+          <rect x="5" y="215" width="10" height="430" fill="lightgray" transform="rotate(230 150 150)" />
+          <text x="142" y="30" font-size="18px" font-family="Arial, sans-serif" font-weight="bold">N</text>
+          <text x="270" y="158" font-size="18px" font-family="Arial, sans-serif" font-weight="bold">E</text>
+          <text x="142" y="285" font-size="18px" font-family="Arial, sans-serif" font-weight="bold">S</text>
+          <text x="30" y="158" font-size="18px" font-family="Arial, sans-serif" font-weight="bold">W</text>
+      
+          <g transform="rotate(50 150 150)">
+            
+              <rect x="55" y="135" width="190" height="30" fill="none" stroke="green" stroke-width="1"/>
+              
+             
+              <text x="120" y="160" font-size="6px" font-family="'Sen', sans-serif" fill="green" text-anchor="start" alignment-baseline="baseline">EKLAND AIR STRIP</text>
+            
+              
+              <text x="58" y="160" font-size="16px" font-family="'Sen', sans-serif" fill="green" text-anchor="end" alignment-baseline="middle" transform="rotate(90 60 160)">32</text>
+              <text x="60" y="340" font-size="16px" font-family="'Sen', sans-serif" fill="green" text-anchor="start" alignment-baseline="middle" transform="rotate(-90 60 160)">14</text>
+             
+          </g>
+          
+          <!-- Wind barb container -->
+          <g id="windBarb" transform="translate(150, 150)">
+              <!-- The wind barb elements will be dynamically inserted here -->
+          </g>
+      </svg>
+      
+      
+      
+          
+          
+      </div>
+
+      <div class="card">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="d-inline-block">Speed:</h6>
+            <h4 class="d-inline-block" id="windSpeedValue">loading...<span>knots</span></h4>
+          </div>
+          <div>
+            <h6 class="d-inline-block">Direction (Mag):</h6>
+            <h4 class="d-inline-block" id="direction">loading...<span>°</span></h4>
+          </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h6 class="d-inline-block">Gusts:</h6>
+                <h4 class="d-inline-block" id="windSpeedMax10Min">loading...<span>knots</span></h4>
+            </div>
+        </div>
+    </div>
+      
+    </div>
+    
+    <div class="col-lg-6 col-md-12">
+        <div class="card">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h6 class="d-inline-block">Air Temp:</h6>
+                <h4 class="d-inline-block" id="airTemp">loading...<span>°C</span></h4>
+              </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="text-left">
+                
+                <h6 class="d-inline-block">Dewpoint:</h6>
+                <h4 class="d-inline-block"><span id="dewPoint">°C</span></h4>
+                
+              </div>
+              <div>
+                <h4 class="d-inline-block" >@&nbsp;<span id="rh">0.29%</span></h4>
+                <h6 class="d-inline-block">RH</h6>
+                
+              </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="d-flex justify-content-between align-items-center">
+               <div> 
+                <h6 class="d-inline-block">Clouds:</h6>
+                <h4 class="d-inline-block"id="cloud-info" ></h4>
+                    
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="d-inline-block">QNH:</h6>
+                  <h4 class="d-inline-block" id="qnh">0.29<span>hPa</span></h4>
+                </div>
+              </div>
+        </div>
+        
+        
+        <div class="card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="d-inline-block">Rain (1hr):</h6>
+                    <h4 class="d-inline-block" id="rain1h">0.29<span>mm</span></h4>
+                </div>
+                <div>
+                    <h6 class="d-inline-block">Rain (12hr):</h6>
+                    <h4 class="d-inline-block" id="rain12h">0.0<span>mm</span</h4>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="d-inline-block">QFE:</h6>
+                    <h4 class="d-inline-block" id="qfe">0.29<span>hPa</span></h4>
+                </div>
+                
+            </div>
+        </div>
+        <div class="card">
+          <div class="d-flex justify-content-between align-items-center">
+              
+              <div>
+                  <h6 class="d-inline-block">BPress:</h6>
+                  <h4 class="d-inline-block" id="bPress">0.29<span>hPa</span></h4>
+              </div>
+          </div>
+      </div>
+        <div class="card">
+          <div class="d-flex justify-content-between align-items-center">
+              <div>
+                  <h6 class="d-inline-block"><br></h6>
+                  <h4 class="d-inline-block"><span><br></span></h4>
+              </div>
+              <div>
+                <h6 class="d-inline-block"><br></h6>
+                <h4 class="d-inline-block"><span><br></span></h4>
+              </div>
+          </div>
+      </div>
+        
+    </div>
+    
+    <div class="col-lg-6 col-md-12">
+      <div class="card">
+        <h6>Wind Speed & Direction:</h6>
+        <canvas id="windSpeedDirChart" width="400" height="200"></canvas>
+        
+      </div>
+    </div>
+    
+    <div class="col-lg-6 col-md-12">
+      <div class="card">
+        <h6>QFE & Temperature:</h6>
+        <canvas id="qfeTempChart" width="400" height="200"></canvas>
+       
+      </div>
+    </div>
+    
+    
+    
+  
+    
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', (event) => {
+
+const windBarb = document.getElementById('windBarb');
+  const windSpeedValue = document.getElementById('windSpeedValue');
+
+
+
+  function createWindBarb(speed) {
+    const svgNS = "http://www.w3.org/2000/svg";
+    let group = document.createElementNS(svgNS, "g");
+    group.setAttribute("transform", "scale(1.5)"); // Scale the wind barb by a factor of 1.5
+
+// Add arrowhead to the staff
+let arrowhead = document.createElementNS(svgNS, "polygon");
+arrowhead.setAttribute("points", "-5,-10 5,-10 0,0"); // Adjusted points
+arrowhead.setAttribute("fill", "blue");
+group.appendChild(arrowhead);
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    // Add line for the staff
+    let staff = document.createElementNS(svgNS, "line");
+    staff.setAttribute("x1", "0");
+    staff.setAttribute("y1", "-5");
+    staff.setAttribute("x2", "0");
+    staff.setAttribute("y2", "-60"); // Adjusted length
+    staff.setAttribute("stroke", "blue");
+    staff.setAttribute("stroke-width", "2"); // Adjusted stroke width
+    group.appendChild(staff);
+
+   
+
+    // Calculate number of full and half barbs and flags
+    let fullFlags = Math.floor(speed / 50);
+    let fullBarbs = Math.floor((speed % 50) / 10);
+    let halfBarb = (speed % 10) >= 5 ? 1 : 0;
+    let positionY = -60; // Start from the end of the staff
+
+    // Add flags
+    for (let i = 0; i < fullFlags; i++) {
+        let flag = document.createElementNS(svgNS, "polygon");
+        flag.setAttribute("points", "0," + positionY + " 7," + (positionY + 7) + " 0," + (positionY + 14));
+        flag.setAttribute("fill", "blue");
+        group.appendChild(flag);
+        positionY += 14; // Move down for the next element
+    }
+
+    // Add full barbs
+    for (let i = 0; i < fullBarbs; i++) {
+        let barb = document.createElementNS(svgNS, "line");
+        barb.setAttribute("x1", "0");
+        barb.setAttribute("y1", positionY);
+        barb.setAttribute("x2", "18");
+        barb.setAttribute("y2", positionY - 2); // Adjusted to point upwards
+        barb.setAttribute("stroke", "blue");
+        barb.setAttribute("stroke-width", "2"); // Adjusted stroke width
+        group.appendChild(barb);
+        positionY += 7; // Move down for the next element
+    }
+
+    // Add half barb
+    if (halfBarb === 1) {
+        let barb = document.createElementNS(svgNS, "line");
+        barb.setAttribute("x1", "0");
+        barb.setAttribute("y1", -55); // Adjusted position to be right at the end of the staff
+        barb.setAttribute("x2", "12");
+        barb.setAttribute("y2", -57); // Adjusted to point upwards
+        barb.setAttribute("stroke", "blue");
+        barb.setAttribute("stroke-width", "2"); // Adjusted stroke width
+        group.appendChild(barb);
+    }
+
+    return group;
+}
+
+
+
+
+
+
+
+
+  function updateWindBarb(speed, direction) {
+  if (speed === 0) {
+    windBarb.innerHTML = ''; // Clear the previous barb
+    let dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    dot.setAttribute("cx", "0");
+    dot.setAttribute("cy", "0");
+    dot.setAttribute("r", "2");
+    dot.setAttribute("fill", "blue");
+    windBarb.appendChild(dot); // Add dot
+  } else {
+    windBarb.innerHTML = ''; // Clear the previous barb
+    windBarb.appendChild(createWindBarb(speed)); // Add new barb
+  }
+  windBarb.setAttribute("transform", `translate(150, 150) rotate(${direction})`); // Rotate the wind barb
+}
+
+
+function fetchDataCompass() {
+    fetch('/airport_data_fetch')
+        .then(response => response.json())
+        .then(data => {
+            // Find the entry for WSpd_Avg and WDir_Avg
+            const entry = data.find(entry => entry[2] === 'WSpd_Avg' || entry[2] === 'WDirMag_Avg');
+            if (entry) {
+                const speed = parseFloat(data.find(entry => entry[2] === 'WSpd_Avg')[4]); // Parse the wind speed
+                const direction = parseFloat(data.find(entry => entry[2] === 'WDirMag_Avg')[4]); // Parse the wind direction
+                windSpeedValue.textContent = speed + ' knots'; // Update the displayed wind speed
+                updateWindBarb(speed, direction); // Update the wind barb
+
+                // Update the direction display
+                const directionDisplay = document.getElementById('direction');
+                if (directionDisplay) {
+                    directionDisplay.innerText = direction + '°'; // Update the displayed wind direction
+                }
+            }
+        })
+        .catch(error => console.error('Error fetching data:', error));
+}
+
+
+  fetchDataCompass(); // Initial fetch of data
+
+  // Fetch data every 5 seconds
+  setInterval(fetchDataCompass, 5000);
+
+// Extract timestamps
+  function fetchAndDisplayLatestTime() {
+  fetch('/airport_data_fetch')
+    .then(response => response.json())
+    .then(data => {
+      const latestTime = data
+        .map(row => row[3]) 
+        .reduce((latest, current) => new Date(current) > new Date(latest) ? current : latest, '1970-01-01T00:00:00Z');
+
+      
+      const timeZoneAdjustedTime = moment(latestTime).add(2, 'hours');
+
+      const formattedTime = timeZoneAdjustedTime.format('YYYY/MM/DD HH:mm') + ' LT';
+      document.getElementById('latestTimeDisplay').innerText = ` ${formattedTime}`;
+    })
+    .catch(error => console.error('Error fetching data:', error));
+}
+
+
+
+    fetchAndDisplayLatestTime();
+
+    async function fetchAndUpdateSensorValues() {
+    try {
+        const data = await fetchData('/airport_data_fetch');
+        console.log('Fetched data:', data);
+
+        const sensors = {
+            'AirTemp_Avg': { elementId: 'airTemp', unit: '°C' },
+            'WSpd_Avg': { elementId: 'windSpeed', unit: 'knots'},
+            'DewPointTemp_Avg': { elementId: 'dewPoint', unit: '°C' },
+            'QNH_Avg': { elementId: 'qnh', unit: 'hPa' },
+            'RH': { elementId: 'rh', unit: '%' },
+            'Rain_1h_RunTot': { elementId: 'rain1h', unit: 'mm' },
+            'Rain_12h_RunTot': { elementId: 'rain12h', unit: 'mm' },
+            'QFE_Avg': { elementId: 'qfe', unit: 'hPa' },
+            'BPress_Avg': { elementId: 'bPress', unit: 'hPa' },
+        };
+
+        data.forEach(row => {
+            const sensor = sensors[row[2]];
+            if (sensor) {
+                const value = parseFloat(row[4]).toFixed(2);
+                console.log(`Updating ${sensor.elementId} with value: ${value}${sensor.unit}`);
+                document.getElementById(sensor.elementId).innerText = `${value}${sensor.unit}`;
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching and updating sensor values:', error);
+    }
+
+    try {
+        // Fetch data from the /airport_data_fetch_10m endpoint
+        const sensorData10m = await fetchData('/airport_data_fetch_10m');
+        console.log('Fetched 10-minute data:', sensorData10m);
+
+        // Update the wind speed max (10 minutes) value
+        const windSpeedMax10Min = sensorData10m.find(row => row[2] === 'WSpd_Max');
+        if (windSpeedMax10Min) {
+            const value = parseFloat(windSpeedMax10Min[4]).toFixed(2);
+            console.log('Updating windSpeedMax10Min with value:', `${value} knots`);
+            document.getElementById('windSpeedMax10Min').innerText = `${value} knots`;
+        }
+    } catch (error) {
+        console.error('Error fetching and updating 10-minute sensor values:', error);
+    }
+}
+
+
+fetchAndUpdateSensorValues();
+
+function interpretCloudLayers(layers) {
+    // Map sensor values to descriptions
+    const cloudDescriptions = {
+        0: 'Clear sky',
+        1: 'Few clouds',
+        2: 'Few clouds',
+        3: 'Scattered clouds',
+        4: 'Scattered clouds',
+        5: 'Broken clouds',
+        6: 'Broken clouds',
+        7: 'Broken clouds',
+        8: 'Overcast'
+    };
+
+    // Filter out layers with no significant cloud cover
+    const significantLayers = layers.filter(layer => layer.amount > 0);
+
+    // Sort the layers by cloud amount in descending order
+    significantLayers.sort((a, b) => b.amount - a.amount);
+
+    // Create the final description
+    if (significantLayers.length === 0) {
+        return 'Clear sky';
+    } else {
+        return significantLayers.map(layer => `${cloudDescriptions[layer.amount]} at ${layer.height} ft`).join(', ');
+    }
+}
+
+
+async function fetchAndUpdateCloudValues() {
+    try {
+        const sensorData = await fetchData('/airport_data_fetch');
+        const sensors = {
+            
+            'SkyVUE_FirstLayerCloudAmount': { elementId: 'firstLayerCloudAmount', unit: '' },
+            'SkyVUE_FirstLayerCloudHeight': { elementId: 'firstLayerCloudHeight', unit: 'ft' },
+            'SkyVUE_SecondLayerCloudAmount': { elementId: 'secondLayerCloudAmount', unit: '' },
+            'SkyVUE_SecondLayerCloudHeight': { elementId: 'secondLayerCloudHeight', unit: 'ft' },
+            'SkyVUE_ThirdLayerCloudAmount': { elementId: 'thirdLayerCloudAmount', unit: '' },
+            'SkyVUE_ThirdLayerCloudHeight': { elementId: 'thirdLayerCloudHeight', unit: 'ft' }
+        };
+
+        const cloudLayers = [
+            {
+                amount: parseFloat(sensorData.find(row => row[2] === 'SkyVUE_FirstLayerCloudAmount')[4]),
+                height: parseFloat(sensorData.find(row => row[2] === 'SkyVUE_FirstLayerCloudHeight')[4]),
+                description: 'First layer'
+            },
+            {
+                amount: parseFloat(sensorData.find(row => row[2] === 'SkyVUE_SecondLayerCloudAmount')[4]),
+                height: parseFloat(sensorData.find(row => row[2] === 'SkyVUE_SecondLayerCloudHeight')[4]),
+                description: 'Second layer'
+            },
+            {
+                amount: parseFloat(sensorData.find(row => row[2] === 'SkyVUE_ThirdLayerCloudAmount')[4]),
+                height: parseFloat(sensorData.find(row => row[2] === 'SkyVUE_ThirdLayerCloudHeight')[4]),
+                description: 'Third layer'
+            }
+        ];
+
+        // Interpret cloud layers and update the display
+        const cloudDescription = interpretCloudLayers(cloudLayers);
+        const cloudInfoContainer = document.getElementById('cloud-info');
+        cloudInfoContainer.innerHTML = ` ${cloudDescription}`;
+
+    } catch (error) {
+        console.error('Error fetching and updating sensor values:', error);
+    }
+}
+
+fetchAndUpdateCloudValues();
+
+// Function to fetch data from the server every minute
+function fetchDataEveryMinute() {
+    fetchAndUpdateSensorValues(); // Fetch and update sensor values
+    fetchAndUpdateCloudValues(); // Fetch and update cloud values
+
+    // Call fetchDataEveryMinute function recursively after 60 seconds
+    setTimeout(fetchDataEveryMinute, 60000);
+}
+
+
+
+
+
+    async function fetchData(endpoint) {
+        const response = await fetch(endpoint);
+        return response.json();
+    }
+
+    function filterData(data, column) {
+        return data
+            .filter(row => row[2] === column)
+            .map(row => ({
+                time: moment(row[3]).format('YYYY-MM-DD HH:mm:ss'),
+                value: row[4]
+            }));
+    }
+
+    function createChart(canvasId, label1, data1, color1, yAxisID1, label2, data2, color2, yAxisID2) {
+        const ctx = document.getElementById(canvasId).getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data1.map(item => item.time),
+                datasets: [{
+                    label: label1,
+                    data: data1.map(item => item.value),
+                    borderColor: color1,
+                    borderWidth: 2,
+                    fill: false,
+                    yAxisID: yAxisID1
+                },
+                {
+                    label: label2,
+                    data: data2.map(item => item.value),
+                    borderColor: color2,
+                    borderWidth: 2,
+                    fill: false,
+                    yAxisID: yAxisID2
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'minute',
+                            parser: 'YYYY-MM-DD HH:mm:ss'
+                        },
+                        displayFormats: {
+                            minute: 'HH:mm'
+                        }
+                    },
+                    [yAxisID1]: {
+                        type: 'linear',
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: label1
+                        }
+                    },
+                    [yAxisID2]: {
+                        type: 'linear',
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: label2
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    async function fetchAndPlotQfeTempData() {
+        try {
+            const data = await fetchData('/airport_data_fetch_10m');
+            const qfeData = filterData(data, 'QFE_Avg');
+            const tempData = filterData(data, 'AirTemp_Avg');
+            createChart('qfeTempChart', 'QFE (hPa)', qfeData, 'green', 'yQfe', 'Temperature (°C)', tempData, 'red', 'yTemp');
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    async function fetchAndPlotWindData() {
+        try {
+            const data = await fetchData('/airport_data_fetch_10m');
+            const windSpeedData = filterData(data, 'WSpd_Avg');
+            const windDirData = filterData(data, 'WDir_Avg');
+            createChart('windSpeedDirChart', 'Wind Speed (m/s)', windSpeedData, 'orange', 'yWindSpeed', 'Wind Direction (°)', windDirData, 'purple', 'yWindDir');
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    fetchAndPlotQfeTempData();
+    fetchAndPlotWindData();
+
+  });
+
+    
+</script>
+
+</body>
+</html>

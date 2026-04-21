@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+<div style="display: flex; align-items:center;">
+<div class="dropdown show">
+    <a class="btn btn-secondary dropdown-toggle nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Choose Logger
+    </a>
+    
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="max-height: 500px; overflow-y: auto;" >
+        {%for db in dbs%}
+        <li><a class="dropdown-item" href="{{db.url}}">{{db.text}}</a></li>
+        {%endfor%}
+	  </ul>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div style="background-color: #111217;height:100%;width:90%;margin:auto;border-radius:10px">
+    <h1 style="text-align: center;width:100%;color:white;">
+        {{group}}
+    </h1>
+
+    <div style="width:100%;height: 80%;" class="overflow-auto mt-2 ml-2 mr-2">
+        <table style="width:90%; text-align: center; color:white;" id="group-table">
+            <thead>
+                <tr>
+                <td style="width: 10%;">
+                    <b>ID:</b>
+                </td style="width: 90%;">
+                <td>
+                    <b>Name:</b>
+                </td>
+                </tr>
+            </thead>
+            <tbody>
+                {%for t in ts%}
+                    <tr><td>{{t.id}}</td> <td>{{t.topic}}</td></tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+    <button class="btn btn-primary w-75" id="dashboardButton">Go to Dashboard</button>
+</div>
+{% endblock %}
+
+{% block script %}
+<style>
+    #group-table>tbody>tr:hover {
+        background-color: grey;
+    }
+
+    .selected {
+        background-color: black;
+    }
+</style>
+<script>
+    var selectedTopicID=-1;
+
+    function clickTableRowsGroup() {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        var value = $(this).find('td:first').html();
+        selectedTopicID = parseInt(value);
+        $('#dashboardButton').on("click",function(){location.href='/topic/'+selectedTopicID});
+        $("#dashboardButton").prop('disabled', false);
+    }
+    $("#group-table>tbody>tr").click(clickTableRowsGroup);
+    $("#dashboardButton").prop('disabled', true);
+</script>
+{% endblock %}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="title" content="MQTT Dashboard">
+    <meta name="description" content=" Track your  data from Campbell Scientific devices">
+
+    <!-- Open Graph  -->
+    <meta property="og:url" content="http://ec2-13-245-19-152.af-south-1.compute.amazonaws.com:5000">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="MQTT Dashboard">
+    <meta property="og:description" content="Keep track of your  data from Campbell Scientific devices">
+    {% block head %}
+    {% endblock %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body class="bg-light overflow-hidden">
+    <div class="vh-100 d-flex flex-column">
+        <nav class="site-header sticky-top py-1 bg-white">
+
+            <div style="display: flex; align-items:center;"
+                class="container d-flex flex-column flex-md-row justify-content-between">
+                <img style="max-width: 20%" class="img-fluid py-2 d-none d-md-inline-block"
+                    src="{{url_for('static',filename='ZMD logo.jpg')}}" alt="">
+                {% if is_admin %}
+                <a class="py-2 d-none d-md-inline-block" href="/admin">
+                    Admin
+                </a>
+                {% endif %}
+                {% if is_admin %}
+                <a class="py-2 d-none d-md-inline-block" href="/admin_user">
+                    Map View
+                </a>
+                {% endif %}
+                {% if logged_in %}
+                <a class="py-2 d-none d-md-inline-block" href="/logout">
+                    Log Out
+                </a>
+            {% endif %}
+
+                {% block navbar %}
+                {% endblock %}
+            </div>
+        </nav>
+
+        <div style="display: block"
+            class="justify-content-center position-relative text-center bg-light flex-grow-1 overflow-auto vw-100 embed-responsive">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='index.js')}}"></script>
+</body>
+    {% block script %}
+
+    {% endblock %}
+</html>

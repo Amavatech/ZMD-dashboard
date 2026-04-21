@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Data</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvV4yaU85/9aTtoA4z3lARdL9z8eLoS4n7V27cuGz3GQ2dJD" crossorigin="anonymous">
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin-top: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-weight: 600;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        tbody tr:nth-of-type(odd) {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>User Data</h1>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">
+            Create User
+        </button>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Group ID</th>
+                    <th scope="col">Group Name</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Permission Type</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <!-- Data will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
+        integrity="sha384-HzjxuriwU8fYHZqN9FmfYdKzz5zj3PGGUnT03q4F+3M0qN+dVRP3U1if6S5FjHYB" crossorigin="anonymous">
+    </script>
+    <script>
+        // Fetch data from the endpoint
+        Promise.all([
+            fetch('{{ api_base_url }}/admin_group_data', { credentials: 'include' }).then(response => response.json()),
+            fetch('{{ api_base_url }}/group_admin_route', { credentials: 'include' }).then(response => response.json())
+        ])
+        .then(([userData, groupAdminData]) => {
+            const tableBody = document.getElementById('userTableBody');
+            // Filter users based on group_id from group_admin_route
+            const filteredUsers = Object.entries(userData.data)
+                .filter(([email, userInfo]) => userInfo.group_id === groupAdminData.group_id);
+
+            // Loop through the filtered user data and create table rows
+            for (const [email, userInfo] of filteredUsers) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${userInfo.group_id}</td>
+                    <td>${userInfo.group_name}</td>
+                    <td>${userInfo.id}</td>
+                    <td>${userInfo.name}</td>
+                    <td>${email}</td>
+                    <td>${userInfo.permission_type}</td>
+                `;
+                tableBody.appendChild(row);
+            }
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+        // Add event listener for the modal shown event
+        document.getElementById('createUserModal').addEventListener('shown.bs.modal', function () {
+            document.getElementById('createUserForm').reset(); // Reset form fields when modal is shown
+        });
+
+        // Add event listener for the create user form submission
+        document.getElementById('createUserForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form submission
+            const formData = new FormData(this);
+            const userData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                password: formData.get('password')
+            };
+
+            fetch('{{ api_base_url }}/create_user', {
+                method: 'POST',
+                body: JSON.stringify(userData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('User successfully created');
+                    document.getElementById('createUserModal').modal('hide'); // Close the modal
+                } else {
+                    alert('Failed to create user');
+                }
+            })
+            .catch(error => {
+                console.error('Error creating user:', error);
+                alert('Failed to create user');
+            });
+        });
+    </script>
+
+    <!-- Modal for creating a new user -->
+    <div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createUserModalLabel">Create User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createUserForm">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create User</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

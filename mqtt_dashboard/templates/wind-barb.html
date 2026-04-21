@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVG Compass with Wind Barb</title>
+<style>
+  #compass {
+    width: 500px; /* Increase the size of the compass */
+    border: 4px solid #ccc;
+    border-radius: 50%;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+  }
+
+  
+</style>
+</head>
+<body>
+
+<svg id="compass" viewBox="0 0 300 300">
+  <circle cx="150" cy="150" r="140" fill="#f0f0f0" />
+  <rect x="5" y="215" width="10" height="430" fill="lightgray" transform="rotate(230 150 150)" />
+  <text x="142" y="30" font-size="18px" font-family="Arial, sans-serif" font-weight="bold">N</text>
+  <text x="270" y="158" font-size="18px" font-family="Arial, sans-serif" font-weight="bold">E</text>
+  <text x="142" y="285" font-size="18px" font-family="Arial, sans-serif" font-weight="bold">S</text>
+  <text x="30" y="158" font-size="18px" font-family="Arial, sans-serif" font-weight="bold">W</text>
+
+  <!-- Wind barb container -->
+  <g id="windBarb" transform="translate(150, 150)">
+    <!-- The wind barb elements will be dynamically inserted here -->
+  </g>
+</svg>
+
+
+
+<script>
+  const windBarb = document.getElementById('windBarb');
+ 
+
+  function createWindBarb(speed) {
+    const svgNS = "http://www.w3.org/2000/svg";
+    let group = document.createElementNS(svgNS, "g");
+    group.setAttribute("transform", "scale(1.5)"); // Scale the wind barb by a factor of 1.5
+
+    // Add line for the staff
+    let staff = document.createElementNS(svgNS, "line");
+    staff.setAttribute("x1", "0");
+    staff.setAttribute("y1", "0");
+    staff.setAttribute("x2", "0");
+    staff.setAttribute("y2", "-80"); // Adjusted length
+    staff.setAttribute("stroke", "black");
+    group.appendChild(staff);
+
+    // Calculate number of full and half barbs and flags
+    let fullFlags = Math.floor(speed / 50);
+    let fullBarbs = Math.floor((speed % 50) / 10);
+    let halfBarb = (speed % 10) >= 5 ? 1 : 0;
+    let positionY = -80; // Start from the end of the staff
+
+    // Add flags
+    for (let i = 0; i < fullFlags; i++) {
+        let flag = document.createElementNS(svgNS, "polygon");
+        flag.setAttribute("points", "0," + positionY + " 7," + (positionY + 7) + " 0," + (positionY + 14));
+        flag.setAttribute("fill", "black");
+        group.appendChild(flag);
+        positionY += 14; // Move down for the next element
+    }
+
+    // Add full barbs
+    for (let i = 0; i < fullBarbs; i++) {
+        let barb = document.createElementNS(svgNS, "line");
+        barb.setAttribute("x1", "0");
+        barb.setAttribute("y1", positionY);
+        barb.setAttribute("x2", "7");
+        barb.setAttribute("y2", positionY - 7); // Adjusted to point upwards
+        barb.setAttribute("stroke", "black");
+        group.appendChild(barb);
+        positionY += 7; // Move down for the next element
+    }
+
+    // Add half barb
+    if (halfBarb === 1) {
+        let barb = document.createElementNS(svgNS, "line");
+        barb.setAttribute("x1", "0");
+        barb.setAttribute("y1", positionY);
+        barb.setAttribute("x2", "3.5");
+        barb.setAttribute("y2", positionY - 3.5); // Adjusted to point upwards
+        barb.setAttribute("stroke", "black");
+        group.appendChild(barb);
+    }
+
+    return group;
+  }
+
+  function updateWindBarb(speed, direction) {
+    let windBarbGroup = windBarb.querySelector('g');
+    if (speed === 0) {
+        windBarbGroup.innerHTML = ''; // Clear the previous barb
+        let dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        dot.setAttribute("cx", "0");
+        dot.setAttribute("cy", "0");
+        dot.setAttribute("r", "2");
+        dot.setAttribute("fill", "black");
+        windBarbGroup.appendChild(dot); // Add dot
+    } else {
+        windBarbGroup.innerHTML = ''; // Clear the previous barb
+        windBarbGroup.appendChild(createWindBarb(speed)); // Add new barb
+    }
+    windBarb.setAttribute("transform", `translate(150, 150) rotate(${direction})`); // Rotate the wind barb
+}
+
+
+
+
+  function fetchDataCompass() {
+    fetch('/airport_data_fetch')
+      .then(response => response.json())
+      .then(data => {
+        // Find the entry for WSpd_Avg and WDir_Avg
+        const entry = data.find(entry => entry[2] === 'WSpd_Avg' || entry[2] === 'WDir_Avg');
+        if (entry) {
+          const speed = parseFloat(data.find(entry => entry[2] === 'WSpd_Avg')[4]); // Parse the wind speed
+          const direction = parseFloat(data.find(entry => entry[2] === 'WDir_Avg')[4]); // Parse the wind direction
+          windSpeedValue.textContent = speed + ' knots'; // Update the displayed wind speed
+          updateWindBarb(speed, direction); // Update the wind barb
+        }
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }
+
+  fetchDataCompass(); // Initial fetch of data
+
+  // Fetch data every 5 seconds
+  setInterval(fetchDataCompass, 5000);
+</script>
+</body>
+</html>

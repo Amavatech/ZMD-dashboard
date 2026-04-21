@@ -1,0 +1,28 @@
+Database Backup Summary
+=======================
+Date: Thu Feb  5 19:24:07 UTC 2026
+Database: mqtt_dashboard
+Host: localhost
+
+Backup Files:
+-------------
+1. Complete backup: mqtt_dashboard_complete_20260205_192405.sql
+2. Metadata backup: mqtt_dashboard_metadata_20260205_192405.sql
+
+Database Statistics:
+--------------------
+ timestream_tables: 333 topics
+ timestream_measurements: 17807 measurements
+ users: 56 users
+ groups: 6 groups
+
+
+Backup File Sizes:
+-------------------
+Complete: 101M
+Metadata: 1.1M
+
+Compressed Sizes:
+------------------
+Complete: 9.8M
+Metadata: 114K

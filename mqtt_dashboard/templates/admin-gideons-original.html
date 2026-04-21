@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="title" content="MQTT Dashboard">
+    <meta name="description" content=" Track your  data from Campbell Scientific devices">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<style>
+    tbody>tr:hover {
+        background-color: grey;
+    }
+
+    .selected {
+        background-color: black;
+    }
+</style>
+
+<body class="bg-light overflow-hidden">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='index.js')}}"></script>
+    <div class="vh-100 d-flex flex-column">
+        <nav class="site-header sticky-top py-1 bg-white">
+
+            <div style="display: flex; align-items:center;"
+                class="container d-flex flex-column flex-md-row justify-content-between">
+                <img style="max-width: 20%" class="img-fluid py-2 d-none d-md-inline-block"
+                    src="{{url_for('static',filename='ZMD logo.jpg')}}" alt="">
+                <a class="py-2 d-none d-md-inline-block" href="/dashboard_admin">
+                    Dashboard Admin
+                </a>
+                <a class="py-2 d-none d-md-inline-block" href="/broker_admin">
+                    Broker Admin
+                </a>
+                <a class="py-2 d-none d-md-inline-block" href="/group_admin">
+                    Group Admin
+                </a>
+                <a class="py-2 d-none d-md-inline-block" href="/">
+                    Exit
+                </a>
+            </div>
+        </nav>
+
+        <div style="display: flex" class="bg-light flex-grow-1 overflow-auto vw-100">
+            <div style="border-radius: 10px; text-align: center;" class="bg-dark w-25 m-1 text-white">
+                <h1 style="text-align: center;">
+                    Users
+                </h1>
+                <input style="display:block;margin-left: auto; margin-right: auto;" type="text" id="fname" name="fname"
+                    class="w-75">
+                <div style="height: 60%;" class="overflow-auto mt-2 ml-2 mr-2">
+                    <table style="width:100%; text-align: center;" id="user-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn btn-primary w-75" id="removeUserBtn" disabled>Remove User</button>
+            </div>
+            <div style="border-radius: 10px;text-align: center;" class="bg-dark w-50 m-1 text-white">
+                <h1 style="text-align: center;">
+                    Permissions
+                </h1>
+                <div style="height: 60%;" class="overflow-auto mt-2 ml-2 mr-2">
+                    <table style="width:100%; text-align: center;" id="perm-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Type</th>
+                                <th>Table</th>
+                                <th>Group</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn btn-primary w-50" id="removePermBtn" disabled>Remove Permission</button>
+                <div style="display: flex;width: 100%; text-align: center; justify-content: center;">
+                <div style="width: 30%;" class="m-2">
+                    <a style="width: 100%;" class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                        id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Choose Type
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" onclick="setSelectedPermType('TOPIC')">TOPIC</a></li>
+                        <li><a class="dropdown-item" onclick="setSelectedPermType('ALL_TOPIC')">ALL_TOPIC</a></li>
+                        <li><a class="dropdown-item" onclick="setSelectedPermType('ADMIN')">ADMIN</a></li>
+                        <li><a class="dropdown-item" onclick="setSelectedPermType('GROUP')">GROUP</a></li>
+                    </ul>
+                </div>
+                <div style="width: 30%;" class="m-2">
+                    <a style="width: 100%;" class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                        id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Choose Table
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2"  style="max-height: 500px; overflow-y: auto;">
+                        <li><a class="dropdown-item" onclick="setSelectedTable(-1,'None')">None</a></li>
+                        {%for table in tables%}
+                        <li><a class="dropdown-item" onclick="setSelectedTable({{table.id}},'{{table.topic}}')">{{table.topic}}</a></li>
+                        {%endfor%}
+                    </ul>
+                </div>
+                <div style="width: 30%;" class="m-2">
+                    <a style="width: 100%;" class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                        id="dropdownMenuButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Choose Group
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3"  style="max-height: 500px; overflow-y: auto;">
+                        <li><a class="dropdown-item" onclick="setSelectedGroup(0,'None')">None</a></li>
+                        {%for group in groups%}
+                        <li><a class="dropdown-item" onclick="setSelectedGroup({{group.id}},'{{group.group}}')">{{group.group}}</a></li>
+                        {%endfor%}
+                    </ul>
+                </div>
+            </div>
+            <button class="btn btn-primary w-50" id="addPermBtn">Add Permission</button>
+            </div>
+                <div style="border-radius: 10px; text-align: center;" class="bg-dark w-25 m-1 text-white">
+                    <div class="mt-5">
+                        <div style="margin-left: auto;margin-right: auto;" class="form-group w-75">
+                            <input type="email" class="form-control" id="emailInput" placeholder="Enter Email">
+                        </div>
+                        <div style="margin-left: auto;margin-right: auto;" class="form-group w-75">
+                            <input type="text" class="form-control" id="nameInput" placeholder="Enter Name">
+                        </div>
+                        <div style="margin-left: auto;margin-right: auto;" class="form-group w-75">
+                            <input type="password" class="form-control" id="passwordInput" placeholder="Enter Password">
+                        </div>
+                        <button class="btn btn-primary w-50" id="addUserBtn">Add New User</button>
+                        <div style="color: red;text-align: center;" class="w-100" id="alertDiv">
+
+                        </div>
+                    </div>
+                </div>
+            
+        </div>
+</body>
+<script>
+    var users = [];
+    var selectedUserID = -1;
+    var selectedPermID=-1;
+    var selectedPermType = "TOPIC";
+    var selectedTableID=-1;
+    var selectedGroupID=0;
+    {%for user in users %}
+    users.push({ id: {{ user["id"]}}, name: "{{user["name"]}}", email: "{{user["email"]}}"});
+    {% endfor %}
+
+    const user_search_box = document.getElementById('fname');
+
+    $(document).on('click', '#addUserBtn', function () {
+        let email = $("#emailInput").val();
+        let name = $("#nameInput").val();
+        let password = $("#passwordInput").val();
+
+        if (email == "") {
+            $("#alertDiv").html("No Email")
+            return;
+        }
+        if (name == "") {
+            $("#alertDiv").html("No Name")
+            return;
+        }
+        if (password == "") {
+            $("#alertDiv").html("No Password")
+            return;
+        }
+        if (!validateEmail(email)) {
+            $("#alertDiv").html("Invalid Email")
+            return;
+        }
+
+        var params = JSON.stringify({ "email": email, "name": name, "password": password });
+
+        fetch("/create_user", {
+            method: 'post',
+            body: params,
+            mode: 'cors',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+            .then(response => response.json())
+            .then(function (json) {
+                if (json["status"] == "fail") {
+                    $("#alertDiv").html("User Creation Failed");
+                }
+                else {
+                    $("#alertDiv").html("User Created");
+                    searchUser("");
+                }
+            });
+
+    });
+
+    $(document).on('click', '#removeUserBtn', function () {
+        if (!confirm("Delete user?")) {
+            return;
+        }
+        var params = JSON.stringify({ "id": selectedUserID });
+        fetch("/delete_user", {
+            method: 'post',
+            body: params,
+            mode: 'cors',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+            .then(response => response.json())
+            .then(function (json) {
+                searchUser("")
+            })
+    });
+
+    $(document).on('click', '#addPermBtn', function () {
+        if(selectedPermType=="TOPIC" && selectedTableID==-1)
+        {
+            return;
+        }
+
+        var params = JSON.stringify({ "id": selectedUserID,"type":selectedPermType,"table":selectedTableID,"group":selectedGroupID});
+        console.log(params)
+        fetch("/add_perm", {
+            method: 'post',
+            body: params,
+            mode: 'cors',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+            .then(response => response.json())
+            .then(function (json) {
+                showPerms();
+            })
+
+    });
+
+    $(document).on('click', '#removePermBtn', function () {
+
+        var params = JSON.stringify({ "id": selectedPermID});
+
+        fetch("/remove_perm", {
+            method: 'post',
+            body: params,
+            mode: 'cors',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+            .then(response => response.json())
+            .then(function (json) {
+                showPerms();
+            })
+
+    });
+
+    function setSelectedPermType(permType) {
+        selectedPermType = permType;
+        $("#dropdownMenuButton1").html(permType)
+    }
+
+    function setSelectedTable(tableID,topic)
+    {
+        selectedTableID=tableID
+        
+        var l=topic.split("/").pop()
+
+        $("#dropdownMenuButton2").html(l)
+    }
+
+    function setSelectedGroup(groupID,group)
+    {
+        selectedGroupID=groupID
+        console.log(group,groupID)
+        $("#dropdownMenuButton3").html(group)
+    }
+
+    function showPerms()
+    {
+        var params = JSON.stringify({ "searchval": selectedUserID });
+
+        fetch("/perms", {
+            method: 'post',
+            body: params,
+            mode: 'cors',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+            .then(response => response.json())
+            .then(function (json) {
+                if (json["perms"] == "none") {
+                    clearTableRowsPerms();
+                }
+                else {
+                    clearTableRowsPerms();
+                    json["perms"].forEach(function (perm) {
+
+                        addTableRowPerms(perm.id, perm.type, perm.table,perm.group);
+                    });
+                    $("#perm-table>tbody>tr").click(clickTableRowsPerms);
+                }
+            });
+    }
+
+    function searchUser(v) {
+        var params = JSON.stringify({ "searchval": v });
+
+        fetch("/search", {
+            method: 'post',
+            body: params,
+            mode: 'cors',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+            .then(response => response.json())
+            .then(function (json) {
+                if (json["users"] == "none") {
+                    clearTableRowsUser();
+                }
+                else {
+                    clearTableRowsUser();
+                    json["users"].forEach(function (user) {
+                        console.log(user)
+                        addTableRowUser(user.id, user.name, user.email);
+                    });
+                    $("#user-table>tbody>tr").click(clickTableRowsUser)
+                }
+            });
+        $("#removeUserBtn").prop('disabled', true);
+        $("#removePermBtn").prop("disabled",true);
+    }
+
+    function clickTableRowsUser() {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        var value = $(this).find('td:first').html();
+        selectedUserID = parseInt(value);
+
+        $("#removePermBtn").prop("disabled",true);
+
+        showPerms();
+
+        $("#removeUserBtn").prop('disabled', false)
+    }
+
+    function clickTableRowsPerms() {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        var value = $(this).find('td:first').html();
+        selectedPermID=parseInt(value);
+        $("#removePermBtn").prop("disabled",false);
+    }
+
+    const textChanged = function (e) {
+        searchval = e.target.value;
+
+        searchUser(searchval);
+    }
+
+    function addTableRowUser(userID, userName, userEmail) {
+        $("#user-table").append("<tr><td>" + userID.toString() + "</td><td>" + userName + "</td><td>" + userEmail + "</td></tr>");
+
+    }
+
+    function clearTableRowsUser() {
+        $("#user-table > tbody").empty();
+    }
+
+    function clearTableRowsUser() {
+        $("#user-table > tbody").empty();
+    }
+
+    function addTableRowPerms(permID, permType, permTable,permGroup) {
+
+        console.log(permTable);
+        if (!permTable) {
+            permTable = "None"
+        }
+
+        $("#perm-table").append("<tr><td>" + permID.toString() + "</td><td>" + permType + "</td><td>" + permTable + "</td><td>"+permGroup+"</td></tr>");
+    }
+
+    function clearTableRowsPerms() {
+        $("#perm-table > tbody").empty();
+    }
+
+    user_search_box.addEventListener('input', textChanged);
+
+    const validateEmail = (email) => {
+        return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+    };
+
+    users.forEach(function (user) {
+        addTableRowUser(user.id, user.name, user.email);
+    });
+
+    $("#user-table>tbody>tr").click(clickTableRowsUser);
+
+    $("#perm-table > tbody >tr").click(function () {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        var value = $(this).find('td:first').html();
+        console.log(value)
+    });
+</script>
+
+</html>

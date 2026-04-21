@@ -1,0 +1,1 @@
+[(233, 'data-incoming/zmb/campbell-v1/0-894-2-KamangaSC/data/cr1000X/46582/SYNOP', 'RCoKQOESk')]

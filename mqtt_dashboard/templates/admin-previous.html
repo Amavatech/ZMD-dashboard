@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main User</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    
+    <style>
+        .action-btns button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        
+    <!-- Create User Button -->
+    <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#createUserModal">
+        Create User
+    </button><hr><div class="pb-3">
+    <a href="{{ api_base_url }}/admin_user" class="btn btn-dark">View Map</a>
+<a href="{{ api_base_url }}/login" class="btn btn-warning">Logout</a>
+</div >
+
+
+
+
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search users by email or name" id="searchInput" oninput="debounceSearch()">
+      </div>
+      
+    
+  
+    
+
+
+<!-- Create User Modal -->
+<div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="createUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" id="modalHeader">
+                <h5 class="modal-title" id="createUserModalLabel">Create New User</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createUserForm">
+                    <div class="form-group">
+                        <label for="userName">Name</label>
+                        <input type="text" class="form-control" id="userName" placeholder="Enter name">
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail">Email address</label>
+                        <input type="email" class="form-control" id="userEmail" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="userPassword">Password</label>
+                        <input type="password" class="form-control" id="userPassword" placeholder="Password">
+                    </div>
+                </form>
+                <div class="alert alert-success d-none" id="successAlert">
+                    <strong>Success!</strong> User created successfully.
+                    <button type="button" class="btn btn-sm btn-primary" onclick="addPermissionsPlaceholder()">Add Permissions</button>
+                </div>
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="resetCreateUserModal()">Close</button>
+                <button type="button" class="btn btn-primary" onclick="createUser()">Create User</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+  
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Permissions Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr onclick="showPermsModal({{ user.id }})"> <!-- Add onclick event here -->
+                    <td>{{ loop.index }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <span id="perm-type-{{ user.id }}">Loading...</span>
+                    </td>
+                    
+                    <td class="action-btns">
+                        <button class="btn btn-info btn-sm" onclick="event.stopPropagation(); showAddPermissionsModal({{ user.id }})">Add Permissions</button>
+                        <button class="btn btn-warning btn-sm" onclick="event.stopPropagation(); showPermsModal({{ user.id }})">Delete Permissions</button>
+
+
+                        <button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); confirmDeleteUser({{ user.id }}, event)">Delete User</button>
+
+
+                     
+                    </td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+        </table>
+    </div>
+<!-- Modal -->
+<!-- Modal -->
+<div class="modal fade" id="permsModal" tabindex="-1" aria-labelledby="permsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="permsModalLabel">User Permissions</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Permissions will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addPermissionsModal" tabindex="-1" aria-labelledby="addPermissionsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addPermissionsModalLabel">Add Permissions</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addPermissionsForm">
+                    <div class="form-group">
+                        <label for="permissionType">Permission Type</label>
+                        <select class="form-control" id="permissionType" onchange="handlePermissionTypeChange()">
+                            <option value="TOPIC">TOPIC</option>
+                            <option value="ALL_TOPIC">ALL_TOPIC</option>
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="GROUP">GROUP</option>
+                            <option value="GROUP_ADMIN">GROUP_ADMIN</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="groupSection" style="display:none">
+                        <label for="groupSelect">Select Group</label>
+                        <select class="form-control" id="groupSelect">
+                            {% for group in groups %} <!-- Assuming 'groups' is provided by your server-side code -->
+                            <option value="{{group.id}}">{{group.group}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div id="tablesSection" style="display:none">
+                        <!-- Tables will be loaded here -->
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" onclick="selectAllTables(true)">Select All</button>
+                            <button type="button" class="btn btn-secondary" onclick="selectAllTables(false)">Deselect All</button>
+                        </div>
+                        <div id="tablesList">
+                            <!-- Dynamically loaded tables will appear here -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="addPermissions()">Add Permissions</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+
+var tables = [
+        {% for table in tables %}
+            { id: "{{table.id}}", topic: "{{table.topic}}" },
+        {% endfor %}
+    ];;''
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    
+
+    
+        // Function to update the permission type text
+        function updatePermissionType(userId) {
+            const params = JSON.stringify({ "searchval": userId });
+            fetch("/perms", {
+                method: 'POST',
+                body: params,
+                mode: 'cors',
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const permElement = document.getElementById(`perm-type-${userId}`);
+                if (data.perms && data.perms !== 'none' && data.perms.length > 0) {
+                    // Assuming each user has one type of permission for simplicity
+                    const permType = data.perms[0].type; // Get the type from the first permission
+                    let displayText = '';
+                    switch(permType) {
+                        case 'ADMIN':
+                            displayText = 'Admin';
+                            break;
+                        case 'ALL_TOPIC':
+                            displayText = 'Technician';
+                            break;
+                        case 'TOPIC':
+                            displayText = 'Standard User';
+                            break;
+                        case 'GROUP':
+                            displayText = 'Group User';
+                            break;
+                        case 'GROUP_ADMIN':
+                            displayText = 'Group Admin';
+                            break;
+                        default:
+                            displayText = 'No Access'; // Default text
+                    }
+                    permElement.textContent = displayText;
+                } else {
+                    permElement.textContent = 'No Access'; // No permissions or unauthorized
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching permissions:', error);
+            });
+        }
+
+        // Fetch and update permissions for all users
+        {% for user in users %}
+        updatePermissionType({{ user.id }});
+        {% endfor %}
+    });
+
+
+    function createUser() {
+    const email = document.getElementById('userEmail').value.trim();
+    const name = document.getElementById('userName').value.trim();
+    const password = document.getElementById('userPassword').value;
+    if (!email || !name || !password) {
+        displayError('All fields are required'); // Implement this function to show error messages
+        return;
+    }
+    var params = JSON.stringify({ email: email, name: name, password: password });
+    fetch("/create_user", {
+        method: 'POST',
+        body: params,
+        headers: new Headers({
+            'Content-Type': 'application/json'
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data); // Handle success response
+        document.getElementById('createUserForm').classList.add('d-none');
+        document.getElementById('modalHeader').classList.add('d-none');
+        document.getElementById('modalFooter').classList.add('d-none');
+        document.getElementById('successAlert').classList.remove('d-none');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        displayError(error.message); // Implement this function to show error messages
+    });
+}
+
+function resetCreateUserModal() {
+    // Reset the form fields
+    document.getElementById('createUserForm').reset();
+    // Show the form and modal elements that may have been hidden
+    document.getElementById('createUserForm').classList.remove('d-none');
+    document.getElementById('modalHeader').classList.remove('d-none');
+    document.getElementById('modalFooter').classList.remove('d-none');
+    // Hide the success alert if it was shown
+    document.getElementById('successAlert').classList.add('d-none');
+}
+
+
+function showPermsModal(userId) {
+    const params = JSON.stringify({ "searchval": userId });
+    fetch("/perms", {
+        method: 'POST',
+        body: params,
+        mode: 'cors', // Ensure CORS policies are handled
+        headers: new Headers({
+            'Content-Type': 'application/json'
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const modalBody = document.querySelector('#permsModal .modal-body');
+        modalBody.innerHTML = '<h5>Select permissions to delete:</h5>'; // Clear previous contents and add header
+        if (data.perms && data.perms.length > 0) {
+            data.perms.forEach((perm, index) => {
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'perm-checkbox'; // Add a class for easier selection later
+                checkbox.id = `perm-${perm.id}`; // Use permission ID for unique identification
+                checkbox.value = perm.id; // Store permission ID as value
+
+                const label = document.createElement('label');
+                label.htmlFor = `perm-${perm.id}`;
+                label.textContent = ` ID: ${perm.id}, Type: ${perm.type}, Table: ${perm.table}, Group: ${perm.group}`;
+
+                const div = document.createElement('div');
+                div.appendChild(checkbox);
+                div.appendChild(label);
+
+                modalBody.appendChild(div);
+            });
+        } else {
+            modalBody.innerHTML += '<p>No permissions available or user not authorized.</p>';
+        }
+
+        // Add delete button
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete Selected Permissions';
+        deleteButton.onclick = deleteSelectedPermissions; // Assign button click event to the delete function
+        modalBody.appendChild(deleteButton);
+
+        $('#permsModal').modal('show'); // Using jQuery to show the modal
+    })
+    .catch(error => {
+        console.error('Error fetching permissions:', error);
+        document.querySelector('#permsModal .modal-body').innerHTML = '<p>Error fetching permissions.</p>';
+    });
+}
+
+function deleteSelectedPermissions() {
+    const checkboxes = document.querySelectorAll('.perm-checkbox:checked'); // Get all checked permissions
+    const idsToDelete = Array.from(checkboxes).map(checkbox => checkbox.value); // Extract their values (permission IDs)
+
+    idsToDelete.forEach(id => {
+        const params = JSON.stringify({ "id": id }); // Prepare params for deletion endpoint
+        fetch("/remove_perm", {
+            method: 'POST',
+            body: params,
+            mode: 'cors',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to remove permission with ID ${id}`);
+            }
+            return response.json(); // Assuming the server sends back some JSON
+        })
+        .then(data => {
+            console.log(`Permission with ID ${id} removed successfully.`);
+            document.getElementById(`perm-${id}`).parentNode.remove(); // Remove the permission's HTML element
+        })
+        .catch(error => {
+            console.error('Error removing permission:', error);
+            alert(`Error removing permission with ID ${id}: ${error.message}`);
+        });
+    });
+
+    if (idsToDelete.length === 0) {
+        alert('No permissions selected for deletion.');
+    }
+}
+
+
+
+$(document).ready(function() {
+        // When the modal is opened (shown) reset it to its default state
+        $('#createUserModal').on('show.bs.modal', function () {
+            resetCreateUserModal();
+        });
+
+        // Optional: If you also want to reset the modal when it's hidden
+        $('#createUserModal').on('hidden.bs.modal', function () {
+            resetCreateUserModal();
+        });
+
+    });
+
+
+    function confirmDeleteUser(userId, event) {
+    const isConfirmed = confirm("Are you sure you want to delete this user?");
+    if (isConfirmed) {
+        // Pass the row element to deleteUser function
+        const userRow = event.currentTarget.closest('tr'); // Assuming each button is inside a table row
+        deleteUser(userId, userRow);
+    }
+}
+
+function deleteUser(selectedUserID, userRow) {
+    const params = JSON.stringify({ "id": selectedUserID });
+    fetch("/delete_user", {
+        method: 'POST',
+        body: params,
+        mode: 'cors',
+        headers: new Headers({
+            'Content-Type': 'application/json'
+        })
+    })
+    .then(response => {
+        if(response.ok) {
+            // Remove the user's row from the table
+            userRow.remove();
+            alert('User deleted successfully');
+        } else {
+            throw new Error('Failed to delete user');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error deleting user');
+    });
+}
+
+
+function showAddPermissionsModal(userId) {
+    $('#addPermissionsModal').modal('show');
+    // Set a data attribute on the modal for the user ID
+    $('#addPermissionsModal').data('user-id', userId);
+}
+
+
+function addPermissions() {
+    var userId = $('#addPermissionsModal').data('user-id'); // Retrieve the user ID set when the modal was opened
+    var permissionType = document.getElementById('permissionType').value; // Retrieve the selected permission type
+
+    // Prepare common parameters
+    var params = {
+        id: userId,
+        type: permissionType,
+        table: -1, // Default value, will be overridden for specific permission types if necessary
+        group: 0 // Default value, will be overridden for GROUP and GROUP_ADMIN types
+    };
+
+    // Handle 'TOPIC' permission type separately
+    if (permissionType === 'TOPIC') {
+        let selectedTables = document.querySelectorAll('#tablesList input[type="checkbox"]:checked');
+        if (selectedTables.length === 0) {
+            alert('Please select at least one table for TOPIC permissions.');
+            return; // Exit the function if no tables are selected
+        }
+        // For each selected table, send a permission request
+        Array.from(selectedTables).forEach((tableCheckbox, index) => {
+            let tableParams = {...params, table: tableCheckbox.value}; // Clone common params and set table-specific ID
+            // Send permission request for each table
+            sendPermissionRequest(tableParams, index === selectedTables.length - 1); // Only show alert after the last request
+        });
+    } else {
+        // If the permission type is 'GROUP' or 'GROUP_ADMIN', retrieve the selected group ID
+        if (permissionType === 'GROUP' || permissionType === 'ADMIN') {
+            params.group = document.getElementById('groupSelect').value; // Set the selected group ID
+        }
+        // Send a single permission request for non-'TOPIC' types, including 'GROUP' and 'GROUP_ADMIN'
+        sendPermissionRequest(params, true); // True to show alert after request
+    }
+}
+
+function sendPermissionRequest(params, showAlert) {
+    fetch("/add_perm", { // Adjust this to your actual permission endpoint
+        method: 'POST',
+        body: JSON.stringify(params),
+        headers: new Headers({
+            'Content-Type': 'application/json'
+        })
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to add permission.');
+        }
+        return response.json(); // Assuming your server responds with JSON
+    }).then(data => {
+        // Show success message after the last request or immediately for non-TOPIC permissions
+        if (showAlert) {
+            alert('Permissions updated successfully.');
+        }
+    }).catch(error => {
+        console.error('Error adding permissions:', error);
+        alert('Error adding permissions: ' + error.message);
+    });
+}
+
+
+
+
+
+function handlePermissionTypeChange() {
+    var permissionType = document.getElementById('permissionType').value;
+    var tablesSection = document.getElementById('tablesSection');
+    var groupSection = document.getElementById('groupSection');
+
+    // Initially hide both sections
+    tablesSection.style.display = 'none';
+    groupSection.style.display = 'none';
+
+    // Determine which section to show based on the selected permission type
+    if (permissionType === 'TOPIC') {
+        tablesSection.style.display = 'block'; // Show the tables section for "TOPIC"
+    } else if (permissionType === 'GROUP' || permissionType === 'ADMIN') {
+        groupSection.style.display = 'block'; // Show the groups section for "GROUP" or "GROUP_ADMIN"
+    }
+    // You can add more conditions here if there are other permission types that require different UI elements
+}
+
+
+
+function loadGroups() {
+    // Placeholder for actual code to fetch groups and populate the dropdown
+    var groupSelect = document.getElementById('groupSelect');
+    groupSelect.innerHTML = ''; // Clear existing options
+    // Assuming 'groups' is the array of groups fetched from your server
+    var groups = [{id: 1, name: 'Group 1'}, {id: 2, name: 'Group 2'}]; // Replace with actual data fetching
+    groups.forEach(function(group) {
+        var option = document.createElement('option');
+        option.value = group.id;
+        option.textContent = group.name;
+        groupSelect.appendChild(option);
+    });
+}
+
+
+function loadTables() {
+    var tablesList = document.getElementById('tablesList');
+    tablesList.innerHTML = ''; // Clear existing tables
+    tables.forEach(function(table) {
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = 'table-' + table.id;
+        checkbox.value = table.id;
+        var label = document.createElement('label');
+        label.htmlFor = 'table-' + table.id;
+        label.textContent = table.id + ' ' + table.topic;
+        var div = document.createElement('div');
+        div.appendChild(checkbox);
+        div.appendChild(label);
+        tablesList.appendChild(div);
+    });
+}
+
+
+function selectAllTables(selectAll) {
+    var checkboxes = document.querySelectorAll('#tablesList input[type="checkbox"]');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = selectAll;
+    });
+}
+
+
+
+function showUpdateUserModal(userId, userName, userEmail) {
+    // Fill the form with existing user information
+    document.getElementById('updateUserId').value = userId;
+    document.getElementById('updateUserName').value = userName;
+    document.getElementById('updateUserEmail').value = userEmail;
+    
+    // Show the modal
+    $('#updateUserModal').modal('show');
+}
+
+
+
+function searchUsersLive() {
+    const searchval = document.getElementById('searchInput').value.trim();
+    // Perform the search only if the search value has a certain length, e.g., more than 2 characters
+    if (searchval.length > 2) {
+        const params = JSON.stringify({ "searchval": searchval });
+        fetch("/search", {
+            method: 'POST',
+            body: params,
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.users === 'none' || data.users.length === 0) {
+                displayNoResults();
+                return;
+            }
+            updateTableWithResults(data.users);
+        })
+        .catch(error => {
+            console.error('Error searching users:', error);
+            alert('Error searching users');
+        });
+    } else if (searchval.length === 0) {
+        clearResults(); // Clear the table if the search value is empty
+    }
+}
+
+
+
+
+function updateTableWithResults(users) {
+    const tbody = document.querySelector('.table tbody');
+    tbody.innerHTML = ''; // Clear existing table rows
+    users.forEach((user, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${index + 1}</td><td>${user.name}</td><td>${user.email}</td><td>Loading...</td><td class="action-btns">
+                            <button class="btn btn-info btn-sm" onclick="event.stopPropagation(); showAddPermissionsModal(${user.id})">Add Permissions</button>
+                            <button class="btn btn-warning btn-sm" onclick="event.stopPropagation(); showPermsModal(${user.id})">Delete Permissions</button>
+                            <button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); confirmDeleteUser(${user.id}, event)">Delete User</button>
+                        </td>`;
+        tbody.appendChild(tr);
+        updatePermissionType(user.id); // Assuming this function updates permissions
+    });
+}
+
+function displayNoResults() {
+    const tbody = document.querySelector('.table tbody');
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center">No results found</td></tr>';
+}
+
+function clearResults() {
+    // Implement this based on whether you want to clear the table or reload initial data
+}
+
+
+let searchTimeout;
+
+function debounceSearch() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        searchUsers();
+    }, 300); // Waits for 300 ms after the user stops typing
+}
+
+function searchUsers() {
+    const searchval = document.getElementById('searchInput').value.trim();
+    if (!searchval) {
+        // Optionally clear the results or handle empty search differently
+        return; // Exit the function if the search value is empty
+    }
+    const params = JSON.stringify({ "searchval": searchval });
+    fetch("/search", {
+        method: 'POST',
+        body: params,
+        headers: new Headers({
+            'Content-Type': 'application/json'
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const tbody = document.querySelector('.table tbody');
+        tbody.innerHTML = ''; // Clear existing table rows
+        if (data.users === 'none') {
+            // Optionally show a message if no results are found
+            return;
+        }
+        data.users.forEach((user, index) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${index + 1}</td><td>${user.name}</td><td>${user.email}</td><td>Loading...</td><td class="action-btns">
+                                <button class="btn btn-info btn-sm" onclick="event.stopPropagation(); showAddPermissionsModal(${user.id})">Add Permissions</button>
+                                <button class="btn btn-warning btn-sm" onclick="event.stopPropagation(); showPermsModal(${user.id})">Delete Permissions</button>
+                                <button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); confirmDeleteUser(${user.id}, event)">Delete User</button>
+                            </td>`;
+            tbody.appendChild(tr);
+            updatePermissionType(user.id); // Call this function if you have it for updating permission types dynamically
+        });
+    })
+    
+}
+
+
+
+
+
+    </script>
+    
+    
+</body>
+</html>

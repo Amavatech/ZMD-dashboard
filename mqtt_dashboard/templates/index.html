@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block head%}
+<title>
+    {{user}} Dashboard
+</title>
+{% endblock %}
+    
+{% block navbar %}
+<div style="display: flex; align-items:center;">
+<div class="dropdown show">
+    <a class="btn btn-secondary dropdown-toggle nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Choose Logger
+    </a>
+    
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="max-height: 500px; overflow-y: auto;" >
+        {%for db in dbs%}
+        <li><a class="dropdown-item" href="{{db.url}}">{{db.text}}</a></li>
+        {%endfor%}
+	  </ul>
+
+  </div>
+</div>
+<div style="display: flex;">
+<div class="p-3">
+  Logger ID: {{ID}}
+</div>
+{%if showPos%}
+<a href="http://maps.google.com/maps?q={{long}},{{lat}}" target="_blank">
+  <table class="">
+    <tr>
+      <td>
+        Longitude:
+      </td>
+      <td>
+        {{long}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Latitude:
+      </td>
+      <td>
+        {{lat}}
+      </td>
+    </tr>
+  </table>
+</a>
+{%endif%}
+</div>
+{% endblock %}
+
+{% block content %}
+<div style="background-color: #111217;" class="w-100">
+<iframe style="background-color: #111217;" id="dashboard-frame" class="embed-responsive-item" src="{{url}}&ts={{ts}}" title="Dashboard"></iframe>
+</div>
+<script>
+  (function () {
+    const frame = document.getElementById('dashboard-frame');
+    if (!frame) {
+      console.warn('Dashboard iframe not found');
+      return;
+    }
+    console.log('Grafana iframe src:', frame.getAttribute('src'));
+    frame.addEventListener('load', function () {
+      console.log('Grafana iframe loaded');
+    });
+    frame.addEventListener('error', function (e) {
+      console.error('Grafana iframe error', e);
+    });
+  })();
+</script>
+{% endblock %}
