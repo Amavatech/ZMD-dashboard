@@ -40,12 +40,20 @@ docs/
 │   ├── import.md                import.py — direct DB import
 │   └── publish.md               publish.py — MQTT re-publish
 │
-└── utilities/                   Maintenance and operations scripts
-    ├── README.md                Overview of all utility scripts
-    ├── database-maintenance.md  purge, count, migrate scripts
-    ├── grafana-tools.md         Dashboard rebuild and snapshot scripts
-    ├── redundant-scripts.md     Old / redundant scripts identified
-    └── testing.md               Developer test scripts
+├── utilities/                   Maintenance and operations scripts
+│   ├── README.md                Overview of all utility scripts
+│   ├── database-maintenance.md  purge, count, migrate scripts
+│   ├── grafana-tools.md         Dashboard rebuild and snapshot scripts
+│   ├── redundant-scripts.md     Old / redundant scripts identified
+│   └── testing.md               Developer test scripts
+│
+└── end-user/                    Usage guides for application users
+    ├── README.md                User types overview and map legend
+    ├── logging-in.md            How to log in, log out, and reset passwords
+    ├── standard-user.md         Single-station viewers (TOPIC permission)
+    ├── group-user.md            Group station viewers (GROUP permission)
+    ├── technician.md            All-stations view and problem station tools
+    └── admin.md                 Admin panel — users, brokers, groups, dashboards
 ```
 
 ---
@@ -57,7 +65,9 @@ docs/
 | Task | Go to |
 |------|-------|
 | Add or edit a broker | [mqtt-ingest/broker-management.md](mqtt-ingest/broker-management.md) |
-| Add a new user / permission | [webapp/auth.md](webapp/auth.md) |
+| Add a new user / permission | [end-user/admin.md](end-user/admin.md) (UI) or [webapp/auth.md](webapp/auth.md) (technical) |
+| Understand user types and access levels | [end-user/README.md](end-user/README.md) |
+| Log in to the dashboard | [end-user/logging-in.md](end-user/logging-in.md) |
 | Understand the database schema | [database/schema.md](database/schema.md) |
 | Check what a URL endpoint does | [webapp/routes.md](webapp/routes.md) |
 | Understand how a message becomes database rows | [mqtt-ingest/pipeline.md](mqtt-ingest/pipeline.md) |
@@ -122,3 +132,6 @@ Scripts inside `wiz2box_forward/` that pull historical and live data from EUMETS
 
 ### [utilities/](utilities/README.md)
 One-off and periodic maintenance scripts at the repository root. These include tools for purging empty stations, counting data records, rebuilding Grafana dashboards, exporting metadata to CSV, and migrating the database schema. Redundant and outdated scripts are also identified here.
+
+### [end-user/](end-user/README.md)
+Usage instructions for people who log in to the dashboard. Covers all four user types — Standard Users (single station), Group Users (a collection of stations), Technicians (all stations with health monitoring tools), and Administrators (full management panel). Written for non-technical users with no knowledge of the underlying system.
